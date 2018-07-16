@@ -20,7 +20,7 @@ int main (void)
     
     for(;;)
     {
-        printf("%s", "hello world");
+        printf("%s", "hello world\n");
         /* Place your application code here */
     }
 }
