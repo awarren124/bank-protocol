@@ -27,6 +27,6 @@ int main (void)
         char c = UART_1_UartGetChar();
         if(c)
             UART_1_UartPutChar(c);
+
     }
-    return 0;
 }
