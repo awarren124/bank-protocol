@@ -35,8 +35,8 @@ Clock: I2C_SCBCLK               | N/A  | Target: 1.60 MHz   |
 Clock: I2C_SCBCLK(FFB)          | N/A  | Target: 1.60 MHz   | 
 Clock: SPI_SCBCLK               | N/A  | Target: 16.00 MHz  | 
 Clock: SPI_SCBCLK(FFB)          | N/A  | Target: 16.00 MHz  | 
-Clock: UART_SCBCLK              | N/A  | Target: 1.37 MHz   | 
-Clock: UART_SCBCLK(FFB)         | N/A  | Target: 1.37 MHz   | 
+Clock: UART_1_SCBCLK            | N/A  | Target: 1.37 MHz   | 
+Clock: UART_1_SCBCLK(FFB)       | N/A  | Target: 1.37 MHz   | 
 
  =====================================================================
                     End of Clock Frequency Summary

@@ -155,19 +155,19 @@
   <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\PWM_0.c" value="SOURCE_C;CortexM0;;;;PWM_0" />
   <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\PWM_0.h" value="HEADER;;;;;PWM_0" />
   <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\PWM_0_PM.c" value="SOURCE_C;CortexM0;;;;PWM_0" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART.c" value="SOURCE_C;CortexM0;;;;UART" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART.h" value="HEADER;;;;;UART" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_SPI_UART.h" value="HEADER;;;;;UART" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_SPI_UART.c" value="SOURCE_C;CortexM0;;;;UART" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_SPI_UART_INT.c" value="SOURCE_C;CortexM0;;;;UART" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_PM.c" value="SOURCE_C;CortexM0;;;;UART" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_UART.c" value="SOURCE_C;CortexM0;;;;UART" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_BOOT.c" value="SOURCE_C;CortexM0;;;;UART" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_UART_BOOT.c" value="SOURCE_C;CortexM0;;;;UART" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_PINS.h" value="HEADER;;;;;UART" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_SPI_UART_PVT.h" value="HEADER;;;;;UART" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_PVT.h" value="HEADER;;;;;UART" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_BOOT.h" value="HEADER;;;;;UART" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1.c" value="SOURCE_C;CortexM0;;;;UART_1" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1.h" value="HEADER;;;;;UART_1" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_SPI_UART.h" value="HEADER;;;;;UART_1" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_SPI_UART.c" value="SOURCE_C;CortexM0;;;;UART_1" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_SPI_UART_INT.c" value="SOURCE_C;CortexM0;;;;UART_1" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_PM.c" value="SOURCE_C;CortexM0;;;;UART_1" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_UART.c" value="SOURCE_C;CortexM0;;;;UART_1" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_BOOT.c" value="SOURCE_C;CortexM0;;;;UART_1" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_UART_BOOT.c" value="SOURCE_C;CortexM0;;;;UART_1" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_PINS.h" value="HEADER;;;;;UART_1" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_SPI_UART_PVT.h" value="HEADER;;;;;UART_1" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_PVT.h" value="HEADER;;;;;UART_1" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_BOOT.h" value="HEADER;;;;;UART_1" />
   <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\I2C.c" value="SOURCE_C;CortexM0;;;;I2C" />
   <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\I2C.h" value="HEADER;;;;;I2C" />
   <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\I2C_I2C.h" value="HEADER;;;;;I2C" />
@@ -208,16 +208,16 @@
   <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\SPI_mosi_s.h" value="HEADER;;;;;SPI_mosi_s" />
   <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\SPI_mosi_s_aliases.h" value="HEADER;;;;;SPI_mosi_s" />
   <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\SPI_mosi_s_PM.c" value="SOURCE_C;CortexM0;;;;SPI_mosi_s" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_SCBCLK.c" value="SOURCE_C;CortexM0;;;;UART_SCBCLK" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_SCBCLK.h" value="HEADER;;;;;UART_SCBCLK" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_tx.c" value="SOURCE_C;CortexM0;;;;UART_tx" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_tx.h" value="HEADER;;;;;UART_tx" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_tx_aliases.h" value="HEADER;;;;;UART_tx" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_tx_PM.c" value="SOURCE_C;CortexM0;;;;UART_tx" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_rx.c" value="SOURCE_C;CortexM0;;;;UART_rx" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_rx.h" value="HEADER;;;;;UART_rx" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_rx_aliases.h" value="HEADER;;;;;UART_rx" />
-  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_rx_PM.c" value="SOURCE_C;CortexM0;;;;UART_rx" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_SCBCLK.c" value="SOURCE_C;CortexM0;;;;UART_1_SCBCLK" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_SCBCLK.h" value="HEADER;;;;;UART_1_SCBCLK" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_tx.c" value="SOURCE_C;CortexM0;;;;UART_1_tx" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_tx.h" value="HEADER;;;;;UART_1_tx" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_tx_aliases.h" value="HEADER;;;;;UART_1_tx" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_tx_PM.c" value="SOURCE_C;CortexM0;;;;UART_1_tx" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_rx.c" value="SOURCE_C;CortexM0;;;;UART_1_rx" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_rx.h" value="HEADER;;;;;UART_1_rx" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_rx_aliases.h" value="HEADER;;;;;UART_1_rx" />
+  <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\UART_1_rx_PM.c" value="SOURCE_C;CortexM0;;;;UART_1_rx" />
   <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\I2C_SCBCLK.c" value="SOURCE_C;CortexM0;;;;I2C_SCBCLK" />
   <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\I2C_SCBCLK.h" value="HEADER;;;;;I2C_SCBCLK" />
   <file name="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\codegentemp\I2C_sda.c" value="SOURCE_C;CortexM0;;;;I2C_sda" />

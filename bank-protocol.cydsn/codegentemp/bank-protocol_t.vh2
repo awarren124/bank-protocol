@@ -1,5 +1,5 @@
 -- Project:   C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\bank-protocol.cyprj
--- Generated: 07/16/2018 14:14:31
+-- Generated: 07/16/2018 15:23:20
 -- PSoC Creator  4.2
 
 ENTITY \bank-protocol\ IS
@@ -17,8 +17,8 @@ ENTITY \bank-protocol\ IS
         PWM_0_Out(0)_PAD : OUT std_ulogic;
         PWM_1_Out(0)_PAD : OUT std_ulogic;
         PWM_2_Out(0)_PAD : OUT std_ulogic;
-        \UART:tx(0)_PAD\ : INOUT std_ulogic;
-        \UART:rx(0)_PAD\ : IN std_ulogic;
+        \UART_1:tx(0)_PAD\ : INOUT std_ulogic;
+        \UART_1:rx(0)_PAD\ : IN std_ulogic;
         \I2C:sda(0)_PAD\ : INOUT std_ulogic;
         \I2C:scl(0)_PAD\ : INOUT std_ulogic);
     ATTRIBUTE voltage_VDDIO_A_1 OF __DEFAULT__ : ENTITY IS 3.3e0;
@@ -95,15 +95,15 @@ ARCHITECTURE __DEFAULT__ OF \bank-protocol\ IS
     SIGNAL Net_439 : bit;
     SIGNAL Net_440 : bit;
     SIGNAL Net_441 : bit;
-    SIGNAL Net_444 : bit;
-    SIGNAL Net_446 : bit;
-    SIGNAL Net_447 : bit;
     SIGNAL Net_466 : bit;
     SIGNAL Net_468 : bit;
     SIGNAL Net_469 : bit;
     SIGNAL Net_4772 : bit;
     SIGNAL Net_483 : bit;
     SIGNAL Net_484 : bit;
+    SIGNAL Net_488 : bit;
+    SIGNAL Net_490 : bit;
+    SIGNAL Net_491 : bit;
     SIGNAL Net_670 : bit;
     SIGNAL Net_671 : bit;
     SIGNAL Output_Pin_0(0)__PA : bit;
@@ -177,20 +177,20 @@ ARCHITECTURE __DEFAULT__ OF \bank-protocol\ IS
     SIGNAL \SPI:select_m_wire_3\ : bit;
     SIGNAL \\\SPI:ss_s(0)\\__PA\ : bit;
     SIGNAL \SPI:tx_wire\ : bit;
-    SIGNAL \UART:Net_847_ff4\ : bit;
-    ATTRIBUTE global_signal OF \UART:Net_847_ff4\ : SIGNAL IS true;
-    SIGNAL \UART:miso_s_wire\ : bit;
-    SIGNAL \UART:mosi_m_wire\ : bit;
-    SIGNAL \UART:rts_wire\ : bit;
-    SIGNAL \\\UART:rx(0)\\__PA\ : bit;
-    SIGNAL \UART:rx_wire\ : bit;
-    SIGNAL \UART:sclk_m_wire\ : bit;
-    SIGNAL \UART:select_m_wire_0\ : bit;
-    SIGNAL \UART:select_m_wire_1\ : bit;
-    SIGNAL \UART:select_m_wire_2\ : bit;
-    SIGNAL \UART:select_m_wire_3\ : bit;
-    SIGNAL \\\UART:tx(0)\\__PA\ : bit;
-    SIGNAL \UART:tx_wire\ : bit;
+    SIGNAL \UART_1:Net_847_ff4\ : bit;
+    ATTRIBUTE global_signal OF \UART_1:Net_847_ff4\ : SIGNAL IS true;
+    SIGNAL \UART_1:miso_s_wire\ : bit;
+    SIGNAL \UART_1:mosi_m_wire\ : bit;
+    SIGNAL \UART_1:rts_wire\ : bit;
+    SIGNAL \\\UART_1:rx(0)\\__PA\ : bit;
+    SIGNAL \UART_1:rx_wire\ : bit;
+    SIGNAL \UART_1:sclk_m_wire\ : bit;
+    SIGNAL \UART_1:select_m_wire_0\ : bit;
+    SIGNAL \UART_1:select_m_wire_1\ : bit;
+    SIGNAL \UART_1:select_m_wire_2\ : bit;
+    SIGNAL \UART_1:select_m_wire_3\ : bit;
+    SIGNAL \\\UART_1:tx(0)\\__PA\ : bit;
+    SIGNAL \UART_1:tx_wire\ : bit;
     SIGNAL __ONE__ : bit;
     ATTRIBUTE placement_force OF __ONE__ : SIGNAL IS "U(1,0,A)0";
     ATTRIBUTE POWER OF __ONE__ : SIGNAL IS true;
@@ -203,17 +203,17 @@ ARCHITECTURE __DEFAULT__ OF \bank-protocol\ IS
     ATTRIBUTE Location OF ClockGenBlock : LABEL IS "F(CLK_GEN,0)";
     ATTRIBUTE Location OF ClockBlock : LABEL IS "F(Clock,0)";
     ATTRIBUTE lib_model OF ADC_1P(0) : LABEL IS "iocell1";
-    ATTRIBUTE Location OF ADC_1P(0) : LABEL IS "P2[0]";
+    ATTRIBUTE Location OF ADC_1P(0) : LABEL IS "P2[2]";
     ATTRIBUTE lib_model OF ADC_0(0) : LABEL IS "iocell2";
-    ATTRIBUTE Location OF ADC_0(0) : LABEL IS "P2[3]";
+    ATTRIBUTE Location OF ADC_0(0) : LABEL IS "P2[1]";
     ATTRIBUTE lib_model OF \CapSense:Cmod(0)\ : LABEL IS "iocell3";
     ATTRIBUTE Location OF \CapSense:Cmod(0)\ : LABEL IS "P4[2]";
     ATTRIBUTE lib_model OF \CapSense:Sns(0)\ : LABEL IS "iocell4";
-    ATTRIBUTE Location OF \CapSense:Sns(0)\ : LABEL IS "P4[6]";
+    ATTRIBUTE Location OF \CapSense:Sns(0)\ : LABEL IS "P4[3]";
     ATTRIBUTE lib_model OF \CapSense:Sns(1)\ : LABEL IS "iocell5";
-    ATTRIBUTE Location OF \CapSense:Sns(1)\ : LABEL IS "P6[0]";
+    ATTRIBUTE Location OF \CapSense:Sns(1)\ : LABEL IS "P4[1]";
     ATTRIBUTE lib_model OF ADC_1M(0) : LABEL IS "iocell6";
-    ATTRIBUTE Location OF ADC_1M(0) : LABEL IS "P2[1]";
+    ATTRIBUTE Location OF ADC_1M(0) : LABEL IS "P2[3]";
     ATTRIBUTE lib_model OF ADC_2(0) : LABEL IS "iocell7";
     ATTRIBUTE Location OF ADC_2(0) : LABEL IS "P1[5]";
     ATTRIBUTE lib_model OF ADC_3(0) : LABEL IS "iocell8";
@@ -226,39 +226,39 @@ ARCHITECTURE __DEFAULT__ OF \bank-protocol\ IS
     ATTRIBUTE Location OF CompP_1(0) : LABEL IS "P0[2]";
     ATTRIBUTE lib_model OF CompM_1(0) : LABEL IS "iocell12";
     ATTRIBUTE Location OF CompM_1(0) : LABEL IS "P0[3]";
-    ATTRIBUTE Location OF Wakeup_Pin : LABEL IS "F(PICU,3)";
+    ATTRIBUTE Location OF Wakeup_Pin : LABEL IS "F(PICU,2)";
     ATTRIBUTE lib_model OF Wakeup_Pin(0) : LABEL IS "iocell13";
-    ATTRIBUTE Location OF Wakeup_Pin(0) : LABEL IS "P3[0]";
+    ATTRIBUTE Location OF Wakeup_Pin(0) : LABEL IS "P2[0]";
     ATTRIBUTE lib_model OF \SPI:ss_s(0)\ : LABEL IS "iocell14";
-    ATTRIBUTE Location OF \SPI:ss_s(0)\ : LABEL IS "P0[7]";
+    ATTRIBUTE Location OF \SPI:ss_s(0)\ : LABEL IS "P5[3]";
     ATTRIBUTE lib_model OF \SPI:miso_s(0)\ : LABEL IS "iocell15";
-    ATTRIBUTE Location OF \SPI:miso_s(0)\ : LABEL IS "P0[5]";
+    ATTRIBUTE Location OF \SPI:miso_s(0)\ : LABEL IS "P5[1]";
     ATTRIBUTE lib_model OF \SPI:sclk_s(0)\ : LABEL IS "iocell16";
-    ATTRIBUTE Location OF \SPI:sclk_s(0)\ : LABEL IS "P0[6]";
+    ATTRIBUTE Location OF \SPI:sclk_s(0)\ : LABEL IS "P5[2]";
     ATTRIBUTE lib_model OF \SPI:mosi_s(0)\ : LABEL IS "iocell17";
-    ATTRIBUTE Location OF \SPI:mosi_s(0)\ : LABEL IS "P0[4]";
+    ATTRIBUTE Location OF \SPI:mosi_s(0)\ : LABEL IS "P5[0]";
     ATTRIBUTE lib_model OF Output_Pin_0(0) : LABEL IS "iocell18";
     ATTRIBUTE Location OF Output_Pin_0(0) : LABEL IS "P1[3]";
     ATTRIBUTE lib_model OF Output_Pin_1(0) : LABEL IS "iocell19";
-    ATTRIBUTE Location OF Output_Pin_1(0) : LABEL IS "P1[6]";
-    ATTRIBUTE Location OF Input_Pin_0 : LABEL IS "F(PICU,2)";
+    ATTRIBUTE Location OF Output_Pin_1(0) : LABEL IS "P1[4]";
+    ATTRIBUTE Location OF Input_Pin_0 : LABEL IS "F(PICU,1)";
     ATTRIBUTE lib_model OF Input_Pin_0(0) : LABEL IS "iocell20";
-    ATTRIBUTE Location OF Input_Pin_0(0) : LABEL IS "P2[2]";
-    ATTRIBUTE Location OF Input_Pin_1 : LABEL IS "F(PICU,1)";
+    ATTRIBUTE Location OF Input_Pin_0(0) : LABEL IS "P1[2]";
+    ATTRIBUTE Location OF Input_Pin_1 : LABEL IS "F(PICU,0)";
     ATTRIBUTE lib_model OF Input_Pin_1(0) : LABEL IS "iocell21";
-    ATTRIBUTE Location OF Input_Pin_1(0) : LABEL IS "P1[2]";
+    ATTRIBUTE Location OF Input_Pin_1(0) : LABEL IS "P0[7]";
     ATTRIBUTE lib_model OF Timer_Pin(0) : LABEL IS "iocell22";
-    ATTRIBUTE Location OF Timer_Pin(0) : LABEL IS "P1[4]";
+    ATTRIBUTE Location OF Timer_Pin(0) : LABEL IS "P0[6]";
     ATTRIBUTE lib_model OF PWM_0_Out(0) : LABEL IS "iocell23";
     ATTRIBUTE Location OF PWM_0_Out(0) : LABEL IS "P2[6]";
     ATTRIBUTE lib_model OF PWM_1_Out(0) : LABEL IS "iocell24";
     ATTRIBUTE Location OF PWM_1_Out(0) : LABEL IS "P3[4]";
     ATTRIBUTE lib_model OF PWM_2_Out(0) : LABEL IS "iocell25";
     ATTRIBUTE Location OF PWM_2_Out(0) : LABEL IS "P2[4]";
-    ATTRIBUTE lib_model OF \UART:tx(0)\ : LABEL IS "iocell26";
-    ATTRIBUTE Location OF \UART:tx(0)\ : LABEL IS "P5[1]";
-    ATTRIBUTE lib_model OF \UART:rx(0)\ : LABEL IS "iocell27";
-    ATTRIBUTE Location OF \UART:rx(0)\ : LABEL IS "P5[0]";
+    ATTRIBUTE lib_model OF \UART_1:tx(0)\ : LABEL IS "iocell26";
+    ATTRIBUTE Location OF \UART_1:tx(0)\ : LABEL IS "P0[5]";
+    ATTRIBUTE lib_model OF \UART_1:rx(0)\ : LABEL IS "iocell27";
+    ATTRIBUTE Location OF \UART_1:rx(0)\ : LABEL IS "P0[4]";
     ATTRIBUTE lib_model OF \I2C:sda(0)\ : LABEL IS "iocell28";
     ATTRIBUTE Location OF \I2C:sda(0)\ : LABEL IS "P1[1]";
     ATTRIBUTE lib_model OF \I2C:scl(0)\ : LABEL IS "iocell29";
@@ -269,7 +269,7 @@ ARCHITECTURE __DEFAULT__ OF \bank-protocol\ IS
     ATTRIBUTE lib_model OF __ONE__ : LABEL IS "macrocell1";
     ATTRIBUTE Location OF __ONE__ : LABEL IS "U(1,0)";
     ATTRIBUTE Location OF \CapSense:IDAC1:cy_psoc4_idac\ : LABEL IS "F(CSIDAC8,0)";
-    ATTRIBUTE Location OF ADC_EOC_Int : LABEL IS "[IntrContainer=(0)][IntrId=(0)]";
+    ATTRIBUTE Location OF ADC_EOC_Int : LABEL IS "[IntrContainer=(0)][IntrId=(3)]";
     ATTRIBUTE Location OF \DieTemp:cy_psoc4_temp\ : LABEL IS "F(TEMP,0)";
     ATTRIBUTE Location OF \ADC_2_Buffer:cy_psoc4_abuf\ : LABEL IS "F(OA,1)";
     ATTRIBUTE Location OF \ADC_3_Buffer:cy_psoc4_abuf\ : LABEL IS "F(OA,0)";
@@ -278,17 +278,17 @@ ARCHITECTURE __DEFAULT__ OF \bank-protocol\ IS
     ATTRIBUTE Location OF \Comp_0:cy_psoc4_lpcomp_1\ : LABEL IS "F(LPCOMP,0)";
     ATTRIBUTE Location OF \Comp_1:cy_psoc4_lpcomp_1\ : LABEL IS "F(LPCOMP,1)";
     ATTRIBUTE Location OF LPComp_Int : LABEL IS "[IntrContainer=(0)][IntrId=(6)]";
-    ATTRIBUTE Location OF Wakeup_Pin_Int : LABEL IS "[IntrContainer=(0)][IntrId=(3)]";
-    ATTRIBUTE Location OF \SPI:SCB\ : LABEL IS "F(SCB,1)";
-    ATTRIBUTE Location OF Input_0_Int : LABEL IS "[IntrContainer=(0)][IntrId=(2)]";
-    ATTRIBUTE Location OF Input_1_Int : LABEL IS "[IntrContainer=(0)][IntrId=(1)]";
+    ATTRIBUTE Location OF Wakeup_Pin_Int : LABEL IS "[IntrContainer=(0)][IntrId=(2)]";
+    ATTRIBUTE Location OF \SPI:SCB\ : LABEL IS "F(SCB,2)";
+    ATTRIBUTE Location OF Input_0_Int : LABEL IS "[IntrContainer=(0)][IntrId=(1)]";
+    ATTRIBUTE Location OF Input_1_Int : LABEL IS "[IntrContainer=(0)][IntrId=(0)]";
     ATTRIBUTE Location OF Timer_Int : LABEL IS "[IntrContainer=(0)][IntrId=(22)]";
     ATTRIBUTE Location OF PWM_0_Int : LABEL IS "[IntrContainer=(0)][IntrId=(20)]";
     ATTRIBUTE Location OF \Timer:cy_m0s8_tcpwm_1\ : LABEL IS "F(TCPWM,3)";
     ATTRIBUTE Location OF \PWM_2:cy_m0s8_tcpwm_1\ : LABEL IS "F(TCPWM,0)";
     ATTRIBUTE Location OF \PWM_1:cy_m0s8_tcpwm_1\ : LABEL IS "F(TCPWM,2)";
     ATTRIBUTE Location OF \PWM_0:cy_m0s8_tcpwm_1\ : LABEL IS "F(TCPWM,1)";
-    ATTRIBUTE Location OF \UART:SCB\ : LABEL IS "F(SCB,2)";
+    ATTRIBUTE Location OF \UART_1:SCB\ : LABEL IS "F(SCB,1)";
     ATTRIBUTE Location OF \I2C:SCB_IRQ\ : LABEL IS "[IntrContainer=(0)][IntrId=(8)]";
     ATTRIBUTE Location OF \I2C:SCB\ : LABEL IS "F(SCB,0)";
     ATTRIBUTE Location OF LPCOMP_INT : LABEL IS "F(LPCOMPBLOCK,0)";
@@ -640,8 +640,8 @@ BEGIN
             ff_div_7 => \CapSense:Net_420_ff7\,
             ff_div_6 => \CapSense:Net_429_ff6\,
             ff_div_2 => \I2C:Net_847_ff3\,
-            ff_div_3 => \SPI:Net_847_ff2\,
-            ff_div_4 => \UART:Net_847_ff4\,
+            ff_div_3 => \UART_1:Net_847_ff4\,
+            ff_div_4 => \SPI:Net_847_ff2\,
             ff_div_11 => Net_4214_ff13,
             ff_div_12 => Net_4214_ff11,
             ff_div_13 => Net_4214_ff12,
@@ -2831,7 +2831,7 @@ BEGIN
             out_clock_en => '1',
             out_reset => '0');
 
-    \UART:tx\:logicalport
+    \UART_1:tx\:logicalport
         GENERIC MAP(
             drive_mode => "110",
             ibuf_enabled => "0",
@@ -2902,20 +2902,20 @@ BEGIN
             out_clock_en => open,
             out_reset => open);
 
-    \UART:tx(0)\:iocell
+    \UART_1:tx(0)\:iocell
         GENERIC MAP(
             in_sync_mode => 0,
             out_sync_mode => 0,
             oe_sync_mode => 0,
-            logicalport => "\UART:tx\",
+            logicalport => "\UART_1:tx\",
             logicalport_pin_id => 0,
             io_capabilities => "0000000000000000000000000000000000000000000000000000000000000001")
         PORT MAP(
-            pa_out => \\\UART:tx(0)\\__PA\,
+            pa_out => \\\UART_1:tx(0)\\__PA\,
             oe => open,
-            pin_input => \UART:tx_wire\,
-            pad_out => \UART:tx(0)_PAD\,
-            pad_in => \UART:tx(0)_PAD\,
+            pin_input => \UART_1:tx_wire\,
+            pad_out => \UART_1:tx(0)_PAD\,
+            pad_in => \UART_1:tx(0)_PAD\,
             in_clock => open,
             in_clock_en => '1',
             in_reset => '0',
@@ -2923,7 +2923,7 @@ BEGIN
             out_clock_en => '1',
             out_reset => '0');
 
-    \UART:rx\:logicalport
+    \UART_1:rx\:logicalport
         GENERIC MAP(
             drive_mode => "001",
             ibuf_enabled => "1",
@@ -2994,19 +2994,19 @@ BEGIN
             out_clock_en => open,
             out_reset => open);
 
-    \UART:rx(0)\:iocell
+    \UART_1:rx(0)\:iocell
         GENERIC MAP(
             in_sync_mode => 0,
             out_sync_mode => 0,
             oe_sync_mode => 0,
-            logicalport => "\UART:rx\",
+            logicalport => "\UART_1:rx\",
             logicalport_pin_id => 0,
             io_capabilities => "0000000000000000000000000000000000000000000000000000000000000001")
         PORT MAP(
-            pa_out => \\\UART:rx(0)\\__PA\,
+            pa_out => \\\UART_1:rx(0)\\__PA\,
             oe => open,
-            fb => \UART:rx_wire\,
-            pad_in => \UART:rx(0)_PAD\,
+            fb => \UART_1:rx_wire\,
+            pad_in => \UART_1:rx(0)_PAD\,
             in_clock => open,
             in_clock_en => '1',
             in_reset => '0',
@@ -3481,30 +3481,30 @@ BEGIN
             line_compl => Net_441,
             interrupt => Net_402);
 
-    \UART:SCB\:m0s8scbcell
+    \UART_1:SCB\:m0s8scbcell
         GENERIC MAP(
             cy_registers => "",
             scb_mode => 2)
         PORT MAP(
-            clock => \UART:Net_847_ff4\,
-            interrupt => Net_444,
-            uart_rx => \UART:rx_wire\,
-            uart_tx => \UART:tx_wire\,
+            clock => \UART_1:Net_847_ff4\,
+            interrupt => Net_488,
+            uart_rx => \UART_1:rx_wire\,
+            uart_tx => \UART_1:tx_wire\,
             uart_cts => open,
-            uart_rts => \UART:rts_wire\,
-            mosi_m => \UART:mosi_m_wire\,
+            uart_rts => \UART_1:rts_wire\,
+            mosi_m => \UART_1:mosi_m_wire\,
             miso_m => open,
-            select_m_3 => \UART:select_m_wire_3\,
-            select_m_2 => \UART:select_m_wire_2\,
-            select_m_1 => \UART:select_m_wire_1\,
-            select_m_0 => \UART:select_m_wire_0\,
-            sclk_m => \UART:sclk_m_wire\,
+            select_m_3 => \UART_1:select_m_wire_3\,
+            select_m_2 => \UART_1:select_m_wire_2\,
+            select_m_1 => \UART_1:select_m_wire_1\,
+            select_m_0 => \UART_1:select_m_wire_0\,
+            sclk_m => \UART_1:sclk_m_wire\,
             mosi_s => open,
-            miso_s => \UART:miso_s_wire\,
+            miso_s => \UART_1:miso_s_wire\,
             select_s => open,
             sclk_s => open,
-            tr_tx_req => Net_447,
-            tr_rx_req => Net_446);
+            tr_tx_req => Net_491,
+            tr_rx_req => Net_490);
 
     \I2C:SCB_IRQ\:interrupt
         GENERIC MAP(

@@ -2,7 +2,7 @@
 --	Conversion of bank-protocol.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Mon Jul 16 14:14:28 2018
+--	Mon Jul 16 15:23:17 2018
 --
 
 USE cypress.cypress.all;
@@ -397,53 +397,53 @@ SIGNAL Net_439 : bit;
 SIGNAL Net_438 : bit;
 SIGNAL Net_440 : bit;
 SIGNAL Net_441 : bit;
-SIGNAL \UART:Net_847\ : bit;
-SIGNAL \UART:select_s_wire\ : bit;
-SIGNAL \UART:rx_wire\ : bit;
-SIGNAL \UART:Net_1268\ : bit;
-SIGNAL \UART:Net_1257\ : bit;
-SIGNAL \UART:uncfg_rx_irq\ : bit;
-SIGNAL \UART:Net_1170\ : bit;
-SIGNAL \UART:sclk_s_wire\ : bit;
-SIGNAL \UART:mosi_s_wire\ : bit;
-SIGNAL \UART:miso_m_wire\ : bit;
-SIGNAL \UART:tmpOE__tx_net_0\ : bit;
-SIGNAL \UART:tx_wire\ : bit;
-SIGNAL \UART:tmpFB_0__tx_net_0\ : bit;
-SIGNAL \UART:tmpIO_0__tx_net_0\ : bit;
-TERMINAL \UART:tmpSIOVREF__tx_net_0\ : bit;
-SIGNAL \UART:tmpINTERRUPT_0__tx_net_0\ : bit;
-SIGNAL \UART:Net_1099\ : bit;
-SIGNAL \UART:Net_1258\ : bit;
-SIGNAL \UART:tmpOE__rx_net_0\ : bit;
-SIGNAL \UART:tmpIO_0__rx_net_0\ : bit;
-TERMINAL \UART:tmpSIOVREF__rx_net_0\ : bit;
-SIGNAL \UART:tmpINTERRUPT_0__rx_net_0\ : bit;
-SIGNAL \UART:cts_wire\ : bit;
-SIGNAL Net_444 : bit;
-SIGNAL \UART:rts_wire\ : bit;
-SIGNAL \UART:mosi_m_wire\ : bit;
-SIGNAL \UART:select_m_wire_3\ : bit;
-SIGNAL \UART:select_m_wire_2\ : bit;
-SIGNAL \UART:select_m_wire_1\ : bit;
-SIGNAL \UART:select_m_wire_0\ : bit;
-SIGNAL \UART:sclk_m_wire\ : bit;
-SIGNAL \UART:miso_s_wire\ : bit;
-SIGNAL Net_461 : bit;
-SIGNAL Net_462 : bit;
-SIGNAL Net_447 : bit;
-SIGNAL Net_446 : bit;
-SIGNAL \UART:Net_1028\ : bit;
-SIGNAL Net_443 : bit;
-SIGNAL Net_452 : bit;
-SIGNAL Net_453 : bit;
-SIGNAL Net_454 : bit;
-SIGNAL Net_455 : bit;
-SIGNAL Net_456 : bit;
-SIGNAL Net_457 : bit;
-SIGNAL Net_458 : bit;
-SIGNAL Net_460 : bit;
-SIGNAL Net_463 : bit;
+SIGNAL \UART_1:Net_847\ : bit;
+SIGNAL \UART_1:select_s_wire\ : bit;
+SIGNAL \UART_1:rx_wire\ : bit;
+SIGNAL \UART_1:Net_1268\ : bit;
+SIGNAL \UART_1:Net_1257\ : bit;
+SIGNAL \UART_1:uncfg_rx_irq\ : bit;
+SIGNAL \UART_1:Net_1170\ : bit;
+SIGNAL \UART_1:sclk_s_wire\ : bit;
+SIGNAL \UART_1:mosi_s_wire\ : bit;
+SIGNAL \UART_1:miso_m_wire\ : bit;
+SIGNAL \UART_1:tmpOE__tx_net_0\ : bit;
+SIGNAL \UART_1:tx_wire\ : bit;
+SIGNAL \UART_1:tmpFB_0__tx_net_0\ : bit;
+SIGNAL \UART_1:tmpIO_0__tx_net_0\ : bit;
+TERMINAL \UART_1:tmpSIOVREF__tx_net_0\ : bit;
+SIGNAL \UART_1:tmpINTERRUPT_0__tx_net_0\ : bit;
+SIGNAL \UART_1:Net_1099\ : bit;
+SIGNAL \UART_1:Net_1258\ : bit;
+SIGNAL \UART_1:tmpOE__rx_net_0\ : bit;
+SIGNAL \UART_1:tmpIO_0__rx_net_0\ : bit;
+TERMINAL \UART_1:tmpSIOVREF__rx_net_0\ : bit;
+SIGNAL \UART_1:tmpINTERRUPT_0__rx_net_0\ : bit;
+SIGNAL \UART_1:cts_wire\ : bit;
+SIGNAL Net_488 : bit;
+SIGNAL \UART_1:rts_wire\ : bit;
+SIGNAL \UART_1:mosi_m_wire\ : bit;
+SIGNAL \UART_1:select_m_wire_3\ : bit;
+SIGNAL \UART_1:select_m_wire_2\ : bit;
+SIGNAL \UART_1:select_m_wire_1\ : bit;
+SIGNAL \UART_1:select_m_wire_0\ : bit;
+SIGNAL \UART_1:sclk_m_wire\ : bit;
+SIGNAL \UART_1:miso_s_wire\ : bit;
+SIGNAL Net_505 : bit;
+SIGNAL Net_506 : bit;
+SIGNAL Net_491 : bit;
+SIGNAL Net_490 : bit;
+SIGNAL \UART_1:Net_1028\ : bit;
+SIGNAL Net_487 : bit;
+SIGNAL Net_496 : bit;
+SIGNAL Net_497 : bit;
+SIGNAL Net_498 : bit;
+SIGNAL Net_499 : bit;
+SIGNAL Net_500 : bit;
+SIGNAL Net_501 : bit;
+SIGNAL Net_502 : bit;
+SIGNAL Net_504 : bit;
+SIGNAL Net_507 : bit;
 SIGNAL \I2C:Net_847\ : bit;
 SIGNAL \I2C:select_s_wire\ : bit;
 SIGNAL \I2C:rx_wire\ : bit;
@@ -2783,7 +2783,7 @@ PWM_2_Out:cy_psoc3_pins_v1_10
 		line_out=>Net_403,
 		line_out_compl=>Net_441,
 		interrupt=>Net_402);
-\UART:SCBCLK\:cy_clock_v1_0
+\UART_1:SCBCLK\:cy_clock_v1_0
 	GENERIC MAP(cy_registers=>"",
 		id=>"43ec2fa1-bf22-4b71-9477-b6ca7b97f0b0/2dc2d7a8-ce2b-43c7-af4a-821c8cd73ccf",
 		source_clock_id=>"",
@@ -2791,9 +2791,9 @@ PWM_2_Out:cy_psoc3_pins_v1_10
 		period=>"723379629.62963",
 		is_direct=>'0',
 		is_digital=>'0')
-	PORT MAP(clock_out=>\UART:Net_847\,
+	PORT MAP(clock_out=>\UART_1:Net_847\,
 		dig_domain_out=>open);
-\UART:tx\:cy_psoc3_pins_v1_10
+\UART_1:tx\:cy_psoc3_pins_v1_10
 	GENERIC MAP(id=>"43ec2fa1-bf22-4b71-9477-b6ca7b97f0b0/23b8206d-1c77-4e61-be4a-b4037d5de5fc",
 		drive_mode=>"110",
 		ibuf_enabled=>"0",
@@ -2850,11 +2850,11 @@ PWM_2_Out:cy_psoc3_pins_v1_10
 		ovt_hyst_trim=>"0",
 		input_buffer_sel=>"00")
 	PORT MAP(oe=>(tmpOE__ADC_1P_net_0),
-		y=>\UART:tx_wire\,
-		fb=>(\UART:tmpFB_0__tx_net_0\),
+		y=>\UART_1:tx_wire\,
+		fb=>(\UART_1:tmpFB_0__tx_net_0\),
 		analog=>(open),
-		io=>(\UART:tmpIO_0__tx_net_0\),
-		siovref=>(\UART:tmpSIOVREF__tx_net_0\),
+		io=>(\UART_1:tmpIO_0__tx_net_0\),
+		siovref=>(\UART_1:tmpSIOVREF__tx_net_0\),
 		annotation=>(open),
 		in_clock=>zero,
 		in_clock_en=>tmpOE__ADC_1P_net_0,
@@ -2862,8 +2862,8 @@ PWM_2_Out:cy_psoc3_pins_v1_10
 		out_clock=>zero,
 		out_clock_en=>tmpOE__ADC_1P_net_0,
 		out_reset=>zero,
-		interrupt=>\UART:tmpINTERRUPT_0__tx_net_0\);
-\UART:rx\:cy_psoc3_pins_v1_10
+		interrupt=>\UART_1:tmpINTERRUPT_0__tx_net_0\);
+\UART_1:rx\:cy_psoc3_pins_v1_10
 	GENERIC MAP(id=>"43ec2fa1-bf22-4b71-9477-b6ca7b97f0b0/78e33e5d-45ea-4b75-88d5-73274e8a7ce4",
 		drive_mode=>"001",
 		ibuf_enabled=>"1",
@@ -2921,10 +2921,10 @@ PWM_2_Out:cy_psoc3_pins_v1_10
 		input_buffer_sel=>"00")
 	PORT MAP(oe=>(tmpOE__ADC_1P_net_0),
 		y=>(zero),
-		fb=>\UART:rx_wire\,
+		fb=>\UART_1:rx_wire\,
 		analog=>(open),
-		io=>(\UART:tmpIO_0__rx_net_0\),
-		siovref=>(\UART:tmpSIOVREF__rx_net_0\),
+		io=>(\UART_1:tmpIO_0__rx_net_0\),
+		siovref=>(\UART_1:tmpSIOVREF__rx_net_0\),
 		annotation=>(open),
 		in_clock=>zero,
 		in_clock_en=>tmpOE__ADC_1P_net_0,
@@ -2932,28 +2932,28 @@ PWM_2_Out:cy_psoc3_pins_v1_10
 		out_clock=>zero,
 		out_clock_en=>tmpOE__ADC_1P_net_0,
 		out_reset=>zero,
-		interrupt=>\UART:tmpINTERRUPT_0__rx_net_0\);
-\UART:SCB\:cy_m0s8_scb_v2_0
+		interrupt=>\UART_1:tmpINTERRUPT_0__rx_net_0\);
+\UART_1:SCB\:cy_m0s8_scb_v2_0
 	GENERIC MAP(cy_registers=>"",
 		scb_mode=>2)
-	PORT MAP(clock=>\UART:Net_847\,
-		interrupt=>Net_444,
-		rx=>\UART:rx_wire\,
-		tx=>\UART:tx_wire\,
+	PORT MAP(clock=>\UART_1:Net_847\,
+		interrupt=>Net_488,
+		rx=>\UART_1:rx_wire\,
+		tx=>\UART_1:tx_wire\,
 		cts=>zero,
-		rts=>\UART:rts_wire\,
-		mosi_m=>\UART:mosi_m_wire\,
+		rts=>\UART_1:rts_wire\,
+		mosi_m=>\UART_1:mosi_m_wire\,
 		miso_m=>zero,
-		select_m=>(\UART:select_m_wire_3\, \UART:select_m_wire_2\, \UART:select_m_wire_1\, \UART:select_m_wire_0\),
-		sclk_m=>\UART:sclk_m_wire\,
+		select_m=>(\UART_1:select_m_wire_3\, \UART_1:select_m_wire_2\, \UART_1:select_m_wire_1\, \UART_1:select_m_wire_0\),
+		sclk_m=>\UART_1:sclk_m_wire\,
 		mosi_s=>zero,
-		miso_s=>\UART:miso_s_wire\,
+		miso_s=>\UART_1:miso_s_wire\,
 		select_s=>zero,
 		sclk_s=>zero,
-		scl=>Net_461,
-		sda=>Net_462,
-		tx_req=>Net_447,
-		rx_req=>Net_446);
+		scl=>Net_505,
+		sda=>Net_506,
+		tx_req=>Net_491,
+		rx_req=>Net_490);
 \I2C:SCBCLK\:cy_clock_v1_0
 	GENERIC MAP(cy_registers=>"",
 		id=>"3dbba19d-7851-4a83-b204-a0a386fe8d68/2dc2d7a8-ce2b-43c7-af4a-821c8cd73ccf",

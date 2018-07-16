@@ -78,7 +78,7 @@
       </pad>
     </pin>
     <pin number="4" name="P2[2]">
-      <pad name="P2[2]" number="45" type="GPIO" portId="2" pinId="2" ioSupplyPin="VDDIO_A" capabilities="0x000000D000000017">
+      <pad name="P2[2]" number="45" type="GPIO" portId="2" pinId="2" ioSupplyPin="VDDIO_A" capabilities="0x000000D000000013">
         <ffbterm ffbtype="TCPWM" ffbid="5" term="line" alternative="1" />
         <ffbterm ffbtype="LCD" ffbid="0" term="com" wire="18" />
         <ffbterm ffbtype="LCD" ffbid="0" term="seg" wire="18" />
