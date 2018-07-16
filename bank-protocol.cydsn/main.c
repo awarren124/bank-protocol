@@ -10,6 +10,7 @@
  * ========================================
 */
 #include <project.h>
+#include <stdio.h>
 
 int main (void)
 {
@@ -19,6 +20,7 @@ int main (void)
     
     for(;;)
     {
+        printf("%s", "hello world");
         /* Place your application code here */
     }
 }
