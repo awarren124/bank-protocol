@@ -364,7 +364,7 @@
 <OpenDocs>
 <name v=".\bank-protocol.cydsn\TopDesign\TopDesign.cysch" />
 <name v=".\bank-protocol.cydsn\main.c" />
-<name v=".\bank-protocol-2.cydsn\TopDesign\TopDesign.cysch" />
+<name v=".\bank-protocol.cydsn\bank-protocol.cydwr" />
 </OpenDocs>
 <OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
 
@@ -372,7 +372,7 @@
   Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
   http://www.actiprosoftware.com
 
---><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1481, 675" SelectedTabbedMdiWindow="3f7ee2cd-81d9-41ba-9ed6-86577129fcc2"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="370cbc9b-cdbd-42a4-a9ab-b36fde3ff8ac" /><DocumentWindow Key="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\TopDesign\TopDesign.cysch" Guid="7dd5322b-709b-44a5-938c-2867b5427563" /><DocumentWindow Key="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\main.c" Guid="3f7ee2cd-81d9-41ba-9ed6-86577129fcc2" /><DocumentWindow Key="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol-2.cydsn\TopDesign\TopDesign.cysch" Guid="80a61f95-ab8a-4e94-83a4-9b4b8cec7fe7" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1279, 588" SelectedTabbedMdiWindow="3f7ee2cd-81d9-41ba-9ed6-86577129fcc2"><DocumentWindow Key="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\TopDesign\TopDesign.cysch" Guid="7dd5322b-709b-44a5-938c-2867b5427563" /><DocumentWindow Key="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\main.c" Guid="3f7ee2cd-81d9-41ba-9ed6-86577129fcc2" /><DocumentWindow Key="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\bank-protocol.cydwr" Guid="03945173-5172-4067-ac3c-33da3719173b" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
 <config v="" />
 <AutoUpdate v="true" />
 </CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>

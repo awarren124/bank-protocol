@@ -2,7 +2,7 @@
 --	Conversion of bank-protocol.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Mon Jul 16 15:23:17 2018
+--	Mon Jul 16 15:34:10 2018
 --
 
 USE cypress.cypress.all;

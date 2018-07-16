@@ -18,14 +18,15 @@ int main (void)
     UART_1_Start();
     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
     
+    UART_1_UartPutString("hello world");
+    
     for(;;)
     {
         
-        UART_1_UartPutString("hello world");
         /* Place your application code here */
-        /*char c = UART_UartGetChar();
+        char c = UART_1_UartGetChar();
         if(c)
-            UART_UartPutChar(c);*/
+            UART_1_UartPutChar(c);
     }
     return 0;
 }
