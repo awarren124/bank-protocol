@@ -20,7 +20,7 @@ int main (void)
     
     for(;;)
     {
-        printf("%s", "hello world\n");
+        UART_UartPutString("hello world");
         /* Place your application code here */
     }
 }
