@@ -23,9 +23,14 @@ int main (void)
     char buffer[CY_FLASH_SIZEOF_ROW];
     for(uint i = 0; i<CY_FLASH_SIZEOF_ROW; i++)
         buffer[i] = 'A';
-    int row = 1;
-    CySysFlashWriteRow(CY_FLASH_BASE + row*128, &buffer);
     
+    int row = 1;
+    CySysFlashWriteRow(row, &buffer);
+    
+    char buffer2[129];
+    memcpy(buffer2, CY_FLASH_BASE + row*128, 128);
+    buffer2[128] = 0;
+    UART_1_UartPutString(buffer2);
     for(;;)
     {
         
