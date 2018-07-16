@@ -121,6 +121,7 @@
 #include "I2C_scl.h"
 #include "I2C_scl_aliases.h"
 #include "I2C_SCB_IRQ.h"
+#include "cy_em_eeprom.h"
 #include "core_cm0_psoc4.h"
 #include "CyFlash.h"
 #include "CyLib.h"
@@ -129,7 +130,6 @@
 #include "cypins.h"
 #include "CyDMA.h"
 #include "CyLFClk.h"
-#include "cy_em_eeprom.h"
 
 /*[]*/
 

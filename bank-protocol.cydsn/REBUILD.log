@@ -1,4 +1,4 @@
---------------- Rebuild Started: 07/16/2018 10:42:31 Project: bank-protocol, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Rebuild Started: 07/16/2018 13:25:55 Project: bank-protocol, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\cymetadata.o"
@@ -286,6 +286,6 @@ No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S "C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\CortexM0\ARM_GCC_541\Debug\bank-protocol.elf"
-Flash used: 7080 of 131072 bytes (5.4%).
-SRAM used: 2584 of 16384 bytes (15.8%). Stack: 2048 bytes. Heap: 128 bytes.
---------------- Rebuild Succeeded: 07/16/2018 10:43:22 ---------------
+Flash used: 2856 of 131072 bytes (2.2%).
+SRAM used: 2576 of 16384 bytes (15.7%). Stack: 2048 bytes. Heap: 128 bytes.
+--------------- Rebuild Succeeded: 07/16/2018 13:26:35 ---------------

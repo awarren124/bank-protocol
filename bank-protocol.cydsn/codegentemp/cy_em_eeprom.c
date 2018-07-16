@@ -1,6 +1,6 @@
 /***************************************************************************//**
 * \file cy_em_eeprom.c
-* \version 2.0
+* \version 2.10
 *
 * \brief
 *  This file provides source code of the API for the Emulated EEPROM library.
