@@ -27,5 +27,4 @@ int main (void)
         if(c)
             UART_UartPutChar(c);*/
     }
-    return 0;
 }
