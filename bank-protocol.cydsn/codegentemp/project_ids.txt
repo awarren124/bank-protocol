@@ -1,0 +1,6 @@
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|0cb61400-70e3-4af8-ace2-10b4069a5405
+C:\Users\Larry\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|73845e7b-89fc-4254-8c4e-0d0b12eedbd3
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|82a9870e-c227-459f-82f4-f5da1f38c471
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|bf1d20ae-f3e2-4951-8595-85d7f57feb7d
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|6d87f604-3e75-41c5-a102-4605511fd4a3
+C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\bank-protocol.cyprj|7fb722d2-b7ee-409e-a2fa-031de655d8ee

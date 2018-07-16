@@ -1,0 +1,29 @@
+# bank-protocol
+# 2018-07-16 14:39:42Z
+
+# IO_2@[IOP=(3)][IoId=(2)] is reserved: SWDDebugEnabled
+dont_use_io iocell 3 2
+# IO_3@[IOP=(3)][IoId=(3)] is reserved: SWDDebugEnabled
+dont_use_io iocell 3 3
+set_location "ClockGenBlock" m0s8clockgenblockcell -1 -1 0
+set_io "ADC_1P(0)" iocell 2 0
+set_io "ADC_0(0)" iocell 2 3
+set_io "\CapSense:Cmod(0)\" iocell 4 2
+set_io "\CapSense:Sns(0)\" iocell 4 6
+set_io "\CapSense:Sns(1)\" iocell 6 0
+set_io "ADC_1M(0)" iocell 2 1
+set_io "ADC_2(0)" iocell 1 5
+set_io "ADC_3(0)" iocell 1 0
+set_io "CompP_0(0)" iocell 0 0
+set_io "CompM_0(0)" iocell 0 1
+set_io "CompP_1(0)" iocell 0 2
+set_io "CompM_1(0)" iocell 0 3
+set_location "\CapSense:CSD_FFB\" p4csdcell -1 -1 0
+set_location "\CapSense:IDAC2:cy_psoc4_idac\" p4csidac7cell -1 -1 0
+set_location "\CapSense:IDAC1:cy_psoc4_idac\" p4csidac8cell -1 -1 0
+set_location "\DieTemp:cy_psoc4_temp\" p4tempcell -1 -1 0
+set_location "\ADC_2_Buffer:cy_psoc4_abuf\" p4abufcell -1 -1 1
+set_location "\ADC_3_Buffer:cy_psoc4_abuf\" p4abufcell -1 -1 0
+set_location "\ADC:cy_psoc4_sar\" p4sarcell -1 -1 0
+set_location "\Comp_0:cy_psoc4_lpcomp_1\" p4lpcompcell -1 -1 0
+set_location "\Comp_1:cy_psoc4_lpcomp_1\" p4lpcompcell -1 -1 1
