@@ -33,7 +33,7 @@ int main (void)
     UART_1_UartPutString(buffer2);
     for(;;)
     {
-        
+       
         /* Place your application code here */
         
         char c;
