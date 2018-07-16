@@ -20,13 +20,21 @@ int main (void)
     
     UART_1_UartPutString("hello world");
     
+    char buffer[CY_FLASH_SIZEOF_ROW];
+    for(uint i = 0; i<CY_FLASH_SIZEOF_ROW; i++)
+        buffer[i] = 'A';
+    int row = 1;
+    CySysFlashWriteRow(CY_FLASH_BASE + row*128, &buffer);
+    
     for(;;)
     {
         
         /* Place your application code here */
-        uint8 c;
+        
+        char c;
         //c = UART_1_Get()
         c = UART_1_UartGetChar();
+        
         if(c)
             UART_1_UartPutChar(c);
 

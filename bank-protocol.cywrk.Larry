@@ -36,6 +36,32 @@
 <v>bank-protocol\bank-protocol-2</v>
 </ExpandedNodeIds>
 <VisibleNodeIds>
+<v>bank-protocol</v>
+<v>bank-protocol\bank-protocol</v>
+<v>bank-protocol\bank-protocol\TopDesign</v>
+<v>bank-protocol\bank-protocol\bank-protocol.cydwr</v>
+<v>bank-protocol\bank-protocol\bank-protocol.cydwr\Pins</v>
+<v>bank-protocol\bank-protocol\bank-protocol.cydwr\Analog</v>
+<v>bank-protocol\bank-protocol\bank-protocol.cydwr\DMA</v>
+<v>bank-protocol\bank-protocol\bank-protocol.cydwr\Clocks</v>
+<v>bank-protocol\bank-protocol\bank-protocol.cydwr\Interrupts</v>
+<v>bank-protocol\bank-protocol\bank-protocol.cydwr\System</v>
+<v>bank-protocol\bank-protocol\bank-protocol.cydwr\Directives</v>
+<v>bank-protocol\bank-protocol\bank-protocol.cydwr\Flash Security</v>
+<v>bank-protocol\bank-protocol\Header Files</v>
+<v>bank-protocol\bank-protocol\Header Files\cyapicallbacks.h</v>
+<v>bank-protocol\bank-protocol\Source Files</v>
+<v>bank-protocol\bank-protocol\Source Files\main.c</v>
+<v>bank-protocol\bank-protocol\Generated_Source</v>
+<v>bank-protocol\bank-protocol\Generated_Source\PSoC4</v>
+<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\ADC</v>
+<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\ADC_0</v>
+<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\ADC_1M</v>
+<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\ADC_1P</v>
+<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\ADC_2</v>
+<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\ADC_2_Buffer</v>
+<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\ADC_3</v>
+<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\ADC_3_Buffer</v>
 <v>bank-protocol\bank-protocol\Generated_Source\PSoC4\ADC_EOC_Int</v>
 <v>bank-protocol\bank-protocol\Generated_Source\PSoC4\ADC_intClock</v>
 <v>bank-protocol\bank-protocol\Generated_Source\PSoC4\ADC_IRQ</v>
@@ -55,32 +81,6 @@
 <v>bank-protocol\bank-protocol\Generated_Source\PSoC4\cy_lfclk</v>
 <v>bank-protocol\bank-protocol\Generated_Source\PSoC4\DieTemp</v>
 <v>bank-protocol\bank-protocol\Generated_Source\PSoC4\Em_EEPROM_Dynamic</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\I2C</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\I2C_SCB_IRQ</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\I2C_SCBCLK</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\I2C_scl</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\I2C_sda</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\Input_0_Int</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\Input_1_Int</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\Input_Pin_0</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\Input_Pin_1</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\LPComp_Int</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\Output_Pin_0</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\Output_Pin_1</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\PWM_0</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\PWM_0_Int</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\PWM_0_Out</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\PWM_1</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\PWM_1_Out</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\PWM_2</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\PWM_2_Out</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\SPI</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\SPI_miso_s</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\SPI_mosi_s</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\SPI_SCBCLK</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\SPI_sclk_s</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\SPI_ss_s</v>
-<v>bank-protocol\bank-protocol\Generated_Source\PSoC4\Timer</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 <CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
