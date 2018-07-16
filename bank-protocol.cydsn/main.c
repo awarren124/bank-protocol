@@ -24,7 +24,9 @@ int main (void)
     {
         
         /* Place your application code here */
-        char c = UART_1_UartGetChar();
+        uint8 c;
+        //c = UART_1_Get()
+        c = UART_1_UartGetChar();
         if(c)
             UART_1_UartPutChar(c);
 

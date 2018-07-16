@@ -757,19 +757,19 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x334d
+.debug_info     0x00000000     0x3359
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x12d .\CortexM0\ARM_GCC_541\Debug\main.o
- .debug_info    0x0000012d      0x405 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
- .debug_info    0x00000532       0xf8 .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
- .debug_info    0x0000062a      0x3a2 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
- .debug_info    0x000009cc      0xd2f .\CortexM0\ARM_GCC_541\Debug\bank-protocol.a(CyLib.o)
- .debug_info    0x000016fb     0x1058 .\CortexM0\ARM_GCC_541\Debug\bank-protocol.a(CyLFClk.o)
- .debug_info    0x00002753      0x23a .\CortexM0\ARM_GCC_541\Debug\bank-protocol.a(UART_1.o)
- .debug_info    0x0000298d      0x220 .\CortexM0\ARM_GCC_541\Debug\bank-protocol.a(UART_1_SPI_UART.o)
- .debug_info    0x00002bad      0x3b5 .\CortexM0\ARM_GCC_541\Debug\bank-protocol.a(UART_1_UART.o)
- .debug_info    0x00002f62       0x9b .\CortexM0\ARM_GCC_541\Debug\bank-protocol.a(CyBootAsmGnu.o)
- .debug_info    0x00002ffd      0x350 .\CortexM0\ARM_GCC_541\Debug\bank-protocol.a(CyFlash.o)
+ .debug_info    0x00000000      0x139 .\CortexM0\ARM_GCC_541\Debug\main.o
+ .debug_info    0x00000139      0x405 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
+ .debug_info    0x0000053e       0xf8 .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
+ .debug_info    0x00000636      0x3a2 .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
+ .debug_info    0x000009d8      0xd2f .\CortexM0\ARM_GCC_541\Debug\bank-protocol.a(CyLib.o)
+ .debug_info    0x00001707     0x1058 .\CortexM0\ARM_GCC_541\Debug\bank-protocol.a(CyLFClk.o)
+ .debug_info    0x0000275f      0x23a .\CortexM0\ARM_GCC_541\Debug\bank-protocol.a(UART_1.o)
+ .debug_info    0x00002999      0x220 .\CortexM0\ARM_GCC_541\Debug\bank-protocol.a(UART_1_SPI_UART.o)
+ .debug_info    0x00002bb9      0x3b5 .\CortexM0\ARM_GCC_541\Debug\bank-protocol.a(UART_1_UART.o)
+ .debug_info    0x00002f6e       0x9b .\CortexM0\ARM_GCC_541\Debug\bank-protocol.a(CyBootAsmGnu.o)
+ .debug_info    0x00003009      0x350 .\CortexM0\ARM_GCC_541\Debug\bank-protocol.a(CyFlash.o)
 
 .debug_abbrev   0x00000000      0xe03
  *(.debug_abbrev)
@@ -820,9 +820,9 @@ END GROUP
 
 .debug_str      0x00000000     0x161f
  *(.debug_str)
- .debug_str     0x00000000      0x1a8 .\CortexM0\ARM_GCC_541\Debug\main.o
-                                0x1e8 (size before relaxing)
- .debug_str     0x000001a8      0x158 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
+ .debug_str     0x00000000      0x1ae .\CortexM0\ARM_GCC_541\Debug\main.o
+                                0x1ee (size before relaxing)
+ .debug_str     0x000001ae      0x152 .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
                                 0x308 (size before relaxing)
  .debug_str     0x00000300       0x63 .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
                                 0x1d3 (size before relaxing)
