@@ -1,5 +1,5 @@
 -- Project:   bank-protocol
--- Generated: 07/16/2018 13:26:03
+-- Generated: 07/16/2018 13:58:25
 -- PSoC Creator  4.2
 
 ENTITY \bank-protocol\ IS

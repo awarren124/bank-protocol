@@ -15,12 +15,16 @@
 int main (void)
 {
     CyGlobalIntEnable;      /* Enable global interrupts */
-    
+    UART_Start();
     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
     
     for(;;)
     {
         UART_UartPutString("hello world");
         /* Place your application code here */
+        char buf[8];
+        char c = UART_UartGetChar();
+        if(c == 'c')
+            UART_UartPutString("c");
     }
 }
