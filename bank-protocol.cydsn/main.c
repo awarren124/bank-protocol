@@ -22,9 +22,8 @@ int main (void)
     {
         UART_UartPutString("hello world");
         /* Place your application code here */
-        char buf[8];
         char c = UART_UartGetChar();
-        if(c == 'c')
-            UART_UartPutString("c");
+        if(c)
+            UART_UartPutChar(c);
     }
 }
