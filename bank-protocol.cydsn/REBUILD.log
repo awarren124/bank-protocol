@@ -1,139 +1,9 @@
---------------- Rebuild Started: 07/16/2018 15:34:04 Project: bank-protocol, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Rebuild Started: 07/17/2018 15:54:34 Project: bank-protocol, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cymetadata.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC_1P.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC_1P_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC_0.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC_0_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CapSense.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CapSense_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CapSense_CSHL.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CapSense_INT.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CapSense_TunerHelper.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CapSense_SMS.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC_EOC_Int.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\DieTemp.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC_2_Buffer.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC_2_Buffer_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC_3_Buffer.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC_3_Buffer_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC_1M.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC_1M_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC_2.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC_2_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC_3.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC_3_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC_INT.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Comp_0.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Comp_0_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CompP_0.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CompP_0_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CompM_0.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CompM_0_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Comp_1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Comp_1_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CompP_1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CompP_1_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CompM_1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CompM_1_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\LPComp_Int.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Wakeup_Pin.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Wakeup_Pin_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Wakeup_Pin_Int.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\SPI.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\SPI_SPI_UART.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\SPI_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\SPI_SPI.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\SPI_BOOT.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\SPI_SPI_BOOT.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Output_Pin_0.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Output_Pin_0_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Output_Pin_1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Output_Pin_1_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Input_Pin_0.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Input_Pin_0_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Input_Pin_1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Input_Pin_1_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Input_0_Int.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Input_1_Int.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Timer_Pin.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Timer_Pin_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Timer_Int.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Clock_1MHz.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\PWM_0_Int.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\PWM_0_Out.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\PWM_0_Out_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\PWM_1_Out.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\PWM_1_Out_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\PWM_2_Out.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\PWM_2_Out_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Timer.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Timer_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\PWM_2.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\PWM_2_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\PWM_1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\PWM_1_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\PWM_0.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\PWM_0_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\I2C.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\I2C_I2C_INT.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\I2C_I2C.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\I2C_I2C_BOOT.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\I2C_I2C_SLAVE.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\I2C_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\I2C_BOOT.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CapSense_SampleClk.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CapSense_SenseClk.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC_IRQ.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ADC_intClock.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\SPI_SCBCLK.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\SPI_ss_s.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\SPI_ss_s_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\SPI_miso_s.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\SPI_miso_s_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\SPI_sclk_s.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\SPI_sclk_s_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\SPI_mosi_s.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\SPI_mosi_s_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\I2C_SCBCLK.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\I2C_sda.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\I2C_sda_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\I2C_scl.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\I2C_scl_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\I2C_SCB_IRQ.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Cm0Start.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyFlash.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyLib.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyPm.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyutils.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyBootAsmGnu.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyDMA.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyLFClk.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cy_em_eeprom.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\UART_1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\UART_1_SPI_UART.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\UART_1_SPI_UART_INT.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\UART_1_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\UART_1_UART.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\UART_1_BOOT.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\UART_1_UART_BOOT.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\UART_1_SCBCLK.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\UART_1_tx.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\UART_1_tx_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\UART_1_rx.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\UART_1_rx_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\bank-protocol.hex"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\bank-protocol.elf"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\bank-protocol.map"
 Deleting file ".\bank-protocol.cycdx"
 Deleting file ".\bank-protocol.svd"
 Deleting file ".\bank-protocol.rpt"
 Deleting file ".\bank-protocol_timing.html"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\.deps\SOURCE_C__ARM_GCC_GENERIC.P"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\.deps\SOURCE_ASM__ARM_GCC_GENERIC.P"
 cydsfit.exe -.appdatapath "C:\Users\Larry\AppData\Local\Cypress Semiconductor\PSoC Creator\4.2" -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -.fdsreffile=referenced_files.txt -p "C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\bank-protocol.cyprj" -d CY8C4247AZI-M485 -s "C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\Generated_Source\PSoC4" -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE
 Elaborating Design...
 HDL Generation...
@@ -153,6 +23,30 @@ API Generation...
 Dependency Generation...
 Cleanup...
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/main.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -Og -c main.c -o .\CortexM0\ARM_GCC_541\Debug\main.o
+main.c: In function 'main':
+main.c:28:29: warning: passing argument 2 of 'CySysFlashWriteRow' from incompatible pointer type [-Wincompatible-pointer-types]
+     CySysFlashWriteRow(row, &buffer);
+                             ^
+In file included from Generated_Source\PSoC4/cy_em_eeprom.h:226:0,
+                 from Generated_Source\PSoC4/project.h:124,
+                 from main.c:12:
+Generated_Source\PSoC4/CyFlash.h:78:8: note: expected 'const uint8 * {aka const unsigned char *}' but argument is of type 'char (*)[128]'
+ uint32 CySysFlashWriteRow       (uint32 rowNum, const uint8 rowData[]);
+        ^
+Generated_Source\PSoC4/CyFlash.h:93:33: warning: passing argument 2 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+ #define CY_FLASH_BASE           (CYDEV_FLASH_BASE)              /**< The base pointer of the Flash memory.*/
+                                 ^
+main.c:31:21: note: in expansion of macro 'CY_FLASH_BASE'
+     memcpy(buffer2, CY_FLASH_BASE + row*128, 128);
+                     ^
+In file included from c:\program files (x86)\cypress\psoc creator\4.2\psoc creator\import\gnu\arm\5.4.1\arm-none-eabi\include\string.h:10:0,
+                 from Generated_Source\PSoC4/CyLib.h:25,
+                 from Generated_Source\PSoC4/CapSense.h:24,
+                 from Generated_Source\PSoC4/project.h:25,
+                 from main.c:12:
+c:\program files (x86)\cypress\psoc creator\4.2\psoc creator\import\gnu\arm\5.4.1\arm-none-eabi\include\string.h:23:8: note: expected 'const void * restrict' but argument is of type 'unsigned int'
+ _PTR   _EXFUN(memcpy,(_PTR __restrict, const _PTR __restrict, size_t));
+        ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/cyfitter_cfg.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\cyfitter_cfg.c -o .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/cymetadata.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\cymetadata.c -o .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/ADC_1P.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\ADC_1P.c -o .\CortexM0\ARM_GCC_541\Debug\ADC_1P.o
@@ -286,6 +180,6 @@ No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S "C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\CortexM0\ARM_GCC_541\Debug\bank-protocol.elf"
-Flash used: 3224 of 131072 bytes (2.5%).
+Flash used: 3590 of 131072 bytes (2.7%).
 SRAM used: 2576 of 16384 bytes (15.7%). Stack: 2048 bytes. Heap: 128 bytes.
---------------- Rebuild Succeeded: 07/16/2018 15:34:46 ---------------
+--------------- Rebuild Succeeded: 07/17/2018 15:55:20 ---------------

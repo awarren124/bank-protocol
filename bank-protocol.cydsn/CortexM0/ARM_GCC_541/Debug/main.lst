@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 1
+ARM GAS  C:\Users\Larry\AppData\Local\Temp\ccpAgaNX.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 1
   38              		.syntax divided
   39              	@ 17 "main.c" 1
   40 0004 62B6     		CPSIE   i
-ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 2
+ARM GAS  C:\Users\Larry\AppData\Local\Temp\ccpAgaNX.s 			page 2
 
 
   41              	@ 0 "" 2
@@ -100,58 +100,59 @@ ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 1
   67 001e F9D9     		bls	.L3
   68              	.LVL4:
   69              	.LBE2:
-  26:main.c        ****     int row = 1;
-  27:main.c        ****     CySysFlashWriteRow(row, &buffer);
-  70              		.loc 1 27 0 is_stmt 1
+  26:main.c        ****     
+  27:main.c        ****     int row = 1;
+  28:main.c        ****     CySysFlashWriteRow(row, &buffer);
+  70              		.loc 1 28 0 is_stmt 1
   71 0020 22A9     		add	r1, sp, #136
   72 0022 0120     		movs	r0, #1
   73 0024 FFF7FEFF 		bl	CySysFlashWriteRow
   74              	.LVL5:
-  28:main.c        ****     
-  29:main.c        ****     char buffer2[129];
-  30:main.c        ****     memcpy(buffer2, CY_FLASH_BASE + row*128, 128);
-  75              		.loc 1 30 0
+  29:main.c        ****     
+  30:main.c        ****     char buffer2[129];
+  31:main.c        ****     memcpy(buffer2, CY_FLASH_BASE + row*128, 128);
+  75              		.loc 1 31 0
   76 0028 8022     		movs	r2, #128
   77 002a 8021     		movs	r1, #128
   78 002c 01A8     		add	r0, sp, #4
   79 002e FFF7FEFF 		bl	memcpy
   80              	.LVL6:
-  31:main.c        ****     buffer2[128] = 0;
-  81              		.loc 1 31 0
-ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 3
+  32:main.c        ****     buffer2[128] = 0;
+ARM GAS  C:\Users\Larry\AppData\Local\Temp\ccpAgaNX.s 			page 3
 
 
+  81              		.loc 1 32 0
   82 0032 0021     		movs	r1, #0
   83 0034 01AA     		add	r2, sp, #4
   84 0036 8023     		movs	r3, #128
   85 0038 D154     		strb	r1, [r2, r3]
-  32:main.c        ****     UART_1_UartPutString(buffer2);
-  86              		.loc 1 32 0
+  33:main.c        ****     UART_1_UartPutString(buffer2);
+  86              		.loc 1 33 0
   87 003a 1000     		movs	r0, r2
   88 003c FFF7FEFF 		bl	UART_1_UartPutString
   89              	.LVL7:
   90              	.L4:
   91              	.LBB3:
-  33:main.c        ****     for(;;)
-  34:main.c        ****     {
-  35:main.c        ****         
-  36:main.c        ****         /* Place your application code here */
-  37:main.c        ****         
-  38:main.c        ****         char c;
-  39:main.c        ****         //c = UART_1_Get()
-  40:main.c        ****         c = UART_1_UartGetChar();
-  92              		.loc 1 40 0
+  34:main.c        ****     for(;;)
+  35:main.c        ****     {
+  36:main.c        ****        
+  37:main.c        ****         /* Place your application code here */
+  38:main.c        ****         
+  39:main.c        ****         char c;
+  40:main.c        ****         //c = UART_1_Get()
+  41:main.c        ****         c = UART_1_UartGetChar();
+  92              		.loc 1 41 0
   93 0040 FFF7FEFF 		bl	UART_1_UartGetChar
   94              	.LVL8:
   95 0044 C3B2     		uxtb	r3, r0
   96              	.LVL9:
-  41:main.c        ****         
-  42:main.c        ****         if(c)
-  97              		.loc 1 42 0
+  42:main.c        ****         
+  43:main.c        ****         if(c)
+  97              		.loc 1 43 0
   98 0046 002B     		cmp	r3, #0
   99 0048 FAD0     		beq	.L4
-  43:main.c        ****             UART_1_UartPutChar(c);
- 100              		.loc 1 43 0
+  44:main.c        ****             UART_1_UartPutChar(c);
+ 100              		.loc 1 44 0
  101 004a FF23     		movs	r3, #255
  102              	.LVL10:
  103 004c 1840     		ands	r0, r3
@@ -177,10 +178,10 @@ ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 1
  121              	.Letext0:
  122              		.file 2 "Generated_Source\\PSoC4/cytypes.h"
  123              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ARM GAS  C:\Users\Larry\AppData\Local\Temp\ccpAgaNX.s 			page 4
+
+
  124              		.file 4 "Generated_Source\\PSoC4/UART_1_SPI_UART.h"
-ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 4
-
-
  125              		.file 5 "Generated_Source\\PSoC4/UART_1.h"
  126              		.file 6 "Generated_Source\\PSoC4/CyFlash.h"
  127              		.section	.debug_info,"",%progbits
@@ -237,10 +238,10 @@ ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 1
  178 0065 04       		.byte	0x4
  179 0066 07       		.byte	0x7
  180 0067 A0000000 		.4byte	.LASF8
+ARM GAS  C:\Users\Larry\AppData\Local\Temp\ccpAgaNX.s 			page 5
+
+
  181 006b 04       		.uleb128 0x4
-ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 5
-
-
  182 006c 99000000 		.4byte	.LASF14
  183 0070 02       		.byte	0x2
  184 0071 E601     		.2byte	0x1e6
@@ -291,16 +292,16 @@ ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 1
  229 00cd 08       		.uleb128 0x8
  230 00ce 726F7700 		.ascii	"row\000"
  231 00d2 01       		.byte	0x1
- 232 00d3 1A       		.byte	0x1a
+ 232 00d3 1B       		.byte	0x1b
  233 00d4 5D000000 		.4byte	0x5d
  234 00d8 01       		.byte	0x1
  235 00d9 07       		.uleb128 0x7
  236 00da DA010000 		.4byte	.LASF17
  237 00de 01       		.byte	0x1
- 238 00df 1D       		.byte	0x1d
-ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 6
+ARM GAS  C:\Users\Larry\AppData\Local\Temp\ccpAgaNX.s 			page 6
 
 
+ 238 00df 1E       		.byte	0x1e
  239 00e0 AD010000 		.4byte	0x1ad
  240 00e4 03       		.uleb128 0x3
  241 00e5 91       		.byte	0x91
@@ -323,7 +324,7 @@ ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 1
  258 0110 0A       		.uleb128 0xa
  259 0111 6300     		.ascii	"c\000"
  260 0113 01       		.byte	0x1
- 261 0114 26       		.byte	0x26
+ 261 0114 27       		.byte	0x27
  262 0115 85000000 		.4byte	0x85
  263 0119 1F000000 		.4byte	.LLST1
  264 011d 0B       		.uleb128 0xb
@@ -357,10 +358,10 @@ ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 1
  292 0160 01       		.uleb128 0x1
  293 0161 31       		.byte	0x31
  294 0162 0D       		.uleb128 0xd
+ARM GAS  C:\Users\Larry\AppData\Local\Temp\ccpAgaNX.s 			page 7
+
+
  295 0163 01       		.uleb128 0x1
-ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 7
-
-
  296 0164 51       		.byte	0x51
  297 0165 03       		.uleb128 0x3
  298 0166 91       		.byte	0x91
@@ -417,10 +418,10 @@ ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 1
  349 01bd 11       		.uleb128 0x11
  350 01be 5B000000 		.4byte	.LASF18
  351 01c2 5B000000 		.4byte	.LASF18
+ARM GAS  C:\Users\Larry\AppData\Local\Temp\ccpAgaNX.s 			page 8
+
+
  352 01c6 04       		.byte	0x4
-ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 8
-
-
  353 01c7 0F03     		.2byte	0x30f
  354 01c9 11       		.uleb128 0x11
  355 01ca 7A000000 		.4byte	.LASF19
@@ -477,10 +478,10 @@ ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 1
  406 001a 03       		.uleb128 0x3
  407 001b 0E       		.uleb128 0xe
  408 001c 00       		.byte	0
+ARM GAS  C:\Users\Larry\AppData\Local\Temp\ccpAgaNX.s 			page 9
+
+
  409 001d 00       		.byte	0
-ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 9
-
-
  410 001e 03       		.uleb128 0x3
  411 001f 24       		.uleb128 0x24
  412 0020 00       		.byte	0
@@ -537,10 +538,10 @@ ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 1
  463 0054 19       		.uleb128 0x19
  464 0055 11       		.uleb128 0x11
  465 0056 01       		.uleb128 0x1
+ARM GAS  C:\Users\Larry\AppData\Local\Temp\ccpAgaNX.s 			page 10
+
+
  466 0057 12       		.uleb128 0x12
-ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 10
-
-
  467 0058 06       		.uleb128 0x6
  468 0059 40       		.uleb128 0x40
  469 005a 18       		.uleb128 0x18
@@ -597,10 +598,10 @@ ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 1
  520 008e 03       		.uleb128 0x3
  521 008f 08       		.uleb128 0x8
  522 0090 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\Larry\AppData\Local\Temp\ccpAgaNX.s 			page 11
+
+
  523 0091 0B       		.uleb128 0xb
-ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 11
-
-
  524 0092 3B       		.uleb128 0x3b
  525 0093 0B       		.uleb128 0xb
  526 0094 49       		.uleb128 0x49
@@ -657,10 +658,10 @@ ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 1
  577 00d0 00       		.byte	0
  578 00d1 00       		.byte	0
  579 00d2 10       		.uleb128 0x10
+ARM GAS  C:\Users\Larry\AppData\Local\Temp\ccpAgaNX.s 			page 12
+
+
  580 00d3 21       		.uleb128 0x21
-ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 12
-
-
  581 00d4 00       		.byte	0
  582 00d5 49       		.uleb128 0x49
  583 00d6 13       		.uleb128 0x13
@@ -717,10 +718,10 @@ ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 1
  634 0109 00       		.byte	0
  635 010a 00       		.byte	0
  636              		.section	.debug_loc,"",%progbits
+ARM GAS  C:\Users\Larry\AppData\Local\Temp\ccpAgaNX.s 			page 13
+
+
  637              	.Ldebug_loc0:
-ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 13
-
-
  638              	.LLST0:
  639 0000 10000000 		.4byte	.LVL1
  640 0004 14000000 		.4byte	.LVL2
@@ -777,10 +778,10 @@ ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 1
  684              	.LASF21:
  685 000d 55415254 		.ascii	"UART_1_UartPutString\000"
  685      5F315F55 
+ARM GAS  C:\Users\Larry\AppData\Local\Temp\ccpAgaNX.s 			page 14
+
+
  685      61727450 
-ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 14
-
-
  685      75745374 
  685      72696E67 
  686              	.LASF9:
@@ -837,10 +838,10 @@ ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 1
  709      206C6F6E 
  709      6720756E 
  709      7369676E 
+ARM GAS  C:\Users\Larry\AppData\Local\Temp\ccpAgaNX.s 			page 15
+
+
  709      65642069 
-ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 15
-
-
  710              	.LASF23:
  711 00c4 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
  711      43313120 
@@ -897,10 +898,10 @@ ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 1
  732 01da 62756666 		.ascii	"buffer2\000"
  732      65723200 
  733              	.LASF4:
+ARM GAS  C:\Users\Larry\AppData\Local\Temp\ccpAgaNX.s 			page 16
+
+
  734 01e2 6C6F6E67 		.ascii	"long int\000"
-ARM GAS  C:\Users\Larry\AppData\Local\Temp\cc5ZFmBM.s 			page 16
-
-
  734      20696E74 
  734      00
  735              	.LASF13:
