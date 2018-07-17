@@ -17,11 +17,12 @@
 int main (void)
 {
     CyGlobalIntEnable;      /* Enable global interrupts */
-    UART_Start();
+    
     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
     
-    UART_UartPutString("hello world");
+    UART_Start();
     
+    /*
     char buffer[CY_FLASH_SIZEOF_ROW];
     for(uint i = 0; i<CY_FLASH_SIZEOF_ROW; i++)
         buffer[i] = 'A';
@@ -32,18 +33,20 @@ int main (void)
     char buffer2[129];
     memcpy(buffer2, CY_FLASH_BASE + row*128, 128);
     buffer2[128] = 0;
-    UART_UartPutString(buffer2);
+    UART_UartPutString(buffer2);*/
     for(;;)
     {
        
         /* Place your application code here */
-        
+        /*
         char c;
         //c = UART_1_Get()
         c = UART_UartGetChar();
         
         if(c)
             UART_UartPutChar(c);
+        */
+        UART_PutString("hello world\n");
 
     }
 }
