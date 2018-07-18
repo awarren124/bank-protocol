@@ -38,6 +38,31 @@ int main (void)
     buffer2[128] = 0;
     UART_UartPutString(buffer2);*/
     
+    //local stuff
+    
+    long long exampleCreditCardNumber = 4753245442839561;
+    int exampleExpirationDate = 902;  // cant pad
+    
+    mbedtls_aes_context aes;
+
+    unsigned char key[32];
+    unsigned char iv[16];
+    unsigned char input [128];
+    unsigned char output[128];
+
+    size_t input_len = 40;
+    size_t output_len = 0;
+        
+    for(int i = 0; i<input_len; i++){
+        input[i] = 'a';
+    }
+        
+        
+    mbedtls_aes_setkey_enc( &aes, key, 256 );
+    mbedtls_aes_crypt_cbc( &aes, MBEDTLS_AES_ENCRYPT, 32, iv, input, output );
+        
+    printf(output);
+    
     for(;;)
     {
        
@@ -54,29 +79,10 @@ int main (void)
         */
         
         //constant encryption
-        mbedtls_aes_context aes;
-
-        unsigned char key[32];
-        unsigned char iv[16];
-
-        unsigned char input [128];
-        unsigned char output[128];
-
-        size_t input_len = 40;
-        size_t output_len = 0;
         
-        for(uint i = 0; i<input_len; i++){
-            input[i] = 'a';
-        }
-        
-        printf(input);
-        
-        mbedtls_aes_setkey_enc( &aes, key, 256 );
-        mbedtls_aes_crypt_cbc( &aes, MBEDTLS_AES_ENCRYPT, 24, iv, input, output );
-        
-        printf(output);
         
         //UART_PutString("hello world\n");
 
     }
 }
+    
