@@ -41,8 +41,10 @@ int main (void)
     //local stuff
     
     long long exampleCreditCardNumber = 4753245442839561;
-    char * exampleExpirationDate = "0922";  // cant pad
+    char * exampleExpirationDate = "0922";
     
+    //broken aes
+    /*
     mbedtls_aes_context aes;
 
     mbedtls_aes_init(&aes);
@@ -64,7 +66,7 @@ int main (void)
     mbedtls_aes_crypt_cbc( &aes, MBEDTLS_AES_ENCRYPT, 32, iv, input, output );
         
     printf(output);
-    
+    */
     for(;;)
     {
        
