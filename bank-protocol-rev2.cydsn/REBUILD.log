@@ -1,4 +1,4 @@
---------------- Rebuild Started: 07/17/2018 21:34:58 Project: bank-protocol-rev2, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Rebuild Started: 07/18/2018 13:40:53 Project: bank-protocol-rev2, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\aesni.o"
@@ -173,7 +173,6 @@ Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyutils.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyBootAsmGnu.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyLFClk.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\UART_IntClock.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\bank-protocol-rev2.hex"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\bank-protocol-rev2.map"
 Deleting file ".\bank-protocol-rev2.cycdx"
 Deleting file ".\bank-protocol-rev2.svd"
@@ -200,10 +199,10 @@ Dependency Generation...
 Cleanup...
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/main.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -Og -c main.c -o .\CortexM0\ARM_GCC_541\Debug\main.o
 main.c: In function 'main':
-main.c:62:5: warning: implicit declaration of function 'mbedtls_aes_crypt_cbc' [-Wimplicit-function-declaration]
+main.c:64:5: warning: implicit declaration of function 'mbedtls_aes_crypt_cbc' [-Wimplicit-function-declaration]
      mbedtls_aes_crypt_cbc( &aes, MBEDTLS_AES_ENCRYPT, 32, iv, input, output );
      ^
-main.c:64:12: warning: pointer targets in passing argument 1 of 'printf' differ in signedness [-Wpointer-sign]
+main.c:66:12: warning: pointer targets in passing argument 1 of 'printf' differ in signedness [-Wpointer-sign]
      printf(output);
             ^
 In file included from c:\program files (x86)\cypress\psoc creator\4.2\psoc creator\import\gnu\arm\5.4.1\arm-none-eabi\include\string.h:10:0,
@@ -214,12 +213,12 @@ In file included from c:\program files (x86)\cypress\psoc creator\4.2\psoc creat
 c:\program files (x86)\cypress\psoc creator\4.2\psoc creator\import\gnu\arm\5.4.1\arm-none-eabi\include\stdio.h:187:5: note: expected 'const char * restrict' but argument is of type 'unsigned char *'
  int _EXFUN(printf, (const char *__restrict, ...)
      ^
-main.c:54:12: warning: unused variable 'output_len' [-Wunused-variable]
+main.c:56:12: warning: unused variable 'output_len' [-Wunused-variable]
      size_t output_len = 0;
             ^
-main.c:44:9: warning: unused variable 'exampleExpirationDate' [-Wunused-variable]
-     int exampleExpirationDate = 902;  // cant pad
-         ^
+main.c:44:12: warning: unused variable 'exampleExpirationDate' [-Wunused-variable]
+     char * exampleExpirationDate = "0922";  // cant pad
+            ^
 main.c:43:15: warning: unused variable 'exampleCreditCardNumber' [-Wunused-variable]
      long long exampleCreditCardNumber = 4753245442839561;
                ^
@@ -449,7 +448,7 @@ arm-none-eabi-ar.exe -rs .\CortexM0\ARM_GCC_541\Debug\bank-protocol-rev2.a .\Cor
 arm-none-eabi-ar.exe: creating .\CortexM0\ARM_GCC_541\Debug\bank-protocol-rev2.a
 arm-none-eabi-gcc.exe -Wl,--start-group -o "C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol-rev2.cydsn\CortexM0\ARM_GCC_541\Debug\bank-protocol-rev2.elf" .\CortexM0\ARM_GCC_541\Debug\main.o .\CortexM0\ARM_GCC_541\Debug\aes.o .\CortexM0\ARM_GCC_541\Debug\aesni.o .\CortexM0\ARM_GCC_541\Debug\arc4.o .\CortexM0\ARM_GCC_541\Debug\asn1parse.o .\CortexM0\ARM_GCC_541\Debug\asn1write.o .\CortexM0\ARM_GCC_541\Debug\base64.o .\CortexM0\ARM_GCC_541\Debug\bignum.o .\CortexM0\ARM_GCC_541\Debug\blowfish.o .\CortexM0\ARM_GCC_541\Debug\camellia.o .\CortexM0\ARM_GCC_541\Debug\ccm.o .\CortexM0\ARM_GCC_541\Debug\certs.o .\CortexM0\ARM_GCC_541\Debug\cipher.o .\CortexM0\ARM_GCC_541\Debug\cipher_wrap.o .\CortexM0\ARM_GCC_541\Debug\cmac.o .\CortexM0\ARM_GCC_541\Debug\ctr_drbg.o .\CortexM0\ARM_GCC_541\Debug\debug.o .\CortexM0\ARM_GCC_541\Debug\des.o .\CortexM0\ARM_GCC_541\Debug\dhm.o .\CortexM0\ARM_GCC_541\Debug\ecdh.o .\CortexM0\ARM_GCC_541\Debug\ecdsa.o .\CortexM0\ARM_GCC_541\Debug\ecjpake.o .\CortexM0\ARM_GCC_541\Debug\ecp.o .\CortexM0\ARM_GCC_541\Debug\ecp_curves.o .\CortexM0\ARM_GCC_541\Debug\entropy.o .\CortexM0\ARM_GCC_541\Debug\entropy_poll.o .\CortexM0\ARM_GCC_541\Debug\error.o .\CortexM0\ARM_GCC_541\Debug\gcm.o .\CortexM0\ARM_GCC_541\Debug\havege.o .\CortexM0\ARM_GCC_541\Debug\hmac_drbg.o .\CortexM0\ARM_GCC_541\Debug\md.o .\CortexM0\ARM_GCC_541\Debug\md_wrap.o .\CortexM0\ARM_GCC_541\Debug\md2.o .\CortexM0\ARM_GCC_541\Debug\md4.o .\CortexM0\ARM_GCC_541\Debug\md5.o .\CortexM0\ARM_GCC_541\Debug\memory_buffer_alloc.o .\CortexM0\ARM_GCC_541\Debug\net_sockets.o .\CortexM0\ARM_GCC_541\Debug\oid.o .\CortexM0\ARM_GCC_541\Debug\padlock.o .\CortexM0\ARM_GCC_541\Debug\pem.o .\CortexM0\ARM_GCC_541\Debug\pk.o .\CortexM0\ARM_GCC_541\Debug\pk_wrap.o .\CortexM0\ARM_GCC_541\Debug\pkcs5.o .\CortexM0\ARM_GCC_541\Debug\pkcs11.o .\CortexM0\ARM_GCC_541\Debug\pkcs12.o .\CortexM0\ARM_GCC_541\Debug\pkparse.o .\CortexM0\ARM_GCC_541\Debug\pkwrite.o .\CortexM0\ARM_GCC_541\Debug\platform.o .\CortexM0\ARM_GCC_541\Debug\ripemd160.o .\CortexM0\ARM_GCC_541\Debug\rsa.o .\CortexM0\ARM_GCC_541\Debug\sha1.o .\CortexM0\ARM_GCC_541\Debug\sha256.o .\CortexM0\ARM_GCC_541\Debug\sha512.o .\CortexM0\ARM_GCC_541\Debug\ssl_cache.o .\CortexM0\ARM_GCC_541\Debug\ssl_ciphersuites.o .\CortexM0\ARM_GCC_541\Debug\ssl_cli.o .\CortexM0\ARM_GCC_541\Debug\ssl_cookie.o .\CortexM0\ARM_GCC_541\Debug\ssl_srv.o .\CortexM0\ARM_GCC_541\Debug\ssl_ticket.o .\CortexM0\ARM_GCC_541\Debug\ssl_tls.o .\CortexM0\ARM_GCC_541\Debug\threading.o .\CortexM0\ARM_GCC_541\Debug\timing.o .\CortexM0\ARM_GCC_541\Debug\version.o .\CortexM0\ARM_GCC_541\Debug\version_features.o .\CortexM0\ARM_GCC_541\Debug\x509.o .\CortexM0\ARM_GCC_541\Debug\x509_create.o .\CortexM0\ARM_GCC_541\Debug\x509_crl.o .\CortexM0\ARM_GCC_541\Debug\x509_crt.o .\CortexM0\ARM_GCC_541\Debug\x509_csr.o .\CortexM0\ARM_GCC_541\Debug\x509write_crt.o .\CortexM0\ARM_GCC_541\Debug\x509write_csr.o .\CortexM0\ARM_GCC_541\Debug\xtea.o .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o .\CortexM0\ARM_GCC_541\Debug\cymetadata.o .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o .\CortexM0\ARM_GCC_541\Debug\bank-protocol-rev2.a "C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\CapSense_CSD_P4_v2_60\PSoC4\Library\CapsenseP4Library_GCC.a" -mcpu=cortex-m0 -mthumb -L Generated_Source\PSoC4 -Wl,-Map,.\CortexM0\ARM_GCC_541\Debug/bank-protocol-rev2.map -T Generated_Source\PSoC4\cm0gcc.ld -specs=nano.specs -Wl,--gc-sections -g -ffunction-sections -Og -ffat-lto-objects -Wl,--end-group
 ERROR: C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol-rev2.cydsn\CortexM0\ARM_GCC_541\Debug\bank-protocol-rev2.elf section `.bss' will not fit in region `ram'ERROR: region RAM overflowed with stackERROR: region `ram' overflowed by 0 bytes.\CortexM0\ARM_GCC_541\Debug\main.o: In function `main':
-C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol-rev2.cydsn/main.c:62: undefined reference to `mbedtls_aes_crypt_cbc'
+C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol-rev2.cydsn/main.c:64: undefined reference to `mbedtls_aes_crypt_cbc'
 collect2.exe: error: ld returned 1 exit status
 The command 'arm-none-eabi-gcc.exe' failed with exit code '1'.
---------------- Rebuild Failed: 07/17/2018 21:35:55 ---------------
+--------------- Rebuild Failed: 07/18/2018 13:41:49 ---------------

@@ -41,10 +41,12 @@ int main (void)
     //local stuff
     
     long long exampleCreditCardNumber = 4753245442839561;
-    int exampleExpirationDate = 902;  // cant pad
+    char * exampleExpirationDate = "0922";  // cant pad
     
     mbedtls_aes_context aes;
 
+    mbedtls_aes_init(&aes);
+    
     unsigned char key[32];
     unsigned char iv[16];
     unsigned char input [128];
@@ -52,7 +54,7 @@ int main (void)
 
     size_t input_len = 40;
     size_t output_len = 0;
-        
+    
     for(int i = 0; i<input_len; i++){
         input[i] = 'a';
     }
