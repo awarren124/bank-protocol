@@ -10,6 +10,7 @@
  * ========================================
 */
 #include <project.h>
+#include <mbedtls/rsa.h>
 
 int main (void)
 {
