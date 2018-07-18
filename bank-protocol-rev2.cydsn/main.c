@@ -22,6 +22,8 @@ int main (void)
     
     UART_Start();
     
+    UART_PutString("hello world\n");
+    
     /*
     char buffer[CY_FLASH_SIZEOF_ROW];
     for(uint i = 0; i<CY_FLASH_SIZEOF_ROW; i++)
@@ -38,15 +40,15 @@ int main (void)
     {
        
         /* Place your application code here */
-        /*
+        
         char c;
-        //c = UART_1_Get()
-        c = UART_UartGetChar();
+        c = UART_GetChar();
         
         if(c)
-            UART_UartPutChar(c);
-        */
-        UART_PutString("hello world\n");
+            UART_PutChar(c);
+        
+        
+        //UART_PutString("hello world\n");
 
     }
 }

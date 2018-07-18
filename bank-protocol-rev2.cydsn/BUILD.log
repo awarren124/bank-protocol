@@ -1,4 +1,4 @@
---------------- Build Started: 07/17/2018 16:24:08 Project: bank-protocol-rev2, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Build Started: 07/17/2018 20:56:00 Project: bank-protocol-rev2, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 The code generation step is up to date.
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/main.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -Og -c main.c -o .\CortexM0\ARM_GCC_541\Debug\main.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/aes.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -Og -c aes.c -o .\CortexM0\ARM_GCC_541\Debug\aes.o
@@ -129,6 +129,6 @@ No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S "C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol-rev2.cydsn\CortexM0\ARM_GCC_541\Debug\bank-protocol-rev2.elf"
-Flash used: 3558 of 32768 bytes (10.9%).
+Flash used: 3606 of 32768 bytes (11.0%).
 SRAM used: 1536 of 4096 bytes (37.5%). Stack: 1024 bytes. Heap: 128 bytes.
---------------- Build Succeeded: 07/17/2018 16:24:29 ---------------
+--------------- Build Succeeded: 07/17/2018 20:56:20 ---------------
