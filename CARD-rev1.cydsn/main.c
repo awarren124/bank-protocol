@@ -10,8 +10,10 @@
 */
 #include <project.h>
 #include "usbserialprotocol.h"
+#include <aes.h>
+#include <mbedtls/rsa.h>
 
-#define PIN_LEN 8
+#define PIN_LEN 4
 #define UUID_LEN 36
 #define PINCHG_SUC "SUCCESS"
 #define PROV_MSG "P"
