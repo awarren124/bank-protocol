@@ -13,7 +13,7 @@
 <v>Output</v>
 </TreeKeys>
 <TreeStates>
-<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="bank-protocol\CARD-rev1\Source Files\main.c">
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="bank-protocol\bank-protocol-rev2">
 <ExpandedNodeIds>
 <v>bank-protocol</v>
 <v>bank-protocol\bank-protocol\TopDesign</v>
@@ -31,7 +31,6 @@
 <v>bank-protocol\bank-protocol\Source Files</v>
 <v>bank-protocol\bank-protocol\Source Files\main.c</v>
 <v>bank-protocol\bank-protocol\Generated_Source\PSoC4</v>
-<v>bank-protocol\bank-protocol-rev2</v>
 <v>bank-protocol\bank-protocol-rev2\TopDesign</v>
 <v>bank-protocol\bank-protocol-rev2\bank-protocol-rev2.cydwr</v>
 <v>bank-protocol\bank-protocol-rev2\bank-protocol-rev2.cydwr\Pins</v>
@@ -361,53 +360,67 @@
 <v>bank-protocol\CARD-rev1\Source Files\xtea.c</v>
 <v>bank-protocol\CARD-rev1\Generated_Source</v>
 <v>bank-protocol\CARD-rev1\Generated_Source\PSoC4</v>
+<v>bank-protocol\CARD-rev2</v>
+<v>bank-protocol\CARD-rev2\TopDesign</v>
+<v>bank-protocol\CARD-rev2\CARD-rev2.cydwr</v>
+<v>bank-protocol\CARD-rev2\CARD-rev2.cydwr\Pins</v>
+<v>bank-protocol\CARD-rev2\CARD-rev2.cydwr\Analog</v>
+<v>bank-protocol\CARD-rev2\CARD-rev2.cydwr\Clocks</v>
+<v>bank-protocol\CARD-rev2\CARD-rev2.cydwr\Interrupts</v>
+<v>bank-protocol\CARD-rev2\CARD-rev2.cydwr\System</v>
+<v>bank-protocol\CARD-rev2\CARD-rev2.cydwr\Directives</v>
+<v>bank-protocol\CARD-rev2\CARD-rev2.cydwr\Flash Security</v>
+<v>bank-protocol\CARD-rev2\Header Files</v>
+<v>bank-protocol\CARD-rev2\Header Files\cyapicallbacks.h</v>
+<v>bank-protocol\CARD-rev2\Source Files</v>
+<v>bank-protocol\CARD-rev2\Source Files\main.c</v>
 </ExpandedNodeIds>
 <VisibleNodeIds>
-<v>bank-protocol\CARD-rev1\Source Files\camellia.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\cbcmac.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\ccm.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\certs.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\chash.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\cipher.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\cipher_wrap.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\cmac.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\ctr_drbg.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\debug.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\des.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\dhm.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\drbg.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\eax.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\ecdh.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\ecdsa.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\ecjpake.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\ecp.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\ecp_curves.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\entropy.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\entropy_poll.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\error.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\gcm.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\gf128.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\havege.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\hmac.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\hmac_drbg.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\main.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\md.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\md_wrap.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\md2.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\md4.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\md5.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\memory_buffer_alloc.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\modes.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\net_sockets.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\norx.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\ocb.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\oid.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\padlock.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\pbkdf2.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\pem.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\pk.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\pk_wrap.c</v>
-<v>bank-protocol\CARD-rev1\Source Files\pkcs11.c</v>
+<v>bank-protocol</v>
+<v>bank-protocol\bank-protocol</v>
+<v>bank-protocol\bank-protocol-rev2</v>
+<v>bank-protocol\bank-protocol-rev3</v>
+<v>bank-protocol\CARD-rev1</v>
+<v>bank-protocol\CARD-rev1\TopDesign</v>
+<v>bank-protocol\CARD-rev1\CARD-rev1.cydwr</v>
+<v>bank-protocol\CARD-rev1\CARD-rev1.cydwr\Pins</v>
+<v>bank-protocol\CARD-rev1\CARD-rev1.cydwr\Analog</v>
+<v>bank-protocol\CARD-rev1\CARD-rev1.cydwr\Clocks</v>
+<v>bank-protocol\CARD-rev1\CARD-rev1.cydwr\Interrupts</v>
+<v>bank-protocol\CARD-rev1\CARD-rev1.cydwr\System</v>
+<v>bank-protocol\CARD-rev1\CARD-rev1.cydwr\Directives</v>
+<v>bank-protocol\CARD-rev1\CARD-rev1.cydwr\Flash Security</v>
+<v>bank-protocol\CARD-rev1\Header Files</v>
+<v>bank-protocol\CARD-rev1\Header Files\aes.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\bitops.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\blockwise.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\cf_config.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\chacha20poly1305.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\chash.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\curve25519.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\cyapicallbacks.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\drbg.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\gf128.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\handy.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\hmac.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\modes.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\norx.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\pbkdf2.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\poly1305.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\prp.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\salsa20.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\sha1.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\sha2.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\sha3.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\tassert.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\testsha.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\testutil.h</v>
+<v>bank-protocol\CARD-rev1\Header Files\usbserialprotocol.h</v>
+<v>bank-protocol\CARD-rev1\Source Files</v>
+<v>bank-protocol\CARD-rev1\Source Files\aes.c</v>
+<v>bank-protocol\CARD-rev1\Source Files\aesni.c</v>
+<v>bank-protocol\CARD-rev1\Source Files\arc4.c</v>
+<v>bank-protocol\CARD-rev1\Source Files\asn1parse.c</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 <CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
@@ -425,6 +438,9 @@
 <v>bank-protocol\CARD-rev1</v>
 <v>bank-protocol\CARD-rev1\TopDesign</v>
 <v>bank-protocol\CARD-rev1\TopDesign\TopDesign.cysch</v>
+<v>bank-protocol\CARD-rev2</v>
+<v>bank-protocol\CARD-rev2\TopDesign</v>
+<v>bank-protocol\CARD-rev2\TopDesign\TopDesign.cysch</v>
 </ExpandedNodeIds>
 <VisibleNodeIds>
 <v>bank-protocol</v>
@@ -440,6 +456,9 @@
 <v>bank-protocol\CARD-rev1</v>
 <v>bank-protocol\CARD-rev1\TopDesign</v>
 <v>bank-protocol\CARD-rev1\TopDesign\TopDesign.cysch</v>
+<v>bank-protocol\CARD-rev2</v>
+<v>bank-protocol\CARD-rev2\TopDesign</v>
+<v>bank-protocol\CARD-rev2\TopDesign\TopDesign.cysch</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 <CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
@@ -1076,6 +1095,10 @@
 <v>bank-protocol\CARD-rev1\CARD-rev1.gpdsc</v>
 <v>bank-protocol\CARD-rev1\CARD-rev1.rpt</v>
 <v>bank-protocol\CARD-rev1\CARD-rev1_timing.html</v>
+<v>bank-protocol\CARD-rev2</v>
+<v>bank-protocol\CARD-rev2\CARD-rev2.gpdsc</v>
+<v>bank-protocol\CARD-rev2\CARD-rev2.rpt</v>
+<v>bank-protocol\CARD-rev2\CARD-rev2_timing.html</v>
 </ExpandedNodeIds>
 <VisibleNodeIds>
 <v>bank-protocol</v>
@@ -1213,6 +1236,12 @@
 <v>bank-protocol\CARD-rev1\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
 <v>bank-protocol\CARD-rev1\Em_EEPROM_v2_0.pdf</v>
 <v>bank-protocol\CARD-rev1\UART_v2_50.pdf</v>
+<v>bank-protocol\CARD-rev2</v>
+<v>bank-protocol\CARD-rev2\PSoC 4 Architecture TRM</v>
+<v>bank-protocol\CARD-rev2\PSoC 4200 Family Datasheet</v>
+<v>bank-protocol\CARD-rev2\System Reference Guides</v>
+<v>bank-protocol\CARD-rev2\System Reference Guides\cy_boot_v5_70</v>
+<v>bank-protocol\CARD-rev2\System Reference Guides\cy_lfclk_v1_20</v>
 </ExpandedNodeIds>
 <VisibleNodeIds>
 <v>bank-protocol</v>
@@ -1275,8 +1304,8 @@
 <Unloaded />
 <OpenDocs>
 <name v=".\CARD-rev1.cydsn\TopDesign\TopDesign.cysch" />
-<name v=".\CARD-rev1.cydsn\main.c" />
 <name v=".\CARD-rev1.cydsn\usbserialprotocol.c" />
+<name v=".\CARD-rev1.cydsn\main.c" />
 </OpenDocs>
 <OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
 
@@ -1284,7 +1313,7 @@
   Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
   http://www.actiprosoftware.com
 
---><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1365, 588" SelectedTabbedMdiWindow="db69becd-cd39-45cf-9790-ffb261dc0ada"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="370cbc9b-cdbd-42a4-a9ab-b36fde3ff8ac" /><DocumentWindow Key="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\CARD-rev1.cydsn\TopDesign\TopDesign.cysch" Guid="7ebcf066-3872-4556-9918-97fc9aeca38d" /><DocumentWindow Key="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\CARD-rev1.cydsn\main.c" Guid="6b299fce-3ca4-45d4-bf88-b1da89bd0107" /><DocumentWindow Key="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\CARD-rev1.cydsn\usbserialprotocol.c" Guid="db69becd-cd39-45cf-9790-ffb261dc0ada" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1365, 588" SelectedTabbedMdiWindow="f5f6ea6a-1d53-4d4d-903e-6f25701af1e3"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="370cbc9b-cdbd-42a4-a9ab-b36fde3ff8ac" /><DocumentWindow Key="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\CARD-rev1.cydsn\TopDesign\TopDesign.cysch" Guid="7ebcf066-3872-4556-9918-97fc9aeca38d" /><DocumentWindow Key="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\CARD-rev1.cydsn\usbserialprotocol.c" Guid="db69becd-cd39-45cf-9790-ffb261dc0ada" /><DocumentWindow Key="C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\CARD-rev1.cydsn\main.c" Guid="f5f6ea6a-1d53-4d4d-903e-6f25701af1e3" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
 <config v="" />
 <AutoUpdate v="true" />
 </CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>
