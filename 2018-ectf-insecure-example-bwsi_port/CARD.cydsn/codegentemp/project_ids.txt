@@ -1,6 +1,0 @@
-C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|18574078-39ab-4fee-a1f6-ca17575ea223
-C:\Users\Larry\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|eec5be9a-d620-42b9-aa71-89a2a3b1cce5
-C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|3555fdc3-309d-4c14-9c9f-a9e5aa5b6966
-C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|af5c16c3-a816-4aeb-9651-a09b385153c3
-C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|637aae03-2efc-4da7-8a40-3e2a0bfdb4bc
-C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\2018-ectf-insecure-example-bwsi_port\CARD.cydsn\CARD.cyprj|a59bb569-6716-45e8-bd86-8238b051c0a3
