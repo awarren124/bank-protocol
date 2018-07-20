@@ -62,7 +62,11 @@ int main (void)
     
     UART_Start();
     
-    /* Declare vairables here */
+    /* Declare variables here */
+    const uint8 eeprom_ref[EEPROM_PHYSICAL_SIZE] __ALIGNED(CY_FLASH_SIZEOF_ROW) = {0u};
+    EEPROM_Init((uint32)eeprom_ref);
+
+    
     uint8 message[128];
     
     //while(1) UART_UartPutString("HELLO WORLD!\r\n");
