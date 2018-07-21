@@ -20,6 +20,7 @@ int main(void)
     for(;;)
     {
         /* Place your application code here. */
+        
         UART_PutString("Hey, PSoC\t");
     }
 }
