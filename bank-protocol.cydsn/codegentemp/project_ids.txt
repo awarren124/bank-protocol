@@ -1,7 +1,10 @@
-C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\bank-protocol.cyprj|ac12e0d8-020c-419f-89a8-f40144e827fa
-C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|423d1e3f-9be9-4b57-a012-ad007152c29c
-C:\Users\Larry\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|0172a131-5ea3-442c-8abd-cbc2c05d6a52
-C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|72ab9a9f-317a-48aa-8d40-cd5a0b992a47
-C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|be6a28df-853a-49c1-8d3f-940542beb7e1
-C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|9443bdc4-adf3-450b-80ad-7ce4037e7d84
-C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol-rev2.cydsn\bank-protocol-rev2.cyprj|7ee70ded-bef8-41de-ad44-1866dff31075
+C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol.cydsn\bank-protocol.cyprj|c2c307f5-6f56-4466-bca0-f52b5fe72701
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|fce95014-0170-476b-8b86-b088bafffaf8
+C:\Users\Larry\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|8727679c-e9c3-4470-bf16-361cfe168b67
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|c177df81-88df-4937-85c0-b15cf0664017
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|5a63c67c-d111-4204-b503-431a2132be8b
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|d75b0950-e3f4-4c6a-ae19-9f8d1585f636
+C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol-rev2.cydsn\bank-protocol-rev2.cyprj|c5666856-f2e5-4774-8fbf-c20930f73114
+C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\bank-protocol-rev3.cydsn\bank-protocol-rev3.cyprj|2643755c-9307-4263-8f4b-6b1d9fdbbe3b
+C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\CARD-rev1.cydsn\CARD-rev1.cyprj|91f72f9d-6ca9-4290-aa33-5359a2cafb57
+C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\CARD-rev2.cydsn\CARD-rev2.cyprj|0162fbdd-af9a-4665-8b64-44d819118dab

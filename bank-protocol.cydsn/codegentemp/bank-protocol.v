@@ -1,6 +1,6 @@
 // ======================================================================
 // bank-protocol.v generated from TopDesign.cysch
-// 07/17/2018 at 15:54
+// 07/20/2018 at 20:28
 // This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 // ======================================================================
 
