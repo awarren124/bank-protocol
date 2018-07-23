@@ -1,11 +1,14 @@
 import logging
 import sys
 import cmd
-from interface import card
+# from interface import card
 import os
 import json
 import argparse
-from encryptionHandler import EncryptionHandler
+from ... import EncryptionHandler
+print "asd"
+encryptionHandler = EncryptionHandler()
+print encryptionHandler.aesDecrypt(encryptionHandler.aesEncrypt("helloooo!!!","abcdef1234567890"), "abcdef1234567890")
 
 log = logging.getLogger('')
 log.setLevel(logging.DEBUG)
@@ -14,8 +17,6 @@ log_format = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
 ch = logging.StreamHandler(sys.stdout)
 ch.setFormatter(log_format)
 log.addHandler(ch)
-encryptionHandler = EncryptionHandler()
-
 class ATM(cmd.Cmd, object):
     """Interface for ATM xmlrpc server
 
