@@ -1,282 +1,10 @@
---------------- Rebuild Started: 07/22/2018 20:40:03 Project: CARD-rev3, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ccm.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\eax.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\gcm.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ccopy.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\dec16be.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\dec16le.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\dec32be.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\dec32le.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\dec64be.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\dec64le.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\enc16be.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\enc16le.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\enc32be.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\enc32le.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\enc64be.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\enc64le.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\pemdec.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ec_all_m15.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ec_all_m31.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ec_c25519_i15.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ec_c25519_i31.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ec_c25519_m15.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ec_c25519_m31.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ec_curve25519.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ec_default.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ec_p256_m15.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ec_p256_m31.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ec_prime_i15.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ec_prime_i31.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ec_secp256r1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ec_secp384r1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ec_secp521r1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ecdsa_atr.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ecdsa_default_sign_asn1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ecdsa_default_sign_raw.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ecdsa_default_vrfy_asn1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ecdsa_default_vrfy_raw.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ecdsa_i15_bits.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ecdsa_i15_sign_asn1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ecdsa_i15_sign_raw.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ecdsa_i15_vrfy_asn1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ecdsa_i15_vrfy_raw.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ecdsa_i31_bits.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ecdsa_i31_sign_asn1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ecdsa_i31_sign_raw.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ecdsa_i31_vrfy_asn1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ecdsa_i31_vrfy_raw.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ecdsa_rta.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\dig_oid.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\dig_size.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ghash_ctmul.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ghash_ctmul32.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ghash_ctmul64.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ghash_pclmul.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ghash_pwr8.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\md5.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\md5sha1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\mgf1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\multihash.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\sha1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\sha2big.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\sha2small.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i15_add.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i15_bitlen.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i15_decmod.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i15_decode.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i15_decred.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i15_encode.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i15_fmont.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i15_iszero.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i15_modpow.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i15_modpow2.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i15_montmul.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i15_mulacc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i15_muladd.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i15_ninv15.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i15_reduce.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i15_rshift.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i15_sub.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i15_tmont.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i31_add.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i31_bitlen.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i31_decmod.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i31_decode.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i31_decred.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i31_encode.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i31_fmont.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i31_iszero.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i31_modpow.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i31_modpow2.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i31_montmul.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i31_mulacc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i31_muladd.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i31_ninv31.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i31_reduce.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i31_rshift.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i31_sub.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i31_tmont.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i32_add.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i32_bitlen.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i32_decmod.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i32_decode.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i32_decred.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i32_div32.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i32_encode.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i32_fmont.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i32_iszero.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i32_modpow.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i32_montmul.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i32_mulacc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i32_muladd.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i32_ninv32.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i32_reduce.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i32_sub.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i32_tmont.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\i62_modpow2.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\hmac.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\hmac_ct.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\hmac_drbg.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\sysrng.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_default_oaep_decrypt.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_default_oaep_encrypt.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_default_pkcs1_sign.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_default_pkcs1_vrfy.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_default_priv.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_default_pub.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i15_oaep_decrypt.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i15_oaep_encrypt.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i15_pkcs1_sign.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i15_pkcs1_vrfy.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i15_priv.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i15_pub.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i31_oaep_decrypt.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i31_oaep_encrypt.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i31_pkcs1_sign.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i31_pkcs1_vrfy.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i31_priv.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i31_pub.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i32_oaep_decrypt.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i32_oaep_encrypt.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i32_pkcs1_sign.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i32_pkcs1_vrfy.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i32_priv.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i32_pub.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i62_oaep_decrypt.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i62_oaep_encrypt.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i62_pkcs1_sign.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i62_pkcs1_vrfy.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i62_priv.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_i62_pub.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_oaep_pad.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_oaep_unpad.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_pkcs1_sig_pad.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_pkcs1_sig_unpad.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\rsa_ssl_decrypt.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\prf.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\prf_md5sha1.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\prf_sha256.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\prf_sha384.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_ccert_single_ec.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_ccert_single_rsa.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_client.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_client_default_rsapub.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_client_full.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_engine.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_aescbc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_aesgcm.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_chapol.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_descbc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_ec.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_ecdsa.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_rsavrfy.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_hashes.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_hs_client.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_hs_server.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_io.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_keyexport.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_lru.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_rec_cbc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_rec_chapol.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_rec_gcm.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_scert_single_ec.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_scert_single_rsa.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_server.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_server_full_ec.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_server_full_rsa.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_server_mine2c.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_server_mine2g.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_server_minf2c.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_server_minf2g.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_server_minr2g.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_server_minu2g.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\ssl_server_minv2g.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_big_cbcdec.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_big_cbcenc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_big_ctr.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_big_ctrcbc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_big_dec.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_big_enc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_common.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_ct.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_ct_cbcdec.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_ct_cbcenc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_ct_ctr.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_ct_ctrcbc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_ct_dec.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_ct_enc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_ct64.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_ct64_cbcdec.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_ct64_cbcenc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_ct64_ctr.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_ct64_ctrcbc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_ct64_dec.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_ct64_enc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_pwr8.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_pwr8_cbcdec.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_pwr8_cbcenc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_pwr8_ctr.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_small_cbcdec.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_small_cbcenc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_small_ctr.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_small_ctrcbc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_small_dec.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_small_enc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_x86ni.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_x86ni_cbcdec.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_x86ni_cbcenc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_x86ni_ctr.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes_x86ni_ctrcbc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\chacha20_ct.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\chacha20_sse2.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\des_ct.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\des_ct_cbcdec.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\des_ct_cbcenc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\des_support.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\des_tab.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\des_tab_cbcdec.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\des_tab_cbcenc.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\poly1305_ctmul.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\poly1305_ctmul32.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\poly1305_ctmulq.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\poly1305_i15.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\skey_decoder.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\x509_decoder.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\x509_knownkey.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\x509_minimal.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\x509_minimal_full.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cymetadata.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\Cm0Start.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyFlash.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyLib.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyPm.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cyutils.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyBootAsmGnu.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CyLFClk.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\cy_em_eeprom.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\UART.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\UART_PM.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\UART_INT.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\UART_BOOT.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\UART_IntClock.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CARD-rev3.hex"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CARD-rev3.elf"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\CARD-rev3.map"
-Deleting file ".\CARD-rev3.cycdx"
-Deleting file ".\CARD-rev3.svd"
-Deleting file ".\CARD-rev3.rpt"
-Deleting file ".\CARD-rev3_timing.html"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\.deps\SOURCE_C__ARM_GCC_GENERIC.P"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\.deps\SOURCE_ASM__ARM_GCC_GENERIC.P"
+--------------- Rebuild Started: 07/23/2018 10:09:28 Project: CARD-rev3, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 cydsfit.exe -.appdatapath "C:\Users\Heckerman\AppData\Local\Cypress Semiconductor\PSoC Creator\4.2" -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -.fdsreffile=referenced_files.txt -p "C:\Users\Heckerman\PSoC Creator Projects\bank-protocol\CARD-rev3.cydsn\CARD-rev3.cyprj" -d CY8C4245AXI-483 -s "C:\Users\Heckerman\PSoC Creator Projects\bank-protocol\CARD-rev3.cydsn\Generated_Source\PSoC4" -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE
 Elaborating Design...
 HDL Generation...
 Synthesis...
 Tech Mapping...
-ADD: pft.M0040: information: The following 1 pin(s) will be assigned a location by the fitter: Rx_1(0)
+ADD: pft.M0040: information: The following 4 pin(s) will be assigned a location by the fitter: \USB_UART:rx(0)\, \USB_UART:tx(0)\, Rx_1(0), SW1(0)
 Analog Placement...
 Analog Routing...
 Analog Code Generation...
@@ -536,29 +264,47 @@ arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/x509_knownkey.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c src\x509\x509_knownkey.c -o .\CortexM0\ARM_GCC_541\Debug\x509_knownkey.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/x509_minimal.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c src\x509\x509_minimal.c -o .\CortexM0\ARM_GCC_541\Debug\x509_minimal.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/x509_minimal_full.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c src\x509\x509_minimal_full.c -o .\CortexM0\ARM_GCC_541\Debug\x509_minimal_full.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/usbserialprotocol.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c usbserialprotocol.c -o .\CortexM0\ARM_GCC_541\Debug\usbserialprotocol.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/cyfitter_cfg.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\cyfitter_cfg.c -o .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/cymetadata.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\cymetadata.c -o .\CortexM0\ARM_GCC_541\Debug\cymetadata.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/UART.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\UART.c -o .\CortexM0\ARM_GCC_541\Debug\UART.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/UART_PM.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\UART_PM.c -o .\CortexM0\ARM_GCC_541\Debug\UART_PM.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/UART_INT.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\UART_INT.c -o .\CortexM0\ARM_GCC_541\Debug\UART_INT.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/UART_BOOT.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\UART_BOOT.c -o .\CortexM0\ARM_GCC_541\Debug\UART_BOOT.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/UART_IntClock.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\UART_IntClock.c -o .\CortexM0\ARM_GCC_541\Debug\UART_IntClock.o
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/cy_em_eeprom.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\cy_em_eeprom.c -o .\CortexM0\ARM_GCC_541\Debug\cy_em_eeprom.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/ATM_UART.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\ATM_UART.c -o .\CortexM0\ARM_GCC_541\Debug\ATM_UART.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/ATM_UART_PM.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\ATM_UART_PM.c -o .\CortexM0\ARM_GCC_541\Debug\ATM_UART_PM.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/ATM_UART_INT.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\ATM_UART_INT.c -o .\CortexM0\ARM_GCC_541\Debug\ATM_UART_INT.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/ATM_UART_BOOT.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\ATM_UART_BOOT.c -o .\CortexM0\ARM_GCC_541\Debug\ATM_UART_BOOT.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/USER_INFO.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\USER_INFO.c -o .\CortexM0\ARM_GCC_541\Debug\USER_INFO.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/USB_UART.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\USB_UART.c -o .\CortexM0\ARM_GCC_541\Debug\USB_UART.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/USB_UART_SPI_UART.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\USB_UART_SPI_UART.c -o .\CortexM0\ARM_GCC_541\Debug\USB_UART_SPI_UART.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/USB_UART_SPI_UART_INT.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\USB_UART_SPI_UART_INT.c -o .\CortexM0\ARM_GCC_541\Debug\USB_UART_SPI_UART_INT.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/USB_UART_PM.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\USB_UART_PM.c -o .\CortexM0\ARM_GCC_541\Debug\USB_UART_PM.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/USB_UART_UART.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\USB_UART_UART.c -o .\CortexM0\ARM_GCC_541\Debug\USB_UART_UART.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/USB_UART_BOOT.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\USB_UART_BOOT.c -o .\CortexM0\ARM_GCC_541\Debug\USB_UART_BOOT.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/USB_UART_UART_BOOT.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\USB_UART_UART_BOOT.c -o .\CortexM0\ARM_GCC_541\Debug\USB_UART_UART_BOOT.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Reset_isr.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\Reset_isr.c -o .\CortexM0\ARM_GCC_541\Debug\Reset_isr.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/SW1.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\SW1.c -o .\CortexM0\ARM_GCC_541\Debug\SW1.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/SW1_PM.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\SW1_PM.c -o .\CortexM0\ARM_GCC_541\Debug\SW1_PM.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/ATM_UART_IntClock.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\ATM_UART_IntClock.c -o .\CortexM0\ARM_GCC_541\Debug\ATM_UART_IntClock.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/USB_UART_SCBCLK.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\USB_UART_SCBCLK.c -o .\CortexM0\ARM_GCC_541\Debug\USB_UART_SCBCLK.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/USB_UART_tx.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\USB_UART_tx.c -o .\CortexM0\ARM_GCC_541\Debug\USB_UART_tx.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/USB_UART_tx_PM.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\USB_UART_tx_PM.c -o .\CortexM0\ARM_GCC_541\Debug\USB_UART_tx_PM.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/USB_UART_SCB_IRQ.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\USB_UART_SCB_IRQ.c -o .\CortexM0\ARM_GCC_541\Debug\USB_UART_SCB_IRQ.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/USB_UART_rx.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\USB_UART_rx.c -o .\CortexM0\ARM_GCC_541\Debug\USB_UART_rx.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/USB_UART_rx_PM.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\USB_UART_rx_PM.c -o .\CortexM0\ARM_GCC_541\Debug\USB_UART_rx_PM.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/Cm0Start.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\Cm0Start.c -o .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/CyFlash.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\CyFlash.c -o .\CortexM0\ARM_GCC_541\Debug\CyFlash.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/CyLib.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\CyLib.c -o .\CortexM0\ARM_GCC_541\Debug\CyLib.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/cyPm.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\cyPm.c -o .\CortexM0\ARM_GCC_541\Debug\cyPm.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/cyutils.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\cyutils.c -o .\CortexM0\ARM_GCC_541\Debug\cyutils.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/CyLFClk.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\CyLFClk.c -o .\CortexM0\ARM_GCC_541\Debug\CyLFClk.o
+arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/cy_em_eeprom.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c Generated_Source\PSoC4\cy_em_eeprom.c -o .\CortexM0\ARM_GCC_541\Debug\cy_em_eeprom.o
 arm-none-eabi-as.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -alh=.\CortexM0\ARM_GCC_541\Debug/CyBootAsmGnu.lst -g -W -o .\CortexM0\ARM_GCC_541\Debug\CyBootAsmGnu.o Generated_Source\PSoC4\CyBootAsmGnu.s
-arm-none-eabi-ar.exe -rs .\CortexM0\ARM_GCC_541\Debug\CARD-rev3.a .\CortexM0\ARM_GCC_541\Debug\UART.o .\CortexM0\ARM_GCC_541\Debug\UART_PM.o .\CortexM0\ARM_GCC_541\Debug\UART_INT.o .\CortexM0\ARM_GCC_541\Debug\UART_BOOT.o .\CortexM0\ARM_GCC_541\Debug\UART_IntClock.o .\CortexM0\ARM_GCC_541\Debug\cy_em_eeprom.o .\CortexM0\ARM_GCC_541\Debug\CyFlash.o .\CortexM0\ARM_GCC_541\Debug\CyLib.o .\CortexM0\ARM_GCC_541\Debug\cyPm.o .\CortexM0\ARM_GCC_541\Debug\cyutils.o .\CortexM0\ARM_GCC_541\Debug\CyLFClk.o .\CortexM0\ARM_GCC_541\Debug\CyBootAsmGnu.o
+arm-none-eabi-ar.exe -rs .\CortexM0\ARM_GCC_541\Debug\CARD-rev3.a .\CortexM0\ARM_GCC_541\Debug\ATM_UART.o .\CortexM0\ARM_GCC_541\Debug\ATM_UART_PM.o .\CortexM0\ARM_GCC_541\Debug\ATM_UART_INT.o .\CortexM0\ARM_GCC_541\Debug\ATM_UART_BOOT.o .\CortexM0\ARM_GCC_541\Debug\USER_INFO.o .\CortexM0\ARM_GCC_541\Debug\USB_UART.o .\CortexM0\ARM_GCC_541\Debug\USB_UART_SPI_UART.o .\CortexM0\ARM_GCC_541\Debug\USB_UART_SPI_UART_INT.o .\CortexM0\ARM_GCC_541\Debug\USB_UART_PM.o .\CortexM0\ARM_GCC_541\Debug\USB_UART_UART.o .\CortexM0\ARM_GCC_541\Debug\USB_UART_BOOT.o .\CortexM0\ARM_GCC_541\Debug\USB_UART_UART_BOOT.o .\CortexM0\ARM_GCC_541\Debug\Reset_isr.o .\CortexM0\ARM_GCC_541\Debug\SW1.o .\CortexM0\ARM_GCC_541\Debug\SW1_PM.o .\CortexM0\ARM_GCC_541\Debug\ATM_UART_IntClock.o .\CortexM0\ARM_GCC_541\Debug\USB_UART_SCBCLK.o .\CortexM0\ARM_GCC_541\Debug\USB_UART_tx.o .\CortexM0\ARM_GCC_541\Debug\USB_UART_tx_PM.o .\CortexM0\ARM_GCC_541\Debug\USB_UART_SCB_IRQ.o .\CortexM0\ARM_GCC_541\Debug\USB_UART_rx.o .\CortexM0\ARM_GCC_541\Debug\USB_UART_rx_PM.o .\CortexM0\ARM_GCC_541\Debug\CyFlash.o .\CortexM0\ARM_GCC_541\Debug\CyLib.o .\CortexM0\ARM_GCC_541\Debug\cyPm.o .\CortexM0\ARM_GCC_541\Debug\cyutils.o .\CortexM0\ARM_GCC_541\Debug\CyLFClk.o .\CortexM0\ARM_GCC_541\Debug\cy_em_eeprom.o .\CortexM0\ARM_GCC_541\Debug\CyBootAsmGnu.o
 arm-none-eabi-ar.exe: creating .\CortexM0\ARM_GCC_541\Debug\CARD-rev3.a
-arm-none-eabi-gcc.exe -Wl,--start-group -o "C:\Users\Heckerman\PSoC Creator Projects\bank-protocol\CARD-rev3.cydsn\CortexM0\ARM_GCC_541\Debug\CARD-rev3.elf" .\CortexM0\ARM_GCC_541\Debug\main.o .\CortexM0\ARM_GCC_541\Debug\ccm.o .\CortexM0\ARM_GCC_541\Debug\eax.o .\CortexM0\ARM_GCC_541\Debug\gcm.o .\CortexM0\ARM_GCC_541\Debug\ccopy.o .\CortexM0\ARM_GCC_541\Debug\dec16be.o .\CortexM0\ARM_GCC_541\Debug\dec16le.o .\CortexM0\ARM_GCC_541\Debug\dec32be.o .\CortexM0\ARM_GCC_541\Debug\dec32le.o .\CortexM0\ARM_GCC_541\Debug\dec64be.o .\CortexM0\ARM_GCC_541\Debug\dec64le.o .\CortexM0\ARM_GCC_541\Debug\enc16be.o .\CortexM0\ARM_GCC_541\Debug\enc16le.o .\CortexM0\ARM_GCC_541\Debug\enc32be.o .\CortexM0\ARM_GCC_541\Debug\enc32le.o .\CortexM0\ARM_GCC_541\Debug\enc64be.o .\CortexM0\ARM_GCC_541\Debug\enc64le.o .\CortexM0\ARM_GCC_541\Debug\pemdec.o .\CortexM0\ARM_GCC_541\Debug\ec_all_m15.o .\CortexM0\ARM_GCC_541\Debug\ec_all_m31.o .\CortexM0\ARM_GCC_541\Debug\ec_c25519_i15.o .\CortexM0\ARM_GCC_541\Debug\ec_c25519_i31.o .\CortexM0\ARM_GCC_541\Debug\ec_c25519_m15.o .\CortexM0\ARM_GCC_541\Debug\ec_c25519_m31.o .\CortexM0\ARM_GCC_541\Debug\ec_curve25519.o .\CortexM0\ARM_GCC_541\Debug\ec_default.o .\CortexM0\ARM_GCC_541\Debug\ec_p256_m15.o .\CortexM0\ARM_GCC_541\Debug\ec_p256_m31.o .\CortexM0\ARM_GCC_541\Debug\ec_prime_i15.o .\CortexM0\ARM_GCC_541\Debug\ec_prime_i31.o .\CortexM0\ARM_GCC_541\Debug\ec_secp256r1.o .\CortexM0\ARM_GCC_541\Debug\ec_secp384r1.o .\CortexM0\ARM_GCC_541\Debug\ec_secp521r1.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_atr.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_default_sign_asn1.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_default_sign_raw.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_default_vrfy_asn1.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_default_vrfy_raw.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i15_bits.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i15_sign_asn1.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i15_sign_raw.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i15_vrfy_asn1.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i15_vrfy_raw.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i31_bits.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i31_sign_asn1.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i31_sign_raw.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i31_vrfy_asn1.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i31_vrfy_raw.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_rta.o .\CortexM0\ARM_GCC_541\Debug\dig_oid.o .\CortexM0\ARM_GCC_541\Debug\dig_size.o .\CortexM0\ARM_GCC_541\Debug\ghash_ctmul.o .\CortexM0\ARM_GCC_541\Debug\ghash_ctmul32.o .\CortexM0\ARM_GCC_541\Debug\ghash_ctmul64.o .\CortexM0\ARM_GCC_541\Debug\ghash_pclmul.o .\CortexM0\ARM_GCC_541\Debug\ghash_pwr8.o .\CortexM0\ARM_GCC_541\Debug\md5.o .\CortexM0\ARM_GCC_541\Debug\md5sha1.o .\CortexM0\ARM_GCC_541\Debug\mgf1.o .\CortexM0\ARM_GCC_541\Debug\multihash.o .\CortexM0\ARM_GCC_541\Debug\sha1.o .\CortexM0\ARM_GCC_541\Debug\sha2big.o .\CortexM0\ARM_GCC_541\Debug\sha2small.o .\CortexM0\ARM_GCC_541\Debug\i15_add.o .\CortexM0\ARM_GCC_541\Debug\i15_bitlen.o .\CortexM0\ARM_GCC_541\Debug\i15_decmod.o .\CortexM0\ARM_GCC_541\Debug\i15_decode.o .\CortexM0\ARM_GCC_541\Debug\i15_decred.o .\CortexM0\ARM_GCC_541\Debug\i15_encode.o .\CortexM0\ARM_GCC_541\Debug\i15_fmont.o .\CortexM0\ARM_GCC_541\Debug\i15_iszero.o .\CortexM0\ARM_GCC_541\Debug\i15_modpow.o .\CortexM0\ARM_GCC_541\Debug\i15_modpow2.o .\CortexM0\ARM_GCC_541\Debug\i15_montmul.o .\CortexM0\ARM_GCC_541\Debug\i15_mulacc.o .\CortexM0\ARM_GCC_541\Debug\i15_muladd.o .\CortexM0\ARM_GCC_541\Debug\i15_ninv15.o .\CortexM0\ARM_GCC_541\Debug\i15_reduce.o .\CortexM0\ARM_GCC_541\Debug\i15_rshift.o .\CortexM0\ARM_GCC_541\Debug\i15_sub.o .\CortexM0\ARM_GCC_541\Debug\i15_tmont.o .\CortexM0\ARM_GCC_541\Debug\i31_add.o .\CortexM0\ARM_GCC_541\Debug\i31_bitlen.o .\CortexM0\ARM_GCC_541\Debug\i31_decmod.o .\CortexM0\ARM_GCC_541\Debug\i31_decode.o .\CortexM0\ARM_GCC_541\Debug\i31_decred.o .\CortexM0\ARM_GCC_541\Debug\i31_encode.o .\CortexM0\ARM_GCC_541\Debug\i31_fmont.o .\CortexM0\ARM_GCC_541\Debug\i31_iszero.o .\CortexM0\ARM_GCC_541\Debug\i31_modpow.o .\CortexM0\ARM_GCC_541\Debug\i31_modpow2.o .\CortexM0\ARM_GCC_541\Debug\i31_montmul.o .\CortexM0\ARM_GCC_541\Debug\i31_mulacc.o .\CortexM0\ARM_GCC_541\Debug\i31_muladd.o .\CortexM0\ARM_GCC_541\Debug\i31_ninv31.o .\CortexM0\ARM_GCC_541\Debug\i31_reduce.o .\CortexM0\ARM_GCC_541\Debug\i31_rshift.o .\CortexM0\ARM_GCC_541\Debug\i31_sub.o .\CortexM0\ARM_GCC_541\Debug\i31_tmont.o .\CortexM0\ARM_GCC_541\Debug\i32_add.o .\CortexM0\ARM_GCC_541\Debug\i32_bitlen.o .\CortexM0\ARM_GCC_541\Debug\i32_decmod.o .\CortexM0\ARM_GCC_541\Debug\i32_decode.o .\CortexM0\ARM_GCC_541\Debug\i32_decred.o .\CortexM0\ARM_GCC_541\Debug\i32_div32.o .\CortexM0\ARM_GCC_541\Debug\i32_encode.o .\CortexM0\ARM_GCC_541\Debug\i32_fmont.o .\CortexM0\ARM_GCC_541\Debug\i32_iszero.o .\CortexM0\ARM_GCC_541\Debug\i32_modpow.o .\CortexM0\ARM_GCC_541\Debug\i32_montmul.o .\CortexM0\ARM_GCC_541\Debug\i32_mulacc.o .\CortexM0\ARM_GCC_541\Debug\i32_muladd.o .\CortexM0\ARM_GCC_541\Debug\i32_ninv32.o .\CortexM0\ARM_GCC_541\Debug\i32_reduce.o .\CortexM0\ARM_GCC_541\Debug\i32_sub.o .\CortexM0\ARM_GCC_541\Debug\i32_tmont.o .\CortexM0\ARM_GCC_541\Debug\i62_modpow2.o .\CortexM0\ARM_GCC_541\Debug\hmac.o .\CortexM0\ARM_GCC_541\Debug\hmac_ct.o .\CortexM0\ARM_GCC_541\Debug\hmac_drbg.o .\CortexM0\ARM_GCC_541\Debug\sysrng.o .\CortexM0\ARM_GCC_541\Debug\rsa_default_oaep_decrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_default_oaep_encrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_default_pkcs1_sign.o .\CortexM0\ARM_GCC_541\Debug\rsa_default_pkcs1_vrfy.o .\CortexM0\ARM_GCC_541\Debug\rsa_default_priv.o .\CortexM0\ARM_GCC_541\Debug\rsa_default_pub.o .\CortexM0\ARM_GCC_541\Debug\rsa_i15_oaep_decrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_i15_oaep_encrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_i15_pkcs1_sign.o .\CortexM0\ARM_GCC_541\Debug\rsa_i15_pkcs1_vrfy.o .\CortexM0\ARM_GCC_541\Debug\rsa_i15_priv.o .\CortexM0\ARM_GCC_541\Debug\rsa_i15_pub.o .\CortexM0\ARM_GCC_541\Debug\rsa_i31_oaep_decrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_i31_oaep_encrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_i31_pkcs1_sign.o .\CortexM0\ARM_GCC_541\Debug\rsa_i31_pkcs1_vrfy.o .\CortexM0\ARM_GCC_541\Debug\rsa_i31_priv.o .\CortexM0\ARM_GCC_541\Debug\rsa_i31_pub.o .\CortexM0\ARM_GCC_541\Debug\rsa_i32_oaep_decrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_i32_oaep_encrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_i32_pkcs1_sign.o .\CortexM0\ARM_GCC_541\Debug\rsa_i32_pkcs1_vrfy.o .\CortexM0\ARM_GCC_541\Debug\rsa_i32_priv.o .\CortexM0\ARM_GCC_541\Debug\rsa_i32_pub.o .\CortexM0\ARM_GCC_541\Debug\rsa_i62_oaep_decrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_i62_oaep_encrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_i62_pkcs1_sign.o .\CortexM0\ARM_GCC_541\Debug\rsa_i62_pkcs1_vrfy.o .\CortexM0\ARM_GCC_541\Debug\rsa_i62_priv.o .\CortexM0\ARM_GCC_541\Debug\rsa_i62_pub.o .\CortexM0\ARM_GCC_541\Debug\rsa_oaep_pad.o .\CortexM0\ARM_GCC_541\Debug\rsa_oaep_unpad.o .\CortexM0\ARM_GCC_541\Debug\rsa_pkcs1_sig_pad.o .\CortexM0\ARM_GCC_541\Debug\rsa_pkcs1_sig_unpad.o .\CortexM0\ARM_GCC_541\Debug\rsa_ssl_decrypt.o .\CortexM0\ARM_GCC_541\Debug\prf.o .\CortexM0\ARM_GCC_541\Debug\prf_md5sha1.o .\CortexM0\ARM_GCC_541\Debug\prf_sha256.o .\CortexM0\ARM_GCC_541\Debug\prf_sha384.o .\CortexM0\ARM_GCC_541\Debug\ssl_ccert_single_ec.o .\CortexM0\ARM_GCC_541\Debug\ssl_ccert_single_rsa.o .\CortexM0\ARM_GCC_541\Debug\ssl_client.o .\CortexM0\ARM_GCC_541\Debug\ssl_client_default_rsapub.o .\CortexM0\ARM_GCC_541\Debug\ssl_client_full.o .\CortexM0\ARM_GCC_541\Debug\ssl_engine.o .\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_aescbc.o .\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_aesgcm.o .\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_chapol.o .\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_descbc.o .\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_ec.o .\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_ecdsa.o .\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_rsavrfy.o .\CortexM0\ARM_GCC_541\Debug\ssl_hashes.o .\CortexM0\ARM_GCC_541\Debug\ssl_hs_client.o .\CortexM0\ARM_GCC_541\Debug\ssl_hs_server.o .\CortexM0\ARM_GCC_541\Debug\ssl_io.o .\CortexM0\ARM_GCC_541\Debug\ssl_keyexport.o .\CortexM0\ARM_GCC_541\Debug\ssl_lru.o .\CortexM0\ARM_GCC_541\Debug\ssl_rec_cbc.o .\CortexM0\ARM_GCC_541\Debug\ssl_rec_chapol.o .\CortexM0\ARM_GCC_541\Debug\ssl_rec_gcm.o .\CortexM0\ARM_GCC_541\Debug\ssl_scert_single_ec.o .\CortexM0\ARM_GCC_541\Debug\ssl_scert_single_rsa.o .\CortexM0\ARM_GCC_541\Debug\ssl_server.o .\CortexM0\ARM_GCC_541\Debug\ssl_server_full_ec.o .\CortexM0\ARM_GCC_541\Debug\ssl_server_full_rsa.o .\CortexM0\ARM_GCC_541\Debug\ssl_server_mine2c.o .\CortexM0\ARM_GCC_541\Debug\ssl_server_mine2g.o .\CortexM0\ARM_GCC_541\Debug\ssl_server_minf2c.o .\CortexM0\ARM_GCC_541\Debug\ssl_server_minf2g.o .\CortexM0\ARM_GCC_541\Debug\ssl_server_minr2g.o .\CortexM0\ARM_GCC_541\Debug\ssl_server_minu2g.o .\CortexM0\ARM_GCC_541\Debug\ssl_server_minv2g.o .\CortexM0\ARM_GCC_541\Debug\aes_big_cbcdec.o .\CortexM0\ARM_GCC_541\Debug\aes_big_cbcenc.o .\CortexM0\ARM_GCC_541\Debug\aes_big_ctr.o .\CortexM0\ARM_GCC_541\Debug\aes_big_ctrcbc.o .\CortexM0\ARM_GCC_541\Debug\aes_big_dec.o .\CortexM0\ARM_GCC_541\Debug\aes_big_enc.o .\CortexM0\ARM_GCC_541\Debug\aes_common.o .\CortexM0\ARM_GCC_541\Debug\aes_ct.o .\CortexM0\ARM_GCC_541\Debug\aes_ct_cbcdec.o .\CortexM0\ARM_GCC_541\Debug\aes_ct_cbcenc.o .\CortexM0\ARM_GCC_541\Debug\aes_ct_ctr.o .\CortexM0\ARM_GCC_541\Debug\aes_ct_ctrcbc.o .\CortexM0\ARM_GCC_541\Debug\aes_ct_dec.o .\CortexM0\ARM_GCC_541\Debug\aes_ct_enc.o .\CortexM0\ARM_GCC_541\Debug\aes_ct64.o .\CortexM0\ARM_GCC_541\Debug\aes_ct64_cbcdec.o .\CortexM0\ARM_GCC_541\Debug\aes_ct64_cbcenc.o .\CortexM0\ARM_GCC_541\Debug\aes_ct64_ctr.o .\CortexM0\ARM_GCC_541\Debug\aes_ct64_ctrcbc.o .\CortexM0\ARM_GCC_541\Debug\aes_ct64_dec.o .\CortexM0\ARM_GCC_541\Debug\aes_ct64_enc.o .\CortexM0\ARM_GCC_541\Debug\aes_pwr8.o .\CortexM0\ARM_GCC_541\Debug\aes_pwr8_cbcdec.o .\CortexM0\ARM_GCC_541\Debug\aes_pwr8_cbcenc.o .\CortexM0\ARM_GCC_541\Debug\aes_pwr8_ctr.o .\CortexM0\ARM_GCC_541\Debug\aes_small_cbcdec.o .\CortexM0\ARM_GCC_541\Debug\aes_small_cbcenc.o .\CortexM0\ARM_GCC_541\Debug\aes_small_ctr.o .\CortexM0\ARM_GCC_541\Debug\aes_small_ctrcbc.o .\CortexM0\ARM_GCC_541\Debug\aes_small_dec.o .\CortexM0\ARM_GCC_541\Debug\aes_small_enc.o .\CortexM0\ARM_GCC_541\Debug\aes_x86ni.o .\CortexM0\ARM_GCC_541\Debug\aes_x86ni_cbcdec.o .\CortexM0\ARM_GCC_541\Debug\aes_x86ni_cbcenc.o .\CortexM0\ARM_GCC_541\Debug\aes_x86ni_ctr.o .\CortexM0\ARM_GCC_541\Debug\aes_x86ni_ctrcbc.o .\CortexM0\ARM_GCC_541\Debug\chacha20_ct.o .\CortexM0\ARM_GCC_541\Debug\chacha20_sse2.o .\CortexM0\ARM_GCC_541\Debug\des_ct.o .\CortexM0\ARM_GCC_541\Debug\des_ct_cbcdec.o .\CortexM0\ARM_GCC_541\Debug\des_ct_cbcenc.o .\CortexM0\ARM_GCC_541\Debug\des_support.o .\CortexM0\ARM_GCC_541\Debug\des_tab.o .\CortexM0\ARM_GCC_541\Debug\des_tab_cbcdec.o .\CortexM0\ARM_GCC_541\Debug\des_tab_cbcenc.o .\CortexM0\ARM_GCC_541\Debug\poly1305_ctmul.o .\CortexM0\ARM_GCC_541\Debug\poly1305_ctmul32.o .\CortexM0\ARM_GCC_541\Debug\poly1305_ctmulq.o .\CortexM0\ARM_GCC_541\Debug\poly1305_i15.o .\CortexM0\ARM_GCC_541\Debug\skey_decoder.o .\CortexM0\ARM_GCC_541\Debug\x509_decoder.o .\CortexM0\ARM_GCC_541\Debug\x509_knownkey.o .\CortexM0\ARM_GCC_541\Debug\x509_minimal.o .\CortexM0\ARM_GCC_541\Debug\x509_minimal_full.o .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o .\CortexM0\ARM_GCC_541\Debug\cymetadata.o .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o .\CortexM0\ARM_GCC_541\Debug\CARD-rev3.a -mcpu=cortex-m0 -mthumb -L Generated_Source\PSoC4 -Wl,-Map,.\CortexM0\ARM_GCC_541\Debug/CARD-rev3.map -T Generated_Source\PSoC4\cm0gcc.ld -specs=nano.specs -Wl,--gc-sections -g -ffunction-sections -Og -ffat-lto-objects -Wl,--end-group
+arm-none-eabi-gcc.exe -Wl,--start-group -o "C:\Users\Heckerman\PSoC Creator Projects\bank-protocol\CARD-rev3.cydsn\CortexM0\ARM_GCC_541\Debug\CARD-rev3.elf" .\CortexM0\ARM_GCC_541\Debug\main.o .\CortexM0\ARM_GCC_541\Debug\ccm.o .\CortexM0\ARM_GCC_541\Debug\eax.o .\CortexM0\ARM_GCC_541\Debug\gcm.o .\CortexM0\ARM_GCC_541\Debug\ccopy.o .\CortexM0\ARM_GCC_541\Debug\dec16be.o .\CortexM0\ARM_GCC_541\Debug\dec16le.o .\CortexM0\ARM_GCC_541\Debug\dec32be.o .\CortexM0\ARM_GCC_541\Debug\dec32le.o .\CortexM0\ARM_GCC_541\Debug\dec64be.o .\CortexM0\ARM_GCC_541\Debug\dec64le.o .\CortexM0\ARM_GCC_541\Debug\enc16be.o .\CortexM0\ARM_GCC_541\Debug\enc16le.o .\CortexM0\ARM_GCC_541\Debug\enc32be.o .\CortexM0\ARM_GCC_541\Debug\enc32le.o .\CortexM0\ARM_GCC_541\Debug\enc64be.o .\CortexM0\ARM_GCC_541\Debug\enc64le.o .\CortexM0\ARM_GCC_541\Debug\pemdec.o .\CortexM0\ARM_GCC_541\Debug\ec_all_m15.o .\CortexM0\ARM_GCC_541\Debug\ec_all_m31.o .\CortexM0\ARM_GCC_541\Debug\ec_c25519_i15.o .\CortexM0\ARM_GCC_541\Debug\ec_c25519_i31.o .\CortexM0\ARM_GCC_541\Debug\ec_c25519_m15.o .\CortexM0\ARM_GCC_541\Debug\ec_c25519_m31.o .\CortexM0\ARM_GCC_541\Debug\ec_curve25519.o .\CortexM0\ARM_GCC_541\Debug\ec_default.o .\CortexM0\ARM_GCC_541\Debug\ec_p256_m15.o .\CortexM0\ARM_GCC_541\Debug\ec_p256_m31.o .\CortexM0\ARM_GCC_541\Debug\ec_prime_i15.o .\CortexM0\ARM_GCC_541\Debug\ec_prime_i31.o .\CortexM0\ARM_GCC_541\Debug\ec_secp256r1.o .\CortexM0\ARM_GCC_541\Debug\ec_secp384r1.o .\CortexM0\ARM_GCC_541\Debug\ec_secp521r1.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_atr.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_default_sign_asn1.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_default_sign_raw.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_default_vrfy_asn1.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_default_vrfy_raw.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i15_bits.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i15_sign_asn1.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i15_sign_raw.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i15_vrfy_asn1.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i15_vrfy_raw.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i31_bits.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i31_sign_asn1.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i31_sign_raw.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i31_vrfy_asn1.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_i31_vrfy_raw.o .\CortexM0\ARM_GCC_541\Debug\ecdsa_rta.o .\CortexM0\ARM_GCC_541\Debug\dig_oid.o .\CortexM0\ARM_GCC_541\Debug\dig_size.o .\CortexM0\ARM_GCC_541\Debug\ghash_ctmul.o .\CortexM0\ARM_GCC_541\Debug\ghash_ctmul32.o .\CortexM0\ARM_GCC_541\Debug\ghash_ctmul64.o .\CortexM0\ARM_GCC_541\Debug\ghash_pclmul.o .\CortexM0\ARM_GCC_541\Debug\ghash_pwr8.o .\CortexM0\ARM_GCC_541\Debug\md5.o .\CortexM0\ARM_GCC_541\Debug\md5sha1.o .\CortexM0\ARM_GCC_541\Debug\mgf1.o .\CortexM0\ARM_GCC_541\Debug\multihash.o .\CortexM0\ARM_GCC_541\Debug\sha1.o .\CortexM0\ARM_GCC_541\Debug\sha2big.o .\CortexM0\ARM_GCC_541\Debug\sha2small.o .\CortexM0\ARM_GCC_541\Debug\i15_add.o .\CortexM0\ARM_GCC_541\Debug\i15_bitlen.o .\CortexM0\ARM_GCC_541\Debug\i15_decmod.o .\CortexM0\ARM_GCC_541\Debug\i15_decode.o .\CortexM0\ARM_GCC_541\Debug\i15_decred.o .\CortexM0\ARM_GCC_541\Debug\i15_encode.o .\CortexM0\ARM_GCC_541\Debug\i15_fmont.o .\CortexM0\ARM_GCC_541\Debug\i15_iszero.o .\CortexM0\ARM_GCC_541\Debug\i15_modpow.o .\CortexM0\ARM_GCC_541\Debug\i15_modpow2.o .\CortexM0\ARM_GCC_541\Debug\i15_montmul.o .\CortexM0\ARM_GCC_541\Debug\i15_mulacc.o .\CortexM0\ARM_GCC_541\Debug\i15_muladd.o .\CortexM0\ARM_GCC_541\Debug\i15_ninv15.o .\CortexM0\ARM_GCC_541\Debug\i15_reduce.o .\CortexM0\ARM_GCC_541\Debug\i15_rshift.o .\CortexM0\ARM_GCC_541\Debug\i15_sub.o .\CortexM0\ARM_GCC_541\Debug\i15_tmont.o .\CortexM0\ARM_GCC_541\Debug\i31_add.o .\CortexM0\ARM_GCC_541\Debug\i31_bitlen.o .\CortexM0\ARM_GCC_541\Debug\i31_decmod.o .\CortexM0\ARM_GCC_541\Debug\i31_decode.o .\CortexM0\ARM_GCC_541\Debug\i31_decred.o .\CortexM0\ARM_GCC_541\Debug\i31_encode.o .\CortexM0\ARM_GCC_541\Debug\i31_fmont.o .\CortexM0\ARM_GCC_541\Debug\i31_iszero.o .\CortexM0\ARM_GCC_541\Debug\i31_modpow.o .\CortexM0\ARM_GCC_541\Debug\i31_modpow2.o .\CortexM0\ARM_GCC_541\Debug\i31_montmul.o .\CortexM0\ARM_GCC_541\Debug\i31_mulacc.o .\CortexM0\ARM_GCC_541\Debug\i31_muladd.o .\CortexM0\ARM_GCC_541\Debug\i31_ninv31.o .\CortexM0\ARM_GCC_541\Debug\i31_reduce.o .\CortexM0\ARM_GCC_541\Debug\i31_rshift.o .\CortexM0\ARM_GCC_541\Debug\i31_sub.o .\CortexM0\ARM_GCC_541\Debug\i31_tmont.o .\CortexM0\ARM_GCC_541\Debug\i32_add.o .\CortexM0\ARM_GCC_541\Debug\i32_bitlen.o .\CortexM0\ARM_GCC_541\Debug\i32_decmod.o .\CortexM0\ARM_GCC_541\Debug\i32_decode.o .\CortexM0\ARM_GCC_541\Debug\i32_decred.o .\CortexM0\ARM_GCC_541\Debug\i32_div32.o .\CortexM0\ARM_GCC_541\Debug\i32_encode.o .\CortexM0\ARM_GCC_541\Debug\i32_fmont.o .\CortexM0\ARM_GCC_541\Debug\i32_iszero.o .\CortexM0\ARM_GCC_541\Debug\i32_modpow.o .\CortexM0\ARM_GCC_541\Debug\i32_montmul.o .\CortexM0\ARM_GCC_541\Debug\i32_mulacc.o .\CortexM0\ARM_GCC_541\Debug\i32_muladd.o .\CortexM0\ARM_GCC_541\Debug\i32_ninv32.o .\CortexM0\ARM_GCC_541\Debug\i32_reduce.o .\CortexM0\ARM_GCC_541\Debug\i32_sub.o .\CortexM0\ARM_GCC_541\Debug\i32_tmont.o .\CortexM0\ARM_GCC_541\Debug\i62_modpow2.o .\CortexM0\ARM_GCC_541\Debug\hmac.o .\CortexM0\ARM_GCC_541\Debug\hmac_ct.o .\CortexM0\ARM_GCC_541\Debug\hmac_drbg.o .\CortexM0\ARM_GCC_541\Debug\sysrng.o .\CortexM0\ARM_GCC_541\Debug\rsa_default_oaep_decrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_default_oaep_encrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_default_pkcs1_sign.o .\CortexM0\ARM_GCC_541\Debug\rsa_default_pkcs1_vrfy.o .\CortexM0\ARM_GCC_541\Debug\rsa_default_priv.o .\CortexM0\ARM_GCC_541\Debug\rsa_default_pub.o .\CortexM0\ARM_GCC_541\Debug\rsa_i15_oaep_decrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_i15_oaep_encrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_i15_pkcs1_sign.o .\CortexM0\ARM_GCC_541\Debug\rsa_i15_pkcs1_vrfy.o .\CortexM0\ARM_GCC_541\Debug\rsa_i15_priv.o .\CortexM0\ARM_GCC_541\Debug\rsa_i15_pub.o .\CortexM0\ARM_GCC_541\Debug\rsa_i31_oaep_decrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_i31_oaep_encrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_i31_pkcs1_sign.o .\CortexM0\ARM_GCC_541\Debug\rsa_i31_pkcs1_vrfy.o .\CortexM0\ARM_GCC_541\Debug\rsa_i31_priv.o .\CortexM0\ARM_GCC_541\Debug\rsa_i31_pub.o .\CortexM0\ARM_GCC_541\Debug\rsa_i32_oaep_decrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_i32_oaep_encrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_i32_pkcs1_sign.o .\CortexM0\ARM_GCC_541\Debug\rsa_i32_pkcs1_vrfy.o .\CortexM0\ARM_GCC_541\Debug\rsa_i32_priv.o .\CortexM0\ARM_GCC_541\Debug\rsa_i32_pub.o .\CortexM0\ARM_GCC_541\Debug\rsa_i62_oaep_decrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_i62_oaep_encrypt.o .\CortexM0\ARM_GCC_541\Debug\rsa_i62_pkcs1_sign.o .\CortexM0\ARM_GCC_541\Debug\rsa_i62_pkcs1_vrfy.o .\CortexM0\ARM_GCC_541\Debug\rsa_i62_priv.o .\CortexM0\ARM_GCC_541\Debug\rsa_i62_pub.o .\CortexM0\ARM_GCC_541\Debug\rsa_oaep_pad.o .\CortexM0\ARM_GCC_541\Debug\rsa_oaep_unpad.o .\CortexM0\ARM_GCC_541\Debug\rsa_pkcs1_sig_pad.o .\CortexM0\ARM_GCC_541\Debug\rsa_pkcs1_sig_unpad.o .\CortexM0\ARM_GCC_541\Debug\rsa_ssl_decrypt.o .\CortexM0\ARM_GCC_541\Debug\prf.o .\CortexM0\ARM_GCC_541\Debug\prf_md5sha1.o .\CortexM0\ARM_GCC_541\Debug\prf_sha256.o .\CortexM0\ARM_GCC_541\Debug\prf_sha384.o .\CortexM0\ARM_GCC_541\Debug\ssl_ccert_single_ec.o .\CortexM0\ARM_GCC_541\Debug\ssl_ccert_single_rsa.o .\CortexM0\ARM_GCC_541\Debug\ssl_client.o .\CortexM0\ARM_GCC_541\Debug\ssl_client_default_rsapub.o .\CortexM0\ARM_GCC_541\Debug\ssl_client_full.o .\CortexM0\ARM_GCC_541\Debug\ssl_engine.o .\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_aescbc.o .\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_aesgcm.o .\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_chapol.o .\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_descbc.o .\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_ec.o .\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_ecdsa.o .\CortexM0\ARM_GCC_541\Debug\ssl_engine_default_rsavrfy.o .\CortexM0\ARM_GCC_541\Debug\ssl_hashes.o .\CortexM0\ARM_GCC_541\Debug\ssl_hs_client.o .\CortexM0\ARM_GCC_541\Debug\ssl_hs_server.o .\CortexM0\ARM_GCC_541\Debug\ssl_io.o .\CortexM0\ARM_GCC_541\Debug\ssl_keyexport.o .\CortexM0\ARM_GCC_541\Debug\ssl_lru.o .\CortexM0\ARM_GCC_541\Debug\ssl_rec_cbc.o .\CortexM0\ARM_GCC_541\Debug\ssl_rec_chapol.o .\CortexM0\ARM_GCC_541\Debug\ssl_rec_gcm.o .\CortexM0\ARM_GCC_541\Debug\ssl_scert_single_ec.o .\CortexM0\ARM_GCC_541\Debug\ssl_scert_single_rsa.o .\CortexM0\ARM_GCC_541\Debug\ssl_server.o .\CortexM0\ARM_GCC_541\Debug\ssl_server_full_ec.o .\CortexM0\ARM_GCC_541\Debug\ssl_server_full_rsa.o .\CortexM0\ARM_GCC_541\Debug\ssl_server_mine2c.o .\CortexM0\ARM_GCC_541\Debug\ssl_server_mine2g.o .\CortexM0\ARM_GCC_541\Debug\ssl_server_minf2c.o .\CortexM0\ARM_GCC_541\Debug\ssl_server_minf2g.o .\CortexM0\ARM_GCC_541\Debug\ssl_server_minr2g.o .\CortexM0\ARM_GCC_541\Debug\ssl_server_minu2g.o .\CortexM0\ARM_GCC_541\Debug\ssl_server_minv2g.o .\CortexM0\ARM_GCC_541\Debug\aes_big_cbcdec.o .\CortexM0\ARM_GCC_541\Debug\aes_big_cbcenc.o .\CortexM0\ARM_GCC_541\Debug\aes_big_ctr.o .\CortexM0\ARM_GCC_541\Debug\aes_big_ctrcbc.o .\CortexM0\ARM_GCC_541\Debug\aes_big_dec.o .\CortexM0\ARM_GCC_541\Debug\aes_big_enc.o .\CortexM0\ARM_GCC_541\Debug\aes_common.o .\CortexM0\ARM_GCC_541\Debug\aes_ct.o .\CortexM0\ARM_GCC_541\Debug\aes_ct_cbcdec.o .\CortexM0\ARM_GCC_541\Debug\aes_ct_cbcenc.o .\CortexM0\ARM_GCC_541\Debug\aes_ct_ctr.o .\CortexM0\ARM_GCC_541\Debug\aes_ct_ctrcbc.o .\CortexM0\ARM_GCC_541\Debug\aes_ct_dec.o .\CortexM0\ARM_GCC_541\Debug\aes_ct_enc.o .\CortexM0\ARM_GCC_541\Debug\aes_ct64.o .\CortexM0\ARM_GCC_541\Debug\aes_ct64_cbcdec.o .\CortexM0\ARM_GCC_541\Debug\aes_ct64_cbcenc.o .\CortexM0\ARM_GCC_541\Debug\aes_ct64_ctr.o .\CortexM0\ARM_GCC_541\Debug\aes_ct64_ctrcbc.o .\CortexM0\ARM_GCC_541\Debug\aes_ct64_dec.o .\CortexM0\ARM_GCC_541\Debug\aes_ct64_enc.o .\CortexM0\ARM_GCC_541\Debug\aes_pwr8.o .\CortexM0\ARM_GCC_541\Debug\aes_pwr8_cbcdec.o .\CortexM0\ARM_GCC_541\Debug\aes_pwr8_cbcenc.o .\CortexM0\ARM_GCC_541\Debug\aes_pwr8_ctr.o .\CortexM0\ARM_GCC_541\Debug\aes_small_cbcdec.o .\CortexM0\ARM_GCC_541\Debug\aes_small_cbcenc.o .\CortexM0\ARM_GCC_541\Debug\aes_small_ctr.o .\CortexM0\ARM_GCC_541\Debug\aes_small_ctrcbc.o .\CortexM0\ARM_GCC_541\Debug\aes_small_dec.o .\CortexM0\ARM_GCC_541\Debug\aes_small_enc.o .\CortexM0\ARM_GCC_541\Debug\aes_x86ni.o .\CortexM0\ARM_GCC_541\Debug\aes_x86ni_cbcdec.o .\CortexM0\ARM_GCC_541\Debug\aes_x86ni_cbcenc.o .\CortexM0\ARM_GCC_541\Debug\aes_x86ni_ctr.o .\CortexM0\ARM_GCC_541\Debug\aes_x86ni_ctrcbc.o .\CortexM0\ARM_GCC_541\Debug\chacha20_ct.o .\CortexM0\ARM_GCC_541\Debug\chacha20_sse2.o .\CortexM0\ARM_GCC_541\Debug\des_ct.o .\CortexM0\ARM_GCC_541\Debug\des_ct_cbcdec.o .\CortexM0\ARM_GCC_541\Debug\des_ct_cbcenc.o .\CortexM0\ARM_GCC_541\Debug\des_support.o .\CortexM0\ARM_GCC_541\Debug\des_tab.o .\CortexM0\ARM_GCC_541\Debug\des_tab_cbcdec.o .\CortexM0\ARM_GCC_541\Debug\des_tab_cbcenc.o .\CortexM0\ARM_GCC_541\Debug\poly1305_ctmul.o .\CortexM0\ARM_GCC_541\Debug\poly1305_ctmul32.o .\CortexM0\ARM_GCC_541\Debug\poly1305_ctmulq.o .\CortexM0\ARM_GCC_541\Debug\poly1305_i15.o .\CortexM0\ARM_GCC_541\Debug\skey_decoder.o .\CortexM0\ARM_GCC_541\Debug\x509_decoder.o .\CortexM0\ARM_GCC_541\Debug\x509_knownkey.o .\CortexM0\ARM_GCC_541\Debug\x509_minimal.o .\CortexM0\ARM_GCC_541\Debug\x509_minimal_full.o .\CortexM0\ARM_GCC_541\Debug\usbserialprotocol.o .\CortexM0\ARM_GCC_541\Debug\cyfitter_cfg.o .\CortexM0\ARM_GCC_541\Debug\cymetadata.o .\CortexM0\ARM_GCC_541\Debug\Cm0Start.o .\CortexM0\ARM_GCC_541\Debug\CARD-rev3.a -mcpu=cortex-m0 -mthumb -L Generated_Source\PSoC4 -Wl,-Map,.\CortexM0\ARM_GCC_541\Debug/CARD-rev3.map -T Generated_Source\PSoC4\cm0gcc.ld -specs=nano.specs -Wl,--gc-sections -g -ffunction-sections -Og -ffat-lto-objects -Wl,--end-group
 cyelftool.exe -C "C:\Users\Heckerman\PSoC Creator Projects\bank-protocol\CARD-rev3.cydsn\CortexM0\ARM_GCC_541\Debug\CARD-rev3.elf" --flash_row_size 128 --flash_size 32768 --flash_offset 0x00000000
 No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S "C:\Users\Heckerman\PSoC Creator Projects\bank-protocol\CARD-rev3.cydsn\CortexM0\ARM_GCC_541\Debug\CARD-rev3.elf"
-Flash used: 2934 of 32768 bytes (9.0%).
-SRAM used: 1536 of 4096 bytes (37.5%). Stack: 1024 bytes. Heap: 128 bytes.
---------------- Rebuild Succeeded: 07/22/2018 20:40:42 ---------------
+Flash used: 5288 of 32768 bytes (16.1%).
+SRAM used: 1824 of 4096 bytes (44.5%). Stack: 1024 bytes. Heap: 128 bytes.
+--------------- Rebuild Succeeded: 07/23/2018 10:11:28 ---------------
