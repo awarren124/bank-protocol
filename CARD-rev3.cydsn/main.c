@@ -21,7 +21,7 @@ int main(void)
     {
         /* Place your application code here. */
         
-        UART_PutString("Hey, PSoC\t");
+        UART_PutChar(UART_GetChar());
     }
 }
 
