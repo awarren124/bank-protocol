@@ -83,7 +83,7 @@ int main(void)
     // start reset button
     Reset_isr_StartEx(Reset_ISR);
     
-    /* Declare vairables here */
+    /* Declare variables here */
     uint8 i;
     uint8 message[128];
     
