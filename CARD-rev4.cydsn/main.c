@@ -75,6 +75,11 @@ int main (void)
     while (1) {
         /* Place your application code here. */
         
+        UART_PutString("hello");
+        CyDelay(1000);
+        
+        /*
+        
         // syncronize communication with bank
         syncConnection(SYNC_NORM);
         
@@ -100,5 +105,7 @@ int main (void)
                 pushMessage(UUID, UUID_LEN);   
             }
         }
+        
+        */
     }
 }
