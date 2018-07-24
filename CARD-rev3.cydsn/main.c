@@ -21,17 +21,17 @@
 #define PIN_BAD "BAD"
 #define CHANGE_PIN '3'
 
-#define PIN ((uint8*)(CY_FLASH_BASE + 0x8000))
-#define UUID ((uint8*)(CY_FLASH_BASE + 0x8080))
-#define PROVISIONED ((uint8*)(CY_FLASH_BASE + 0x8100))
-#define write_pin(p) CySysFlashWriteRow(256, p);
-#define write_uuid(u) CySysFlashWriteRow(257, u);
+#define PIN ((uint8*)(CY_FLASH_BASE + 0x6400))
+#define UUID ((uint8*)(CY_FLASH_BASE + 0x6480))
+#define PROVISIONED ((uint8*)(CY_FLASH_BASE + 0x6500))
+#define write_pin(p) CySysFlashWriteRow(200, p);
+#define write_uuid(u) CySysFlashWriteRow(201, u);
 
 void mark_provisioned()
 {
     uint8 row[128];
     *row = 1;
-    CySysFlashWriteRow(258, row);
+    CySysFlashWriteRow(202, row);
 }
 
 // provisions card (should only ever be called once)
@@ -61,8 +61,8 @@ int main (void)
     
     UART_Start();
     
-    const uint8 eeprom_ref[EEPROM_PHYSICAL_SIZE] __ALIGNED(CY_FLASH_SIZEOF_ROW) = {0u};
-    EEPROM_Init((uint32)eeprom_ref);
+    //const uint8 eeprom_ref[EEPROM_PHYSICAL_SIZE] __ALIGNED(CY_FLASH_SIZEOF_ROW) = {0u};
+    //EEPROM_Init((uint32)eeprom_ref);
     
     /* Declare variables here */
     uint8 message[128];
