@@ -77,7 +77,7 @@ int main (void)
     while (1) {
         /* Place your application code here. */
         
-        // syncronize communication with bank
+        // synchronize communication with bank
         syncConnection(SYNC_NORM);
         
         // receive pin number from ATM
