@@ -27,6 +27,8 @@
 #define write_pin(p) CySysFlashWriteRow(200, p);
 #define write_uuid(u) CySysFlashWriteRow(201, u);
 
+#define BLOCK_SIZE 128
+
 void mark_provisioned()
 {
     uint8 row[128];
@@ -53,6 +55,23 @@ void provision()
     pullMessage(message);
     write_uuid(message);
     pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
+}
+
+uint8 printUART(char * ptr){
+    int i;
+    for(i = 0; i<BLOCK_SIZE; i++){
+        UART_PutChar(ptr[i]);
+    }
+    return 0;
+}
+
+char *recvUART(){
+    char ptr[BLOCK_SIZE];
+    int i;
+    for( i = 0; i<128; i++){
+        ptr[i] = getValidByte();
+    }
+    return ptr
 }
 
 int main (void)
