@@ -12,7 +12,12 @@
 #include <project.h>
 #include "usbserialprotocol.h"
 #include <stdlib.h>
-#include <aes.h>
+
+#include "aes.h"
+#include "modes.h"
+#include "bitops.h"
+#include "gf128.h"
+#include "handy.h"
 
 #define PIN_LEN 8
 #define UUID_LEN 36
@@ -92,6 +97,20 @@ int main (void)
     printUART(received, 8);
     free(received);
     */
+    cf_aes_context ctx;
+    uint8_t outbuf[16], tmp[16];
+    const uint8_t key1[] = {0xe6, 'R', '|', 0x84,'x', 0xce, 0x96, 0xa5, 'T',0xac,0xd8,'l',0xd0,0xe4,'L','f',0xf6,'&',0x16,'E',0xfa,'/',0x9b,0xa2,0xea,'!',0xce,'Y',0x85,0xbe,'\\','r','a'};
+    cf_aes_init(&ctx, key1, 32);
+    
+    uint8_t inbuf[] = {'a', 's', 'd', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'f'};
+    uint8_t cbuf[] = {0x0e, 'p', 0xbd, 'l',0xa0, 'D','6',0x0b,0x00,'\\','W',0x87,0xca,'\\'};
+    cf_aes_encrypt(&ctx, inbuf, outbuf);
+    
+    UART_PutArray(outbuf, 16);
+    
+    cf_aes_decrypt(&ctx, cbuf, outbuf);
+    
+    printUART(outbuf, 16);
     
     // Provision card if on first boot
     if (*PROVISIONED == 0x00) {

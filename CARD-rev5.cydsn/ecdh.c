@@ -844,7 +844,7 @@ int ecdsa_sign(const uint8_t* private, uint8_t* hash, uint8_t* random_k, uint8_t
       nbits = bitvec_degree(r); /* r = r mod n */
       for (i = (nbits - 1); i < BITVEC_NBITS; ++i)
       {
-        printf("reduction r\n");
+        //printf("reduction r\n");
         bitvec_clr_bit(r, i);
       }
       
@@ -853,7 +853,7 @@ int ecdsa_sign(const uint8_t* private, uint8_t* hash, uint8_t* random_k, uint8_t
       nbits = bitvec_degree(s); /* s = s mod n */
       for (i = (nbits - 1); i < BITVEC_NBITS; ++i)
       {
-        printf("reduction s\n");
+        //printf("reduction s\n");
         bitvec_clr_bit(s, i);
       }
 
@@ -910,7 +910,7 @@ int ecdsa_verify(const uint8_t* public, uint8_t* hash, const uint8_t* signature)
     /* Modulo reduction polynomial if degree(tmp) > CURVE_DEGREE */
     if (bitvec_get_bit(w, CURVE_DEGREE))
     {
-      printf("reduction on w\n");
+      //printf("reduction on w\n");
       gf2field_add(w, w, polynomial);
     }
 
@@ -919,14 +919,14 @@ int ecdsa_verify(const uint8_t* public, uint8_t* hash, const uint8_t* signature)
     /* Modulo reduction polynomial if degree(tmp) > CURVE_DEGREE */
     if (bitvec_get_bit(u1, CURVE_DEGREE))
     {
-      printf("reduction on u1\n");
+      //printf("reduction on u1\n");
       gf2field_add(u1, u1, polynomial);
     }
     gf2field_mul(u2, r, w); /* u2 = r * w */
     /* Modulo reduction polynomial if degree(tmp) > CURVE_DEGREE */
     if (bitvec_get_bit(u2, CURVE_DEGREE))
     {
-      printf("reduction on u2\n");
+      //printf("reduction on u2\n");
       gf2field_add(u2, u2, polynomial);
     }
 
@@ -943,7 +943,7 @@ int ecdsa_verify(const uint8_t* public, uint8_t* hash, const uint8_t* signature)
     gf2point_add(x1, y1, w, z);
     if (bitvec_get_bit(x1, CURVE_DEGREE))
     {
-      printf("reduction on x1\n");
+      //printf("reduction on x1\n");
       gf2field_add(x1, x1, polynomial);
     }
 
@@ -951,23 +951,23 @@ int ecdsa_verify(const uint8_t* public, uint8_t* hash, const uint8_t* signature)
 
     if (!success)
     {
-      printf("x = '");
+      //printf("x = '");
       for (i = 0; i < BITVEC_NWORDS; ++i)
       {
-        printf("%.08x", x1[i]);
+        //printf("%.08x", x1[i]);
       }
-      printf("' [%u]\n", i);
-      printf("r = '");
+      //printf("' [%u]\n", i);
+      //printf("r = '");
       for (i = 0; i < BITVEC_NWORDS; ++i)
       {
-        printf("%.08x", r[i]);
+        //printf("%.08x", r[i]);
       }
-      printf("' [%u]\n", i);
+      //printf("' [%u]\n", i);
     }
   }
   else
   {
-    printf("(s or r) == zero\n");
+    //printf("(s or r) == zero\n");
   }
 
   return success;
