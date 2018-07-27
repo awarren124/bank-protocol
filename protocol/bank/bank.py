@@ -10,6 +10,10 @@ import sys
 import serial
 import argparse
 import struct
+import encryptionHandler
+from Crypto.Cipher import AES
+from Crypto.PublicKey import RSA
+import hashlib
 
 
 class Bank(object):
@@ -28,11 +32,11 @@ class Bank(object):
         print self.ERROR
         print self.GOOD
         while True:
-            command = self.atm.read()
-            print "command reciveved: " + command.encode('hex') + ""
+            command = self.atm.read()#FLAG FOR DECODE
+            print "command recieved: " + command.encode('hex') + ""
             if command == 'w':
                 log("Withdrawing")
-                pkt = self.atm.read(76)
+                pkt = self.atm.read(76)#FLAG FOR DECODE
                 atm_id, card_id, amount = struct.unpack(">36s36sI", pkt)
                 self.withdraw(atm_id, card_id, amount)
             elif command == 'b':
@@ -49,7 +53,7 @@ class Bank(object):
             atm_id = str(atm_id)
             card_id = str(card_id)
         except ValueError:
-            self.atm.write(self.ERROR)
+            self.atm.write(self.ERROR)#COULD BE HIJACKED
             log("Bad value sent")
             return
 
@@ -58,7 +62,7 @@ class Bank(object):
         print "checking atm: " + str(atm_id.encode('hex'))
         if atm is None:
 
-            self.atm.write(self.ERROR)
+            self.atm.write(self.ERROR)#COULD BE HIJACKED
             log("Bad ATM ID")
             return
 
@@ -66,31 +70,31 @@ class Bank(object):
         # print "checking num_bills: " + num_bills
 
         if num_bills is None:
-            self.atm.write(self.ERROR)
+            self.atm.write(self.ERROR)#COULD BE HIJACKED
             log("Bad ATM ID")
             return
 
         if num_bills < amount:
-            self.atm.write(self.BAD)
+            self.atm.write(self.BAD)#COULD BE HIJACKED
             log("Insufficient funds in ATM")
             return
         print "card id : " + card_id
         balance = self.db.get_balance(card_id)
         if balance is None:
-            self.atm.write(self.BAD)
+            self.atm.write(self.BAD)#COULD BE HIJACKED
             log("Bad card ID")
             return
 
         final_amount = balance - amount
         if final_amount >= 0:
-            self.db.set_balance(card_id, final_amount)
-            self.db.set_atm_num_bills(atm_id, num_bills - amount)
+            self.db.set_balance(card_id, final_amount)#FLAG
+            self.db.set_atm_num_bills(atm_id, num_bills - amount)#FLAG
             log("Valid withdrawal")
-            pkt = struct.pack(">36s36sI", atm_id, card_id, amount)
-            self.atm.write(self.GOOD)
-            self.atm.write(pkt)
+            pkt = struct.pack(">36s36sI", atm_id, card_id, amount)#figure out importance
+            self.atm.write(self.GOOD)#encrypt
+            self.atm.write(pkt)#figure out importance
         else:
-            self.atm.write(self.BAD)
+            self.atm.write(self.BAD)#COULD BE HIJACKED
             log("Insufficient funds in account")
 
     def check_balance(self, atm_id, card_id):
