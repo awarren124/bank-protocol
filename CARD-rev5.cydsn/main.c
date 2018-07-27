@@ -12,6 +12,7 @@
 #include <project.h>
 #include "usbserialprotocol.h"
 #include <stdlib.h>
+#include <aes.h>
 
 #define PIN_LEN 8
 #define UUID_LEN 36
