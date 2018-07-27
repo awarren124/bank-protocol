@@ -1,7 +1,0 @@
---------------- Build Started: 07/20/2018 20:28:40 Project: bank-protocol-rev3, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
-The code generation step is up to date.
-arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/main.lst -g -D DEBUG -Wall -ffunction-sections -ffat-lto-objects -Og -c main.c -o .\CortexM0\ARM_GCC_541\Debug\main.o
-main.c:12:31: fatal error: usbserialprotocol.h: No such file or directory
-compilation terminated.
-The command 'arm-none-eabi-gcc.exe' failed with exit code '1'.
---------------- Build Failed: 07/20/2018 20:28:43 ---------------

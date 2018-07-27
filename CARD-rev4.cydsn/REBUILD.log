@@ -1,10 +1,4 @@
---------------- Rebuild Started: 07/27/2018 10:26:46 Project: CARD-rev4, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
-Deleting file ".\CortexM0\ARM_GCC_541\Debug\usbserialprotocol.o"
-Deleting file ".\CARD-rev4.cycdx"
-Deleting file ".\CARD-rev4.svd"
-Deleting file ".\CARD-rev4.rpt"
-Deleting file ".\CARD-rev4_timing.html"
+--------------- Rebuild Started: 07/27/2018 13:31:39 Project: CARD-rev4, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 cydsfit.exe -.appdatapath "C:\Users\Larry\AppData\Local\Cypress Semiconductor\PSoC Creator\4.2" -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -.fdsreffile=referenced_files.txt -p "C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\CARD-rev4.cydsn\CARD-rev4.cyprj" -d CY8C4245AXI-483 -s "C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\CARD-rev4.cydsn\Generated_Source\PSoC4" -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE
 Elaborating Design...
 HDL Generation...
@@ -278,4 +272,4 @@ Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S "C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\CARD-rev4.cydsn\CortexM0\ARM_GCC_541\Debug\CARD-rev4.elf"
 Flash used: 4128 of 32768 bytes (12.6%).
 SRAM used: 1544 of 4096 bytes (37.7%). Stack: 1024 bytes. Heap: 128 bytes.
---------------- Rebuild Succeeded: 07/27/2018 10:27:55 ---------------
+--------------- Rebuild Succeeded: 07/27/2018 13:32:49 ---------------
