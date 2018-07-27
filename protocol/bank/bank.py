@@ -10,11 +10,12 @@ import sys
 import serial
 import argparse
 import struct
-import encryptionHandler
+import encryptionHandler as eh
 from Crypto.Cipher import AES
 from Crypto.PublicKey import RSA
 import hashlib
-
+key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
+key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
 
 class Bank(object):
     GOOD = "O"
@@ -34,17 +35,23 @@ class Bank(object):
         while True:
             command = self.atm.read()#FLAG FOR DECODE, receives command from atm to decide what to do
             print "command recieved: " + command.encode('hex') + ""
-            if command == 'w':
+            decrypt_instruction = eh.aesDecrypt(command, key2)
+            if decrypt_instruction == 'w':
                 log("Withdrawing")
+                print("encrypt1")
                 pkt = self.atm.read(76)#FLAG FOR DECODE, get pkt sent from atm, change what we actualy send
-                atm_id, card_id, amount = struct.unpack(">36s36sI", pkt)#unpack that and 
+                decrypt_pkt = eh.aesDecrypt(pkt, key2)
+                rint("encrypt2")
+                atm_id, card_id, amount = struct.unpack(">36s36sI", decrypt_pkt)#unpack that and
                 self.withdraw(atm_id, card_id, amount)
-            elif command == 'b':
+                rint("encrypt3")
+            elif decrypt_intruction == 'b':
                 log("Checking balance")
                 pkt = self.atm.read(72)
-                atm_id, card_id = struct.unpack(">36s36s", pkt)
+                decrypt_pkt = eh.aesDecrypt(pkt, key2)
+                atm_id, card_id = struct.unpack(">36s36s", decrypt_pkt)
                 self.check_balance(atm_id, card_id)
-            elif command != '':
+            elif decrypt_instruction != '':
                 self.atm.write(self.ERROR)
 
     def withdraw(self, atm_id, card_id, amount):
@@ -53,7 +60,8 @@ class Bank(object):
             atm_id = str(atm_id)
             card_id = str(card_id)
         except ValueError:
-            self.atm.write(self.ERROR)#COULD BE HIJACKED
+            encrypt_error = aesEncrypt(self.ERROR, key2)
+            self.atm.write(encrypt_error)#COULD BE HIJACKED
             log("Bad value sent")
             return
 
@@ -61,7 +69,7 @@ class Bank(object):
         print "card id (hex): " + card_id.encode('hex')
         print "checking atm: " + str(atm_id.encode('hex'))
         if atm is None:
-
+            encrypt_error = aesEncrypt(self.Error,key2)
             self.atm.write(self.ERROR)#COULD BE HIJACKED
             log("Bad ATM ID")
             return
@@ -70,18 +78,21 @@ class Bank(object):
         # print "checking num_bills: " + num_bills
 
         if num_bills is None:
-            self.atm.write(self.ERROR)#COULD BE HIJACKED
+            encrypt_error = aesEncrypt(self.ERROR, key2)
+            self.atm.write(encrypt_error)#COULD BE HIJACKED
             log("Bad ATM ID")
             return
 
         if num_bills < amount:
-            self.atm.write(self.BAD)#COULD BE HIJACKED
+            encrypt_bad = aesEncrypt(self.Bad, key2)
+            self.atm.write(encrypt_bad)#COULD BE HIJACKED
             log("Insufficient funds in ATM")
             return
         print "card id : " + card_id
         balance = self.db.get_balance(card_id)
         if balance is None:
-            self.atm.write(self.BAD)#COULD BE HIJACKED
+            encrypt_bad = aesEncrypt(self.Bad, key2)
+            self.atm.write(encrypt_bad)  # COULD BE HIJACKED
             log("Bad card ID")
             return
 
@@ -91,10 +102,18 @@ class Bank(object):
             self.db.set_atm_num_bills(atm_id, num_bills - amount)#FLAG
             log("Valid withdrawal")
             pkt = struct.pack(">36s36sI", atm_id, card_id, amount)#figure out importance
-            self.atm.write(self.GOOD)#encrypt
-            self.atm.write(pkt)#figure out importance
+            print("encrypt4")
+            encrypt_pkt = aesEncrypt(pkt, key2)
+            print("encrypt5")
+            encrypt_good = aesEncrypt(self.good, key2)
+            print("encrypt6")
+            self.atm.write(encrypt_good)  # COULD BE HIJACKED
+            print("encrypt7")
+            self.atm.write(encrypt_pkt)#figure out importance
+            print("encrypt8")
         else:
-            self.atm.write(self.BAD)#COULD BE HIJACKED
+            encrypt_bad = aesEncrypt(self.Bad, key2)
+            self.atm.write(encrypt_bad)  # COULD BE HIJACKED
             log("Insufficient funds in account")
 
     def check_balance(self, atm_id, card_id):
