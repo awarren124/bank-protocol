@@ -5,7 +5,7 @@ import hashlib
 class EncryptionHandler:
 
 	initializationVector = 'This is an IV456' #16
-	padCharacter = '+'
+	padCharacter = '_'
 	numberThatDoesntMatter = 696969
 
 	def uhh(self):

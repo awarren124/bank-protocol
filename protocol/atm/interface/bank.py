@@ -5,6 +5,18 @@ import struct
 import serial
 from encryptionHandler import EncryptionHandler
 eh = EncryptionHandler()
+
+
+"""TODO: MAKE KEYS STORED IN A JSON FILE"""
+"""TEMPORARRRYYYYY"""
+key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
+key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
+
+"""~~~~~~~~~~~~~~~~~"""
+
+
+
+
 class Bank:
     """Interface for communicating with the bank
 
@@ -67,15 +79,18 @@ class Bank:
         print("bank withdraw2")
         pkt = "w" + struct.pack(">36s36sI", atm_id, card_id, amount)
         # encryption
+        enc_pkt = eh.aesEncrypt(pkt, key2)
+        self.ser.write(enc_pkt)
+        # while pkt not in "ONE":
+        #     pkt = self.ser.read()
+        # if pkt != "O":
+        #     self._vp('withdraw: request denied')
+        #     return False
+        pkt = ''
+        while pkt == '':
 
-        self.ser.write(pkt)
-        while pkt not in "ONE":
-            pkt = self.ser.read()
-        if pkt != "O":
-            self._vp('withdraw: request denied')
-            return False
-	print("bank withdraw4")
-        pkt = self.ser.read(72)
+        enc_read_pkt = self.ser.read(72)
+        dec_read_pkt = eh.aesDecrypt(enc_read_pkt, key2)
         aid, cid = struct.unpack(">36s36s", pkt)
         self._vp('withdraw: Withdrawal accepted')
         return True

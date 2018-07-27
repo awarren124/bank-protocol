@@ -6,6 +6,20 @@ from encryptionHandler import EncryptionHandler
 eh = EncryptionHandler()
 
 
+
+"""TODO: MAKE KEYS STORED IN A JSON FILE"""
+"""TEMPORARRRYYYYY"""
+key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
+key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
+
+"""~~~~~~~~~~~~~~~~~"""
+
+
+
+
+
+
+
 class NotProvisioned(Exception):
     pass
 
@@ -50,7 +64,7 @@ class Card(object):
         self.ser.write(pkt)
         time.sleep(0.1)
 
-    def _pull_msg(self):
+    def _pull_msg(self, key):
         """Pulls message form the PSoC
 
         Returns:
@@ -61,7 +75,9 @@ class Card(object):
             self._vp("RECEIVED BAD HEADER: \'%s\'" % hdr, logging.error)
             return ''
         pkt_len = struct.unpack('B', hdr)[0]
-        return self.ser.read(pkt_len)
+        enc_pkt = self.ser.read(pkt_len)
+        dec_pkt = eh.aesDecrypt(enc_pkt, key)
+        return dec_pkt
 
     def _sync(self, provision):
         """Synchronize communication with PSoC
@@ -117,7 +133,11 @@ class Card(object):
         Returns:
             str: UUID of ATM card
         """
-        uuid = self._pull_msg()
+        uuid = self._pull_msg(key1) 
+        #decrypt
+
+        eh.aesDecrypt()
+
         self._vp('Card sent UUID %s' % uuid)
         return uuid
 
