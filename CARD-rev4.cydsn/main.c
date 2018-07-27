@@ -71,7 +71,7 @@ char *recvUART(){
     for( i = 0; i<128; i++){
         ptr[i] = getValidByte();
     }
-    return ptr
+    return ptr;
 }
 
 int main (void)
