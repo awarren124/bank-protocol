@@ -36,8 +36,8 @@ class Bank(object):
             print "command recieved: " + command.encode('hex') + ""
             if command == 'w':
                 log("Withdrawing")
-                pkt = self.atm.read(76)#FLAG FOR DECODE, reads 76 bits
-                atm_id, card_id, amount = struct.unpack(">36s36sI", pkt)
+                pkt = self.atm.read(76)#FLAG FOR DECODE, get pkt sent from atm, change what we actualy send
+                atm_id, card_id, amount = struct.unpack(">36s36sI", pkt)#unpack that and 
                 self.withdraw(atm_id, card_id, amount)
             elif command == 'b':
                 log("Checking balance")
