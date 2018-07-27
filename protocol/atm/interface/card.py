@@ -2,6 +2,8 @@ import logging
 import struct
 import time
 import serial
+from encryptionHandler import EncryptionHandler
+eh = EncryptionHandler()
 
 
 class NotProvisioned(Exception):

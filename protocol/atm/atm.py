@@ -15,6 +15,20 @@ ch = logging.StreamHandler(sys.stdout)
 ch.setFormatter(log_format)
 log.addHandler(ch)
 
+
+
+"""TODO: MAKE KEYS STORED IN A JSON FILE"""
+"""TEMPORARRRYYYYY"""
+key1 = b'\xba7,\x1b\xf2\xf6\xb3: m\x91\x06\x97=@\xd9\xf0\x14f\x8e\xba\x9d\x0b\x86\x926I\xfbCF4\x1e'
+keyA2H = b'\x94|mU\x81X\xb8\xea7\xb2\xf7j\r\xc6\xc9H'
+keyB = b'\xe5"\n\x84h8a\x04u\xec+0\xd6\xa2S\x9ca8o8\x11M\x80\xc9k/\x1aZ\x06R\xad\xd0'
+keyC1H = b'(^B^"\x93\xe2\xfa\xdd\xb5ip\xb3\xb6NT'
+"""~~~~~~~~~~~~~~~~~"""
+
+
+
+
+
 class ATM(cmd.Cmd, object):
     """Interface for ATM xmlrpc server
 

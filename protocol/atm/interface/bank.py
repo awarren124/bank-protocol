@@ -3,8 +3,8 @@
 import logging
 import struct
 import serial
-
-
+from encryptionHandler import EncryptionHandler
+eh = EncryptionHandler()
 class Bank:
     """Interface for communicating with the bank
 
@@ -72,17 +72,12 @@ class Bank:
         self._vp('withdraw: Sending request to Bank')
         print("bank withdraw2")
         pkt = "w" + struct.pack(">36s36sI", atm_id, card_id, amount)
-	print("bank withdraw2.5")
+        # encryption
+
         self.ser.write(pkt)
-	print("bank withdraw2.75")
         while pkt not in "ONE":
-	    print("bank withdraw2.8125")
             pkt = self.ser.read()
-	    print(pkt)
-	print("bank withdraw2.875")
-	print("bank withdraw3")
         if pkt != "O":
-	    print("withdraw3.5")
             self._vp('withdraw: request denied')
             return False
 	print("bank withdraw4")
