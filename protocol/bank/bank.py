@@ -32,11 +32,11 @@ class Bank(object):
         print self.ERROR
         print self.GOOD
         while True:
-            command = self.atm.read()#FLAG FOR DECODE
+            command = self.atm.read()#FLAG FOR DECODE, receives command from atm to decide what to do
             print "command recieved: " + command.encode('hex') + ""
             if command == 'w':
                 log("Withdrawing")
-                pkt = self.atm.read(76)#FLAG FOR DECODE
+                pkt = self.atm.read(76)#FLAG FOR DECODE, reads 76 bits
                 atm_id, card_id, amount = struct.unpack(">36s36sI", pkt)
                 self.withdraw(atm_id, card_id, amount)
             elif command == 'b':

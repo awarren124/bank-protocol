@@ -42,18 +42,12 @@ class Bank:
         self.ser.write(pkt)
 
         while pkt not in "ONE":
-	    print("check balance 2.0")
             pkt = self.ser.read()
-	    print("check balance 2.2")
         if pkt != "O":
-	    print("check balance2.5")
             return False
         pkt = self.ser.read(76)
-	print("check balance 3")
         aid, cid, bal = struct.unpack(">36s36sI", pkt)
-	print("check balance 4")
         self._vp('check_balance: returning balance')
-	print("checkbalance 5")
         return bal
 
     def withdraw(self, atm_id, card_id, amount):
