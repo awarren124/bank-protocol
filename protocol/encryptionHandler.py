@@ -1,6 +1,5 @@
 from Crypto.Cipher import AES
 from Crypto.PublicKey import RSA
-import hashlib
 
 class EncryptionHandler:
 
