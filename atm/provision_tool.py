@@ -33,7 +33,7 @@ if __name__ == "__main__":
 
         # update bank
         print "Updating bank..."
-        bank = Bank(serial.Serial(b_port, b_baud))
+        bank = Bank(b_port)
         bank.provision_update(uuid, pin, balance)
         print "Provisioning successful"
     else:

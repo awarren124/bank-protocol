@@ -1,7 +1,7 @@
 import logging
 import sys
 import cmd
-from interface.card import NotProvisioned, AlreadyProvisioned
+from interface.card import NotProvisioned
 from interface import card, bank
 import os
 import json
@@ -77,7 +77,6 @@ class ATM(cmd.Cmd, object):
                 self._vp('check_balance: Requesting balance from Bank')
                 res = self.bank.check_balance(self.uuid, card_id)
                 if res:
-		    print("balance is: " + str(res))
                     return res
             self._vp('check_balance failed')
             return False
@@ -121,19 +120,13 @@ class ATM(cmd.Cmd, object):
             bool: False on failure
         """
         try:
-	    print("withdraw start")
             self._vp('withdraw: Requesting card_id from card')
-            print("withdraw start1")
             card_id = self.card.withdraw(pin)
-	    print(card_id.encode('hex'))
-	    print("withdraw start2")
+
             # request UUID from HSM if card accepts PIN
             if card_id:
-		print("withdraw next")
                 self._vp('withdraw: Requesting hsm_id from hsm')
-                print("withdraw next1")
                 if self.bank.withdraw(self.uuid, card_id, amount):
-                    print("withdraw next2")
                     with open(self.billfile, "w") as f:
                         self._vp('withdraw: Dispensing bills...')
                         for i in range(self.dispensed, self.dispensed + amount):
@@ -142,19 +135,15 @@ class ATM(cmd.Cmd, object):
                             self.bills[i] = "-DISPENSED BILL-"
                             self.dispensed += 1
                     self.update()
-		    print("hallo")
                     return True
             else:
                 self._vp('withdraw failed')
-		print("withdraw failed")
                 return False
         except ValueError:
             self._vp('amount must be an int')
-            print("bad")
             return False
         except NotProvisioned:
             self._vp('ATM card has not been provisioned!')
-	    print("provision flail")
             return False
 
     def get_pin(self, prompt="Please insert 8-digit PIN: "):

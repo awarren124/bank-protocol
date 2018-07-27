@@ -13,7 +13,7 @@ class Bank:
     """
 
     def __init__(self, port, verbose=False):
-        self.ser = serial.Serial(port)
+        self.ser = serial.Serial(port, baudrate = 115200)
         self.verbose = verbose
 
     def _vp(self, msg, stream=logging.info):
@@ -42,14 +42,18 @@ class Bank:
         self.ser.write(pkt)
 
         while pkt not in "ONE":
+	    print("check balance 2.0")
             pkt = self.ser.read()
-
+	    print("check balance 2.2")
         if pkt != "O":
+	    print("check balance2.5")
             return False
         pkt = self.ser.read(76)
+	print("check balance 3")
         aid, cid, bal = struct.unpack(">36s36sI", pkt)
-
+	print("check balance 4")
         self._vp('check_balance: returning balance')
+	print("checkbalance 5")
         return bal
 
     def withdraw(self, atm_id, card_id, amount):
@@ -64,16 +68,24 @@ class Bank:
             str: hsm_id on success
             bool: False on failure
         """
+        print("bank withdraw1")
         self._vp('withdraw: Sending request to Bank')
+        print("bank withdraw2")
         pkt = "w" + struct.pack(">36s36sI", atm_id, card_id, amount)
+	print("bank withdraw2.5")
         self.ser.write(pkt)
-
+	print("bank withdraw2.75")
         while pkt not in "ONE":
+	    print("bank withdraw2.8125")
             pkt = self.ser.read()
-
+	    print(pkt)
+	print("bank withdraw2.875")
+	print("bank withdraw3")
         if pkt != "O":
+	    print("withdraw3.5")
             self._vp('withdraw: request denied')
             return False
+	print("bank withdraw4")
         pkt = self.ser.read(72)
         aid, cid = struct.unpack(">36s36s", pkt)
         self._vp('withdraw: Withdrawal accepted')
