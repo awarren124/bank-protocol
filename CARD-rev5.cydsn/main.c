@@ -18,6 +18,7 @@
 #include "bitops.h"
 #include "gf128.h"
 #include "handy.h"
+#include "sha2.h"
 
 #define PIN_LEN 8
 #define UUID_LEN 36
@@ -87,8 +88,17 @@ int main (void)
     CyGlobalIntEnable;      /* Enable global interrupts */
     
     UART_Start();
-    uint8 message[128];
-    /*printUART("Hey, PSoC1\t", 11);
+    
+    uint8_t digest[32];
+    cf_sha256_context hash_ctx;
+    cf_sha256_init(&hash_ctx);
+    
+    for(size_t i = 0; i < 12; i++)
+        cf_sha256_update(&hash_ctx, "Hello World!", 12);
+    cf_sha256_digest_final(&hash_ctx, digest);
+    printUART((char *)digest, 32);
+    
+    printUART("Hey, PSoC1\t", 11);
     
     
     
@@ -111,7 +121,7 @@ int main (void)
     
     
     
-    uint8 message[128];*/
+    uint8 message[128];
     /* Declare variables here */
 
     /*cf_aes_context aes_ctx;
