@@ -91,11 +91,33 @@ cf_cbc prep_aes_32(cf_aes_context aes, void* key, void* iv){
     return cbc;
 }
 
+uint8_t pad_16(uint8_t *array, uint8 p){
+    int i;
+    for(i = p-1; i>=0; i--){
+        array[i] = p;
+    }
+    return 0;
+}
+
+uint8_t sha256(uint8_t *input, uint8 size){
+    uint8_t digest[32];
+    cf_sha256_context hash_ctx;
+    cf_sha256_init(&hash_ctx);
+    for(uint8 i = 0; i < size; i++)
+        cf_sha256_update(&hash_ctx, input, size);
+    cf_sha256_digest_final(&hash_ctx, digest);
+    return *digest;
+}
+
 int main (void)
 {
     CyGlobalIntEnable;      /* Enable global interrupts */
     
     UART_Start();
+    
+    /* Declare variables here */
+    
+    void* key1 = recvUART(32);
     
     uint8_t digest[32];
     cf_sha256_context hash_ctx;
@@ -137,7 +159,6 @@ int main (void)
     cf_aes_finish(&aes);
     
     uint8 message[128];
-    /* Declare variables here */
 
     /*cf_aes_context aes_ctx;
     cf_cbc cbc_ctx;
