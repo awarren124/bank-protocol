@@ -18,9 +18,12 @@ class EncryptionHandler:
 		ciphertext = aes.encrypt(plaintext)
 		return ciphertext
 	def aesDecrypt(self, ciphertext, key):
+		print "aesDecrypt"
+		print "ciphertext: " + ciphertext
 		aes = AES.new(key, AES.MODE_CBC, self.initializationVector)
-		plaintext = aes.decrypt(ciphertext).decode('utf-8')
+		plaintext = aes.decrypt(ciphertext)#.decode('utf-8')
 		plaintext = plaintext[:plaintext.find(self.padCharacter)]
+		print "plaintext: " + plaintext
 		return plaintext
 	def rsaEncrypt(self, plaintext, key):
 		rsa = RSA.importKey(key)
@@ -34,5 +37,6 @@ class EncryptionHandler:
 		return plaintext
 
 	def hash(self, plaintext):
+		print plaintext
 		return hashlib.sha256(plaintext.encode('utf-8')).digest()
 	

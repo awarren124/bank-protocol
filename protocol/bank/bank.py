@@ -10,13 +10,15 @@ import sys
 import serial
 import argparse
 import struct
-import encryptionHandler as eh
+from encryptionHandler import EncryptionHandler
 from Crypto.Cipher import AES
 from Crypto.PublicKey import RSA
 import hashlib
 key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
 key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
-accessKey2 = eh.hash(key2)
+
+eh = EncryptionHandler()
+# accessKey2 = eh.hash(key2)
 
 
 class Bank(object):
@@ -37,17 +39,33 @@ class Bank(object):
         while True:
             command = self.atm.read(16)#FLAG FOR DECODE, receives command from atm to decide what to do
             print "command recieved: " + command.encode('hex') + ""
-            decrypt_instruction = eh.aesDecrypt(command, key2)
+            print("length = %s" % (len(command)))
+            try:
+                decrypt_instruction = eh.aesDecrypt(command, key2)[0]
+            except:
+                pass
+            print(decrypt_instruction)
             if decrypt_instruction == 'w':
                 log("Withdrawing")
                 print "encrypt1"
                 data = self.atm.read(80)#FLAG FOR DECODE, get pkt sent from atm, change what we actualy send
                 decrypt_data = eh.aesDecrypt(data, key2)
                 print "encrypt2"
-                atm_id, card_id, amount = struct.unpack(">36s36sI", decrypt_data)#unpack that and
-                withdraw(atm_id, card_id, amount)
-                print "encrypt3"
-            elif decrypt_intruction == 'b':
+
+                decrypt_data = decrypt_data[:-3]
+                print "decrypted data: " +  decrypt_data
+                print len(decrypt_data)
+                atm_id, card_id, amount = struct.unpack('36s36sI', decrypt_data)
+                # print "num: " + num 
+                # atm_id, card_id, amount = struct.unpack(">36s36sI", decrypt_data)#unpack that and
+                # withdraw(atm_id, card_id, amount)
+                print "atm_id: "
+                print atm_id
+                print "card_id: "
+                print card_id
+                print "amount"
+                print amount
+            elif decrypt_instruction == 'b':
                 log("Checking balance")
                 pkt = self.atm.read(72)
                 decrypt_pkt = eh.aesDecrypt(pkt, key2)
