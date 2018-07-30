@@ -35,17 +35,17 @@ class Bank(object):
         print self.ERROR
         print self.GOOD
         while True:
-            command = self.atm.read()#FLAG FOR DECODE, receives command from atm to decide what to do
+            command = self.atm.read(16)#FLAG FOR DECODE, receives command from atm to decide what to do
             print "command recieved: " + command.encode('hex') + ""
             decrypt_instruction = eh.aesDecrypt(command, key2)
             if decrypt_instruction == 'w':
                 log("Withdrawing")
                 print("encrypt1")
-                pkt = self.atm.read(76)#FLAG FOR DECODE, get pkt sent from atm, change what we actualy send
-                decrypt_pkt = eh.aesDecrypt(pkt, key2)
+                data = self.atm.read(80)#FLAG FOR DECODE, get pkt sent from atm, change what we actualy send
+                decrypt_data = eh.aesDecrypt(data, key2)
                 print("encrypt2")
-                atm_id, card_id, amount = struct.unpack(">36s36sI", decrypt_pkt)#unpack that and
-                self.withdraw(atm_id, card_id, amount)
+                atm_id, card_id, amount = struct.unpack(">36s36sI", decrypt_data)#unpack that and
+                withdraw(atm_id, card_id, amount)
                 print("encrypt3")
             elif decrypt_intruction == 'b':
                 log("Checking balance")
