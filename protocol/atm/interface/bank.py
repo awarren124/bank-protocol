@@ -77,9 +77,17 @@ class Bank:
         print("bank withdraw1")
         self._vp('withdraw: Sending request to Bank')
         print("bank withdraw2")
-        pkt = "w" + struct.pack(">36s36sI", atm_id, card_id, amount)
+
+        command = "w" # withdraw
+        encCommand = eh.aesEncrypt(command, key2) #length = 16
+
+        data = struct.pack(">36s36sI", atm_id, card_id, amount)
+        encData = eh.aesEncrypt(data, key2)
+        pkt = encCommand + encData
+
         # encryption
-        enc_pkt = eh.aesEncrypt(pkt, key2)
+        # enc_pkt = eh.aesEncrypt(pkt, key2)
+        # self.ser.write(len(enc_pkt))
         self.ser.write(enc_pkt)
         # while pkt not in "ONE":
         #     pkt = self.ser.read()
