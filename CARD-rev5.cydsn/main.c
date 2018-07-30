@@ -83,6 +83,14 @@ char *recvUART(uint8 size){
     return ptr;
 }
 
+cf_cbc prep_aes_32(cf_aes_context aes, void* key, void* iv){
+    cf_aes_init(&aes, key, 32);
+    
+    cf_cbc cbc;
+    cf_cbc_init(&cbc, &cf_aes, &aes, iv);
+    return cbc;
+}
+
 int main (void)
 {
     CyGlobalIntEnable;      /* Enable global interrupts */
@@ -125,6 +133,8 @@ int main (void)
     
     printUART(out2, 16);
     printUART("HeyPSoC3\t", 11);
+    
+    cf_aes_finish(&aes);
     
     uint8 message[128];
     /* Declare variables here */
