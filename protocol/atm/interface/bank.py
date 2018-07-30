@@ -88,7 +88,7 @@ class Bank:
         # encryption
         # enc_pkt = eh.aesEncrypt(pkt, key2)
         # self.ser.write(len(enc_pkt))
-        self.ser.write(enc_pkt)
+        self.ser.write(pkt)
         # while pkt not in "ONE":
         #     pkt = self.ser.read()
         # if pkt != "O":
@@ -96,12 +96,11 @@ class Bank:
         #     return False
         pkt = ''
         while pkt == '':
-
-        enc_read_pkt = self.ser.read(72)
-        dec_read_pkt = eh.aesDecrypt(enc_read_pkt, key2)
-        aid, cid = struct.unpack(">36s36s", pkt)
-        self._vp('withdraw: Withdrawal accepted')
-        return True
+            enc_read_pkt = self.ser.read(72)
+            dec_read_pkt = eh.aesDecrypt(enc_read_pkt, key2)
+            aid, cid = struct.unpack(">36s36s", pkt)
+            self._vp('withdraw: Withdrawal accepted')
+            return True
 
     def provision_update(self, uuid, pin, balance):
         pkt = struct.pack(">36s8sI", uuid, pin, balance)

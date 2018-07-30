@@ -65,7 +65,7 @@ class Card(object):
         self.ser.write(pkt)
         time.sleep(0.1)
 
-    def _pull_msg(self, key):
+    def _pull_msg(self):
         """Pulls message form the PSoC
 
         Returns:
@@ -76,9 +76,9 @@ class Card(object):
             self._vp("RECEIVED BAD HEADER: \'%s\'" % hdr, logging.error)
             return ''
         pkt_len = struct.unpack('B', hdr)[0]
-        enc_pkt = self.ser.read(pkt_len)
-        dec_pkt = eh.aesDecrypt(enc_pkt, key)
-        return dec_pkt
+        pkt = self.ser.read(pkt_len)
+        #dec_pkt = eh.aesDecrypt(enc_pkt, key1)
+        return pkt
 
     def _sync(self, provision):
         """Synchronize communication with PSoC
@@ -134,10 +134,10 @@ class Card(object):
         Returns:
             str: UUID of ATM card
         """
-        uuid = self._pull_msg(key1) 
+        uuid = self._pull_msg()#key1) 
         #decrypt
 
-        eh.aesDecrypt()
+        #eh.aesDecrypt()
 
         self._vp('Card sent UUID %s' % uuid)
         return uuid
