@@ -103,6 +103,7 @@ int main (void)
     
     
     uint8_t out[16];
+    uint8_t out2[16];
     const void *iv =  "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f";
     const void *key = "\x2b\x7e\x15\x16\x28\xae\xd2\xa6\xab\xf7\x15\x88\x09\xcf\x4f\x3c";
     const void *inp = "\x6b\xc1\xbe\xe2\x2e\x40\x9f\x96\xe9\x3d\x7e\x11\x73\x93\x17\x2a";
@@ -119,7 +120,11 @@ int main (void)
     UART_PutArray(out, 16);
     printUART("HeyPSoC2\t", 11);
     
+    cf_cbc_init(&cbc, &cf_aes, &aes, iv);
+    cf_cbc_decrypt(&cbc, out, out2, 1);
     
+    printUART(out2, 16);
+    printUART("HeyPSoC3\t", 11);
     
     uint8 message[128];
     /* Declare variables here */
@@ -137,14 +142,14 @@ int main (void)
     cf_aes_init(&aes_ctx, key1, 32);
     cf_cbc_init(&cbc_ctx, &cf_aes, &aes_ctx, iv);
     
-    cf_cbc_encrypt(&cbc_ctx, inbuf, outbuf, 32);
+    cf_cbc_encrypt(&cbc_ctx, inbuf, outbuf, 1);
     
     printUART("Hey, PSoC2\t", 11);
     
     UART_PutArray(outbuf, 16);
     
     
-    cf_cbc_decrypt(&cbc_ctx, cbuf, outbuf,32);
+    cf_cbc_decrypt(&cbc_ctx, cbuf, outbuf, 1);
     
     printUART(outbuf, 16); */
     
