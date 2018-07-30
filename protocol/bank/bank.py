@@ -17,7 +17,7 @@ import hashlib
 key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
 key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
 accessKey2 = eh.hash(key2)
-print(accessKey)
+
 
 class Bank(object):
     GOOD = "O"
@@ -40,13 +40,13 @@ class Bank(object):
             decrypt_instruction = eh.aesDecrypt(command, key2)
             if decrypt_instruction == 'w':
                 log("Withdrawing")
-                print("encrypt1")
+                print "encrypt1"
                 data = self.atm.read(80)#FLAG FOR DECODE, get pkt sent from atm, change what we actualy send
                 decrypt_data = eh.aesDecrypt(data, key2)
-                print("encrypt2")
+                print "encrypt2"
                 atm_id, card_id, amount = struct.unpack(">36s36sI", decrypt_data)#unpack that and
                 withdraw(atm_id, card_id, amount)
-                print("encrypt3")
+                print "encrypt3"
             elif decrypt_intruction == 'b':
                 log("Checking balance")
                 pkt = self.atm.read(72)
@@ -104,15 +104,15 @@ class Bank(object):
             self.db.set_atm_num_bills(atm_id, num_bills - amount)#FLAG
             log("Valid withdrawal")
             pkt = struct.pack(">36s36sI", atm_id, card_id, amount)#figure out importance
-            print("encrypt4")
+            print "encrypt4"
             encrypt_pkt = aesEncrypt(pkt, key2)
-            print("encrypt5")
+            print "encrypt5"
             encrypt_good = aesEncrypt(self.good, key2)
-            print("encrypt6")
+            print "encrypt6"
             self.atm.write(encrypt_good)  # COULD BE HIJACKED
-            print("encrypt7")
+            print "encrypt7"
             self.atm.write(encrypt_pkt)#figure out importance
-            print("encrypt8")
+            print "encrypt8"
         else:
             encrypt_bad = aesEncrypt(self.Bad, key2)
             self.atm.write(encrypt_bad)  # COULD BE HIJACKED
