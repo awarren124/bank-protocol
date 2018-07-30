@@ -15,19 +15,6 @@ ch = logging.StreamHandler(sys.stdout)
 ch.setFormatter(log_format)
 log.addHandler(ch)
 
-
-
-"""TODO: MAKE KEYS STORED IN A JSON FILE"""
-"""TEMPORARRRYYYYY"""
-key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
-key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
-
-"""~~~~~~~~~~~~~~~~~"""
-
-
-
-
-
 class ATM(cmd.Cmd, object):
     """Interface for ATM xmlrpc server
 
@@ -134,28 +121,40 @@ class ATM(cmd.Cmd, object):
             bool: False on failure
         """
         try:
+	    print("withdraw start")
             self._vp('withdraw: Requesting card_id from card')
+            print("withdraw start1")
             card_id = self.card.withdraw(pin)
+	    print(card_id.encode('hex'))
+	    print("withdraw start2")
             # request UUID from HSM if card accepts PIN
             if card_id:
+		print("withdraw next")
                 self._vp('withdraw: Requesting hsm_id from hsm')
+                print("withdraw next1")
                 if self.bank.withdraw(self.uuid, card_id, amount):
+                    print("withdraw next2")
                     with open(self.billfile, "w") as f:
                         self._vp('withdraw: Dispensing bills...')
                         for i in range(self.dispensed, self.dispensed + amount):
+                            print self.bills[i]
                             f.write(self.bills[i] + "\n")
                             self.bills[i] = "-DISPENSED BILL-"
                             self.dispensed += 1
                     self.update()
+		    print("hallo")
                     return True
             else:
                 self._vp('withdraw failed')
+		print("withdraw failed")
                 return False
         except ValueError:
             self._vp('amount must be an int')
+            print("bad")
             return False
         except NotProvisioned:
             self._vp('ATM card has not been provisioned!')
+	    print("provision flail")
             return False
 
     def get_pin(self, prompt="Please insert 8-digit PIN: "):
