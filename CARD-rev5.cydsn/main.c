@@ -83,11 +83,41 @@ char *recvUART(uint8 size){
     return ptr;
 }
 
+cf_cbc prep_aes_32(cf_aes_context aes, void* key, void* iv){
+    cf_aes_init(&aes, key, 32);
+    
+    cf_cbc cbc;
+    cf_cbc_init(&cbc, &cf_aes, &aes, iv);
+    return cbc;
+}
+
+uint8_t pad_16(uint8_t *array, uint8 p){
+    int i;
+    for(i = p-1; i>=0; i--){
+        array[i] = p;
+    }
+    return 0;
+}
+
+uint8_t sha256(uint8_t *input, uint8 size){
+    uint8_t digest[32];
+    cf_sha256_context hash_ctx;
+    cf_sha256_init(&hash_ctx);
+    for(uint8 i = 0; i < size; i++)
+        cf_sha256_update(&hash_ctx, input, size);
+    cf_sha256_digest_final(&hash_ctx, digest);
+    return *digest;
+}
+
 int main (void)
 {
     CyGlobalIntEnable;      /* Enable global interrupts */
     
     UART_Start();
+    
+    /* Declare variables here */
+    
+    void* key1 = recvUART(32);
     
     uint8_t digest[32];
     cf_sha256_context hash_ctx;
@@ -103,6 +133,7 @@ int main (void)
     
     
     uint8_t out[16];
+    uint8_t out2[16];
     const void *iv =  "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f";
     const void *key = "\x2b\x7e\x15\x16\x28\xae\xd2\xa6\xab\xf7\x15\x88\x09\xcf\x4f\x3c";
     const void *inp = "\x6b\xc1\xbe\xe2\x2e\x40\x9f\x96\xe9\x3d\x7e\x11\x73\x93\x17\x2a";
@@ -119,10 +150,15 @@ int main (void)
     UART_PutArray(out, 16);
     printUART("HeyPSoC2\t", 11);
     
+    cf_cbc_init(&cbc, &cf_aes, &aes, iv);
+    cf_cbc_decrypt(&cbc, out, out2, 1);
     
+    printUART(out2, 16);
+    printUART("HeyPSoC3\t", 11);
+    
+    cf_aes_finish(&aes);
     
     uint8 message[128];
-    /* Declare variables here */
 
     /*cf_aes_context aes_ctx;
     cf_cbc cbc_ctx;
@@ -137,14 +173,14 @@ int main (void)
     cf_aes_init(&aes_ctx, key1, 32);
     cf_cbc_init(&cbc_ctx, &cf_aes, &aes_ctx, iv);
     
-    cf_cbc_encrypt(&cbc_ctx, inbuf, outbuf, 32);
+    cf_cbc_encrypt(&cbc_ctx, inbuf, outbuf, 1);
     
     printUART("Hey, PSoC2\t", 11);
     
     UART_PutArray(outbuf, 16);
     
     
-    cf_cbc_decrypt(&cbc_ctx, cbuf, outbuf,32);
+    cf_cbc_decrypt(&cbc_ctx, cbuf, outbuf, 1);
     
     printUART(outbuf, 16); */
     
