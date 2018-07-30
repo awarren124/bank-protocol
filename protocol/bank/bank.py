@@ -16,6 +16,8 @@ from Crypto.PublicKey import RSA
 import hashlib
 key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
 key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
+accessKey2 = eh.hash(key2)
+print(accessKey)
 
 class Bank(object):
     GOOD = "O"
@@ -41,10 +43,10 @@ class Bank(object):
                 print("encrypt1")
                 pkt = self.atm.read(76)#FLAG FOR DECODE, get pkt sent from atm, change what we actualy send
                 decrypt_pkt = eh.aesDecrypt(pkt, key2)
-                rint("encrypt2")
+                print("encrypt2")
                 atm_id, card_id, amount = struct.unpack(">36s36sI", decrypt_pkt)#unpack that and
                 self.withdraw(atm_id, card_id, amount)
-                rint("encrypt3")
+                print("encrypt3")
             elif decrypt_intruction == 'b':
                 log("Checking balance")
                 pkt = self.atm.read(72)
