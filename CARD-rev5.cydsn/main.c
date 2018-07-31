@@ -83,6 +83,76 @@ char *recvUART(uint8 size){
     return ptr;
 }
 
+char *bin2hex(const unsigned char *bin, size_t len)
+{
+    char   *out;
+    size_t  i;
+ 
+    if (bin == NULL || len == 0)
+        return NULL;
+ 
+    out = malloc(len*2+1);
+    //out = malloc(len*4);
+    for (i=0; i<len; i++) {
+        
+        out[i*2]   = "0123456789ABCDEF"[bin[i] >> 4];
+        out[i*2+1] = "0123456789ABCDEF"[bin[i] & 0x0F];
+        /*
+        out[i*4] = "\\";
+        out[i*4+1] = "x";
+        out[i*4+2]   = "0123456789ABCDEF"[bin[i] >> 4];
+        out[i*4+3] = "0123456789ABCDEF"[bin[i] & 0x0F];
+        */
+    }
+    out[len*2] = '\0';
+ 
+    return out;
+}
+
+int hexchr2bin(const char hex, char *out)
+{
+    if (out == NULL)
+        return 0;
+ 
+    if (hex >= '0' && hex <= '9') {
+        *out = hex - '0';
+    } else if (hex >= 'A' && hex <= 'F') {
+        *out = hex - 'A' + 10;
+    } else if (hex >= 'a' && hex <= 'f') {
+        *out = hex - 'a' + 10;
+    } else {
+        return 0;
+    }
+ 
+    return 1;
+}
+
+size_t hexs2bin(const char *hex, unsigned char **out)
+{
+    size_t len;
+    char   b1;
+    char   b2;
+    size_t i;
+ 
+    if (hex == NULL || *hex == '\0' || out == NULL)
+        return 0;
+ 
+    len = strlen(hex);
+    if (len % 2 != 0)
+        return 0;
+    len /= 2;
+ 
+    *out = malloc(len);
+    memset(*out, 'A', len);
+    for (i=0; i<len; i++) {
+        if (!hexchr2bin(hex[i*2], &b1) || !hexchr2bin(hex[i*2+1], &b2)) {
+            return 0;
+        }
+        (*out)[i] = (b1 << 4) | b2;
+    }
+    return len;
+}
+
 cf_cbc prep_aes_32(cf_aes_context aes, void* key, void* iv){
     cf_aes_init(&aes, key, 32);
     
@@ -117,16 +187,25 @@ int main (void)
     
     /* Declare variables here */
     
-    void* key1 = recvUART(32);
+    printUART("started\n", 8);
+    
+    //void* key1 = recvUART(32);
+    //free(key1);
     
     uint8_t digest[32];
     cf_sha256_context hash_ctx;
+    
     cf_sha256_init(&hash_ctx);
     
-    for(size_t i = 0; i < 12; i++)
-        cf_sha256_update(&hash_ctx, "Hello World!", 12);
+    printUART("hashinit\n", 9);
+    
+    //for(size_t i = 0; i < 12; i++)
+    cf_sha256_update(&hash_ctx, "Hello World!", 12);
     cf_sha256_digest_final(&hash_ctx, digest);
+    
     printUART((char *)digest, 32);
+    char *digesthex = bin2hex((unsigned char*)digesthex, 32);
+    UART_PutString(digesthex);
     
     printUART("Hey, PSoC1\t", 11);
     
@@ -139,50 +218,51 @@ int main (void)
     const void *inp = "\x6b\xc1\xbe\xe2\x2e\x40\x9f\x96\xe9\x3d\x7e\x11\x73\x93\x17\x2a";
     const void *expect = "\x76\x49\xab\xac\x81\x19\xb2\x46\xce\xe9\x8e\x9b\x12\xe9\x19\x7d";
 
+    printUART("INPUT : ", 6);
+    UART_PutString(inp);
+    char *inphex = bin2hex((unsigned char *)inp, 16);
+    UART_PutString(inphex);
+    free(inphex);
+    
     cf_aes_context aes;
     cf_aes_init(&aes, key, 16);
 
     cf_cbc cbc;
     cf_cbc_init(&cbc, &cf_aes, &aes, iv);
     cf_cbc_encrypt(&cbc, inp, out, 1);
-    printUART(out, 16);
-    printUART((char *)out, 16);
-    UART_PutArray(out, 16);
-    printUART("HeyPSoC2\t", 11);
     
-    cf_cbc_init(&cbc, &cf_aes, &aes, iv);
+    printUART("EXPECTED OUTPUT : ", 18);
+    char * exphex = bin2hex((unsigned char*) expect, 16);
+    free(exphex);
+    
+    UART_PutString(exphex);
+    printUART("OUTPUT : ", 9);
+    printUART((char *)out, 16);
+    char * outhex = bin2hex((unsigned char*) out, 16);
+    UART_PutString(outhex);
+    free(outhex);
+    
+    //cf_cbc_init(&cbc, &cf_aes, &aes, iv);
     cf_cbc_decrypt(&cbc, out, out2, 1);
     
-    printUART(out2, 16);
+    char * out2hex = bin2hex(out2, 16);
+    if(out2 == inp || out2hex == (char *)inp){
+        printUART("successful decrypt\n", 19);   
+    }
+    else{
+        printUART("unsuccessful decrypt\n", 21);   
+    }
+    
+    printUART("HEX MESSAGE OUTPUT : ", 22);
+    UART_PutString(out2hex);
+    free(out2hex);
+    
     printUART("HeyPSoC3\t", 11);
     
     cf_aes_finish(&aes);
     
     uint8 message[128];
 
-    /*cf_aes_context aes_ctx;
-    cf_cbc cbc_ctx;
-    uint8_t outbuf[16];
-    
-    //const uint8_t *key1 = {0xe6, 'R', '|', 0x84,'x', 0xce, 0x96, 0xa5, 'T',0xac,0xd8,'l',0xd0,0xe4,'L','f',0xf6,'&',0x16,'E',0xfa,'/',0x9b,0xa2,0xea,'!',0xce,'Y',0x85,0xbe,'\\','r','a'};
-    const void *key1 = "\xe6" "R" "\x84" "x" "\xce" "\x96" "\xa5" "T" "\xac\xd8" "l" "\xd0\xe4" "Lf" "\xf6" "&" "\x16" "E" "\xfa" "/" "\x9b\xa2\xea" "!" "\xce" "Y" "\x85\xbe" "\\r";
-    const void *iv = "this is an iv";
-    const void *inbuf = "facefeed";
-    uint8_t cbuf[] = {0x0e, 'p', 0xbd, 'l',0xa0, 'D','6',0x0b,0x00,'\\','W',0x87,0xca,'\\'};
-    
-    cf_aes_init(&aes_ctx, key1, 32);
-    cf_cbc_init(&cbc_ctx, &cf_aes, &aes_ctx, iv);
-    
-    cf_cbc_encrypt(&cbc_ctx, inbuf, outbuf, 1);
-    
-    printUART("Hey, PSoC2\t", 11);
-    
-    UART_PutArray(outbuf, 16);
-    
-    
-    cf_cbc_decrypt(&cbc_ctx, cbuf, outbuf, 1);
-    
-    printUART(outbuf, 16); */
     
     // Provision card if on first boot
     if (*PROVISIONED == 0x00) {
