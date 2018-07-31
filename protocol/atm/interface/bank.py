@@ -69,20 +69,21 @@ class Bank:
 	cmd = ""
 	while cmd != 'a':
 	    print("initialized")
-	    cmd = self.ser.read(16)
-	    print(cmd)
-	    if cmd != '':
-	    	cmd = eh.aesDecrypt(cmd, key2)
-		print(cmd)
-	aid = self.ser.read()
-	cid = self.ser.read()
-	bal = self.ser.read()	
-	dec_aid = eh.aesDecrypt(aid, key2)
-	dec_cid = eh.aesDecrypt(cid, key2)
-	dec_bal = eh.aesDecrypt(bal, key2)
-	print(dec_bal)
-        self._vp('check_balance: returning balance')
-        return dec_bal
+	    cmd = self.ser.read(1)
+	decision = self.ser.read(16)
+	dec_decision = eh.aesDecrypt(decision, key2)
+	if dec_decision == 'O':
+	    aid = self.ser.read(48)
+	    cid = self.ser.read(48)
+	    bal = self.ser.read(16)	
+	    dec_aid = eh.aesDecrypt(aid, key2)
+	    dec_cid = eh.aesDecrypt(cid, key2)
+	    dec_bal = eh.aesDecrypt(bal, key2)
+	    print(dec_bal)
+            self._vp('check_balance: returning balance')
+            return dec_bal
+	else:
+	    return false
 
     def withdraw(self, atm_id, card_id, amount):
         """Requests a withdrawal from the account associated with the card_id
