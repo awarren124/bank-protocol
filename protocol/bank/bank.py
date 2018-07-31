@@ -38,6 +38,7 @@ class Bank(object):
         print self.GOOD
         while True:
             command = self.atm.read(16)#FLAG FOR DECODE, receives command from atm to decide what to do
+            # if len(command) != 0:
             print "command recieved: " + command.encode('hex') + ""
             print("length = %s" % (len(command)))
             decrypt_instruction = None
@@ -74,10 +75,15 @@ class Bank(object):
                 self.withdraw(decrypt_atm_id, decrypt_card_id, decrypt_amount)
             elif decrypt_instruction == 'b':
                 log("Checking balance")
-                pkt = self.atm.read(72)
-                decrypt_pkt = eh.aesDecrypt(pkt, key2)
-                atm_id, card_id = struct.unpack(">36s36s", decrypt_pkt)
-                self.check_balance(atm_id, card_id)
+                # pkt = self.atm.read(72)
+                # decrypt_pkt = eh.aesDecrypt(pkt, key2)
+                # atm_id, card_id = struct.unpack(">36s36s", decrypt_pkt)
+
+                atm_id = self.atm.read(48)
+                card_id = self.atm.read(48)
+                decrypt_atm_id = eh.aesDecrypt(atm_id,key2)
+                decrypt_card_id = eh.aesDecrypt(card_id, key2)
+                self.check_balance(decrypt_atm_id, decrypt_card_id)
             elif decrypt_instruction != '':
                 self.atm.write(self.ERROR)
 
@@ -105,7 +111,7 @@ class Bank(object):
         # print "checking num_bills: " + num_bills
 
         if num_bills is None:
-            encrypt_error = aesEncrypt(self.ERROR, key2)
+            encrypt_error = eh.aesEncrypt(self.ERROR, key2)
             self.atm.write(encrypt_error)#COULD BE HIJACKED
             log("Bad ATM ID")
             return
@@ -143,35 +149,47 @@ class Bank(object):
             # self.atm.write(encrypt_pkt)#figure out importance
             # print len(encrypt_pkt)
 
-            encPacket = encrypt_good + str(encAtmId) + str(encCardId) + str(encAmount)
+            encPacket = "a" + encrypt_good + str(encAtmId) + str(encCardId) + str(encAmount)
             print "encrypt8 (the important once)"
 
-            print len(str(encrypt_good))
-            print len(str(encAtmId))
-            print len(str(encCardId))
-            print len(str(encAmount))
+            print str(encrypt_good)
+            print str(encAtmId)
+            print str(encCardId)
+            print str(encAmount)
             self.atm.write(encPacket)
         else:
-            encrypt_bad = aesEncrypt(self.BAD, key2)
+            encrypt_bad = eh.aesEncrypt(self.BAD, key2)
             self.atm.write(encrypt_bad)  # COULD BE HIJACKED
             log("Insufficient funds in account")
 
     def check_balance(self, atm_id, card_id):
         print "checking ATM with id: " + atm_id
         if self.db.get_atm(atm_id) is None:
-            self.atm.write(self.BAD)
+            encrypt_bad = eh.aesEncrypt(self.BAD, key2)
+            packet = "a" + encrypt_bad
+            self.atm.write(packet)
             log("Invalid ATM ID")
             return
 
         balance = self.db.get_balance(str(card_id))
         if balance is None:
-            self.atm.write(self.BAD)
+            encrypt_bad = eh.aesEncrypt(self.BAD, key2)
+            packet = "a" + encrypt_bad
+            self.atm.write(packet)
             log("Bad card ID")
         else:
             log("Valid balance check")
-            pkt = struct.pack(">36s36sI", atm_id, card_id, balance)
-            self.atm.write(self.GOOD)
-            self.atm.write(pkt)
+            # pkt = struct.pack(">36s36sI", atm_id, card_id, balance)
+            encrypt_good = eh.aesEncrypt(self.GOOD, key2)
+            print len(encrypt_good)
+            encrypt_atm_id = eh.aesEncrypt(atm_id, key2)
+            print len(encrypt_atm_id)
+            encrypt_card_id = eh.aesEncrypt(card_id, key2)
+            print len(encrypt_card_id)
+            encrypt_balance = eh.aesEncrypt(str(balance), key2)
+            print len(encrypt_balance)
+            packet = "a" + encrypt_good + encrypt_atm_id + encrypt_card_id + encrypt_balance
+            self.atm.write(packet)
 
 
 def parse_args():
