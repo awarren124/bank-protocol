@@ -87,8 +87,10 @@ class ATM(cmd.Cmd, object):
 
             # get balance from bank if card accepted PIN
             if card_id:
+		print("lol")
                 self._vp('check_balance: Requesting balance from Bank')
                 res = self.bank.check_balance(self.uuid, card_id)
+		print(res)
                 if res:
 		    print("balance is: " + str(res))
                     return res
@@ -136,6 +138,7 @@ class ATM(cmd.Cmd, object):
         try:
             self._vp('withdraw: Requesting card_id from card')
             card_id = self.card.withdraw(pin)
+	    print(card_id)
             # request UUID from HSM if card accepts PIN
             if card_id:
                 self._vp('withdraw: Requesting hsm_id from hsm')

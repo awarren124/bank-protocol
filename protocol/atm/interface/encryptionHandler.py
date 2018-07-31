@@ -19,7 +19,7 @@ class EncryptionHandler:
 		return ciphertext
 	def aesDecrypt(self, ciphertext, key):
 		aes = AES.new(key, AES.MODE_CBC, self.initializationVector)
-		plaintext = aes.decrypt(ciphertext).decode('utf-8')
+		plaintext = aes.decrypt(ciphertext)
 		plaintext = plaintext[:plaintext.find(self.padCharacter)]
 		return plaintext
 	def rsaEncrypt(self, plaintext, key):
