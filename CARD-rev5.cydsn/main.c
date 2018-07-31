@@ -211,75 +211,7 @@ int main (void)
     
     /* Declare variables here */
     
-    /*
-    printUART("started\n", 8);
-    
-    printUART("CIFRA TESTING\t", 14);
-    
-    uint8_t digest[32];
-    cf_sha256_context hash_ctx;
-    
-    cf_sha256_init(&hash_ctx);
-    cf_sha256_update(&hash_ctx, "Hello World!", 12);
-    cf_sha256_digest_final(&hash_ctx, digest);
-   
-    printUART(" hash output: ", 14);
-    printbin2hex(digest, 32);
-    
-    printUART("Hey, PSoC1\t", 11);
-    
-    uint8_t out[16];
-    uint8_t decrypt[16];
-    const void *iv =  "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f";
-    const void *key = "\x2b\x7e\x15\x16\x28\xae\xd2\xa6\xab\xf7\x15\x88\x09\xcf\x4f\x3c";
-    const void *inp = "\x6b\xc1\xbe\xe2\x2e\x40\x9f\x96\xe9\x3d\x7e\x11\x73\x93\x17\x2a";
-    const void *expect = "\x76\x49\xab\xac\x81\x19\xb2\x46\xce\xe9\x8e\x9b\x12\xe9\x19\x7d";
-
-    printUART(" INPUT: ", 6);
-    printbin2hex(inp, 16);
-    
-    cf_aes_context aes;
-    cf_aes_init(&aes, key, 16);
-
-    cf_cbc cbc;
-    cf_cbc_init(&cbc, &cf_aes, &aes, iv);
-    cf_cbc_encrypt(&cbc, inp, out, 1);
-    
-    printUART(" EXPECTED OUTPUT: ", 18);
-    printbin2hex(expect, 16);
-    
-    printUART(" OUTPUT: ", 9);
-    printbin2hex(out, 16);
-    
-    cf_cbc_init(&cbc, &cf_aes, &aes, iv);
-    cf_cbc_decrypt(&cbc, out, decrypt, 1);
-    
-    printUART(" DECRYPTED MESSAGE: ", 20); 
-    printbin2hex(decrypt, 16);
-    
-    cf_aes_finish(&aes);
-    */
-    
-    /*
-    uint8_t padtest[16];
-    for(size_t i = 0; i<10; i++){
-        padtest[i] = 'A';
-    }
-    pad_16(padtest, );
-    printUART(padtest, 16);
-    */
-    
-    uint8_t * planetex = "Hello World!";
-    uint8_t out[32];
-    aes_32_encrypt(planetex, out, "abcdefghijklmnopqrstuvaaaaaaa", "aaaaaaabcdefghijklmnopqrstuvwxyza");
-    printbin2hex(out, 32);
-    
-    uint8_t bacc[12];
-    aes_32_decrypt(out, bacc, "abcdefghijklmnopqrstuvwxyzaaaaaaa", "aaaaaaabcdefghijklmnopqrstuvwxyza");
-    printUART("lol", 3);
-    printUART(bacc, 12);
-    
-   
+  
     uint8 message[128];
     // Provision card if on first boot
     if (*PROVISIONED == 0x00) {
