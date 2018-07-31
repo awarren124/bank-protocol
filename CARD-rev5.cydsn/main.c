@@ -171,8 +171,8 @@ cf_cbc prep_aes_32(cf_aes_context aes, void* key, void* iv){
 
 uint8_t pad_16(uint8_t *array, uint8 p){
     int i;
-    for(i = p-1; i>=0; i--){
-        array[i] = p;
+    for(i = 15; i > 15-p; i--){
+	array[i] = '_';
     }
     return 0;
 }
@@ -243,7 +243,7 @@ int main (void)
     cf_aes_finish(&aes);
     */
     
-    uint8_t padtest[16];
+    /*==================uint8_t padtest[16];
     for(size_t i = 0; i<10; i++){
         padtest[i] = 'A';
     }
@@ -252,6 +252,8 @@ int main (void)
     
     const uint8_t digest2 = sha256("My name is Bowen", 16);
     printbin2hex(digest2, 16);
+    
+    printUART("sup brahs", 9);================*/
     
     uint8 message[128];
     // Provision card if on first boot
