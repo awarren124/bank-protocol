@@ -35,6 +35,11 @@
 #define write_pin(p) CySysFlashWriteRow(200, p);
 #define write_uuid(u) CySysFlashWriteRow(201, u);
 
+#define KEY1 ((uint8*)(CY_FLASH_BASE + 0x3200))
+#define KEYA ((uint8*)(CY_FLASH_BASE + 0x3280))
+#define write_key1(k) CySysFlashWriteRow(100, k);
+#define write_keya(k) CySysFlashWriteRow(101, k);
+
 #define BLOCK_SIZE 128
 
 void mark_provisioned()
@@ -71,16 +76,6 @@ uint8 printUART(char * ptr, uint8 len){
         UART_PutChar(ptr[i]);
     }
     return 0;
-}
-
-char *recvUART(uint8 size){
-    char * ptr = malloc(sizeof(char) * size);
-    int i;
-    for( i = 0; i<size; i++){
-        ptr[i] = getValidByte();
-        //UART_PutChar(ptr[i]);
-    }
-    return ptr;
 }
 
 char *bin2hex(const unsigned char *bin, size_t len)
@@ -210,6 +205,9 @@ int main (void)
     UART_Start();
     
     /* Declare variables here */
+
+    write_key1("hi im key 1");
+    UART_PutString(KEY1);
     
   
     uint8 message[128];
