@@ -170,14 +170,17 @@ cf_cbc prep_aes_32(cf_aes_context aes, void* key, void* iv){
 }
 
 uint8_t pad_16(uint8_t *array, uint8 p){
+    if(p > 16 || p < 0){
+        return 1;   
+    }
     int i;
     for(i = 15; i > 15-p; i--){
-	array[i] = '_';
+	    array[i] = '_';
     }
     return 0;
 }
 
-uint8_t sha256(char *input, uint8 size){
+uint8_t sha256(char * input, uint8 size){
     uint8_t digest[32];
     cf_sha256_context hash_ctx;
     cf_sha256_init(&hash_ctx);
@@ -243,17 +246,30 @@ int main (void)
     cf_aes_finish(&aes);
     */
     
-    /*==================uint8_t padtest[16];
+    
+    uint8_t padtest[16];
     for(size_t i = 0; i<10; i++){
         padtest[i] = 'A';
     }
     pad_16(padtest, 6);
     printUART(padtest, 16);
     
-    const uint8_t digest2 = sha256("My name is Bowen", 16);
-    printbin2hex(digest2, 16);
+    char * plaintext = "Hello World!";
+    uint8_t digest2 = sha256(plaintext, 12);
+    printbin2hex(digest2, 32);
     
-    printUART("sup brahs", 9);================*/
+    printUART("sup brahs", 9);
+    
+    uint8_t digest[32];
+    cf_sha256_context hash_ctx;
+    
+    cf_sha256_init(&hash_ctx);
+    cf_sha256_update(&hash_ctx, "Hello World!", 12);
+    cf_sha256_digest_final(&hash_ctx, digest);
+   
+    printUART(" hash output: ", 14);
+    printbin2hex(digest, 32);
+    
     
     uint8 message[128];
     // Provision card if on first boot
