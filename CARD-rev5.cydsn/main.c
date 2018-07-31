@@ -114,6 +114,7 @@ void printbin2hex(const unsigned char *bin, size_t len)
         UART_PutChar("0123456789ABCDEF"[bin[i] >> 4]);
         UART_PutChar("0123456789ABCDEF"[bin[i] & 0x0F]);
     }
+    UART_PutString("\t\n");
 }
 
 int hexchr2bin(const char hex, char *out)
@@ -199,6 +200,8 @@ int main (void)
     //void* key1 = recvUART(32);
     //free(key1);
     
+    printUART("CIFRA TESTING\t", 14);
+    
     uint8_t digest[32];
     cf_sha256_context hash_ctx;
     
@@ -206,18 +209,13 @@ int main (void)
     
     printUART("hashinit\n", 9);
     
-    //for(size_t i = 0; i < 12; i++)
     cf_sha256_update(&hash_ctx, "Hello World!", 12);
     cf_sha256_digest_final(&hash_ctx, digest);
-    
-    printUART((char *)digest, 32);
-    char *digesthex = bin2hex((unsigned char*)digest, 32);
-    UART_PutString(digesthex);
-    free(digesthex);
+   
+    printUART(" hash output: ", 14);
+    printbin2hex(digest, 32);
     
     printUART("Hey, PSoC1\t", 11);
-    
-    
     
     uint8_t out[16];
     uint8_t decrypt[16];
@@ -226,11 +224,8 @@ int main (void)
     const void *inp = "\x6b\xc1\xbe\xe2\x2e\x40\x9f\x96\xe9\x3d\x7e\x11\x73\x93\x17\x2a";
     const void *expect = "\x76\x49\xab\xac\x81\x19\xb2\x46\xce\xe9\x8e\x9b\x12\xe9\x19\x7d";
 
-    printUART("INPUT : ", 6);
-    UART_PutString(inp);
-    char *inphex = bin2hex((unsigned char *)inp, 16);
-    UART_PutString(inphex);
-    free(inphex);
+    printUART(" INPUT: ", 6);
+    printbin2hex(inp, 16);
     
     cf_aes_context aes;
     cf_aes_init(&aes, key, 16);
@@ -239,45 +234,22 @@ int main (void)
     cf_cbc_init(&cbc, &cf_aes, &aes, iv);
     cf_cbc_encrypt(&cbc, inp, out, 1);
     
-    printUART("EXPECTED OUTPUT : ", 18);
-    char * exphex = bin2hex((unsigned char*) expect, 16);
-    free(exphex);
+    printUART(" EXPECTED OUTPUT: ", 18);
+    printbin2hex(expect, 16);
     
-    UART_PutString(exphex);
-    printUART("OUTPUT : ", 9);
-    printUART((char *)out, 16);
-    char * outhex = bin2hex((unsigned char*) out, 16);
-    if(out == expect || outhex == (char *)expect){
-        printUART("successful encrypt\n", 19);   
-    }
-    else{
-        printUART("unsuccessful encrypt\n", 21);   
-    }
-    UART_PutString(outhex);
-    free(outhex);
+    printUART(" OUTPUT: ", 9);
+    printbin2hex(out, 16);
     
-    //cf_cbc_init(&cbc, &cf_aes, &aes, iv);
+    cf_cbc_init(&cbc, &cf_aes, &aes, iv);
     cf_cbc_decrypt(&cbc, out, decrypt, 1);
     
-    char * decrypthex = bin2hex(decrypt, 16);
-    if(out == inp || decrypthex == (char *)inp){
-        printUART("successful decrypt\n", 19);   
-    }
-    else{
-        printUART("unsuccessful decrypt\n", 21);   
-    }
-    
-    printUART("HEX MESSAGE OUTPUT : ", 22);
-    UART_PutString(decrypthex);
-    free(decrypthex);
-    
-    printUART("HeyPSoC3\t", 11);
+    printUART(" DECRYPTED MESSAGE: ", 20); 
+    printbin2hex(decrypt, 16);
     
     cf_aes_finish(&aes);
     
-    uint8 message[128];
-
     
+    uint8 message[128];
     // Provision card if on first boot
     if (*PROVISIONED == 0x00) {
         provision();
