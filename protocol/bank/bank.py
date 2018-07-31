@@ -55,16 +55,22 @@ class Bank(object):
                 decrypt_data = decrypt_data[:-3]
                 print "decrypted data: " +  decrypt_data
                 print len(decrypt_data)
-                atm_id, card_id, amount = struct.unpack('36s36sI', decrypt_data)
+                #atm_id, card_id, amount = struct.unpack('36s36sI', decrypt_data)
+                atm_id = ser.read(72)
+                card_id = ser.read()
+                amount = ser.read()
+                decrypt_atm_id = eh.aesDecrypt(atm_id,key2)
+                decrypt_card_id = eh.aesDecrypt(card_id, key2)
+                decrypt_amount = eh.aesDecrypt(amount, key2)
                 # print "num: " + num 
                 # atm_id, card_id, amount = struct.unpack(">36s36sI", decrypt_data)#unpack that and
-                # withdraw(atm_id, card_id, amount)
                 print "atm_id: "
                 print atm_id
                 print "card_id: "
                 print card_id
                 print "amount"
                 print amount
+                withdraw(decrypt_atm_id, decrypt_card_id, decrypt_amount)
             elif decrypt_instruction == 'b':
                 log("Checking balance")
                 pkt = self.atm.read(72)
