@@ -161,12 +161,28 @@ size_t hexs2bin(const char *hex, unsigned char **out)
     return len;
 }
 
-cf_cbc prep_aes_32(cf_aes_context aes, void* key, void* iv){
+void aes_32_encrypt(uint8_t *plaintext, uint8_t *output,  void* key, void* iv){
+    cf_aes_context aes; 
     cf_aes_init(&aes, key, 32);
     
     cf_cbc cbc;
     cf_cbc_init(&cbc, &cf_aes, &aes, iv);
-    return cbc;
+    
+    cf_cbc_encrypt(&cbc, plaintext, output, 1);
+    
+    cf_aes_finish(&aes);
+}
+
+void aes_32_decrypt(uint8_t *input, uint8_t *output,  void* key, void* iv){
+    cf_aes_context aes; 
+    cf_aes_init(&aes, key, 32);
+    
+    cf_cbc cbc;
+    cf_cbc_init(&cbc, &cf_aes, &aes, iv);
+    
+    cf_cbc_decrypt(&cbc, input, output, 1);
+    
+    cf_aes_finish(&aes);
 }
 
 uint8_t pad_16(uint8_t *array, uint8 p){
