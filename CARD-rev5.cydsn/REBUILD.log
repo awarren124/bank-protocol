@@ -1,4 +1,4 @@
---------------- Rebuild Started: 07/30/2018 14:34:43 Project: CARD-rev5, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Rebuild Started: 07/31/2018 14:30:53 Project: CARD-rev5, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\main.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\usbserialprotocol.o"
 Deleting file ".\CortexM0\ARM_GCC_541\Debug\aes.o"
@@ -66,16 +66,6 @@ API Generation...
 Dependency Generation...
 Cleanup...
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/main.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c main.c -o .\CortexM0\ARM_GCC_541\Debug\main.o
-main.c: In function 'main':
-main.c:117:15: warning: pointer targets in passing argument 1 of 'printUART' differ in signedness [-Wpointer-sign]
-     printUART(out, 16);
-               ^
-main.c:68:7: note: expected 'char *' but argument is of type 'uint8_t * {aka unsigned char *}'
- uint8 printUART(char * ptr, uint8 len){
-       ^
-main.c:109:17: warning: unused variable 'expect' [-Wunused-variable]
-     const void *expect = "\x76\x49\xab\xac\x81\x19\xb2\x46\xce\xe9\x8e\x9b\x12\xe9\x19\x7d";
-                 ^
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/usbserialprotocol.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c usbserialprotocol.c -o .\CortexM0\ARM_GCC_541\Debug\usbserialprotocol.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/aes.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c aes.c -o .\CortexM0\ARM_GCC_541\Debug\aes.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/blockwise.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c blockwise.c -o .\CortexM0\ARM_GCC_541\Debug\blockwise.o
@@ -124,6 +114,6 @@ No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S "C:\Users\Heckerman\PSoC Creator Projects\bank-protocol\CARD-rev5.cydsn\CortexM0\ARM_GCC_541\Debug\CARD-rev5.elf"
-Flash used: 8872 of 32768 bytes (27.1%).
+Flash used: 4184 of 32768 bytes (12.8%).
 SRAM used: 1544 of 4096 bytes (37.7%). Stack: 1024 bytes. Heap: 128 bytes.
---------------- Rebuild Succeeded: 07/30/2018 14:35:21 ---------------
+--------------- Rebuild Succeeded: 07/31/2018 14:31:25 ---------------

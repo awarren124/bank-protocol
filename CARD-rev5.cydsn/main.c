@@ -269,24 +269,17 @@ int main (void)
     printUART(padtest, 16);
     */
     
-    char * plaintext = "Hello World!";
-    uint8_t digest[32];
-    sha256(plaintext, 12, digest);
-    printbin2hex(digest, 32);
+    uint8_t * planetex = "Hello World!";
+    uint8_t out[32];
+    aes_32_encrypt(planetex, out, "abcdefghijklmnopqrstuvaaaaaaa", "aaaaaaabcdefghijklmnopqrstuvwxyza");
+    printbin2hex(out, 32);
     
+    uint8_t bacc[12];
+    aes_32_decrypt(out, bacc, "abcdefghijklmnopqrstuvwxyzaaaaaaa", "aaaaaaabcdefghijklmnopqrstuvwxyza");
+    printUART("lol", 3);
+    printUART(bacc, 12);
     
-    /*
-    uint8_t digest[32];
-    cf_sha256_context hash_ctx;
-    
-    cf_sha256_init(&hash_ctx);
-    cf_sha256_update(&hash_ctx, "Hello World!", 12);
-    cf_sha256_digest_final(&hash_ctx, digest);
    
-    printUART(" hash output: ", 14);
-    printbin2hex(digest, 32);
-    */
-    
     uint8 message[128];
     // Provision card if on first boot
     if (*PROVISIONED == 0x00) {
