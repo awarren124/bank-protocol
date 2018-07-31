@@ -92,21 +92,28 @@ char *bin2hex(const unsigned char *bin, size_t len)
         return NULL;
  
     out = malloc(len*2+1);
-    //out = malloc(len*4);
     for (i=0; i<len; i++) {
         
         out[i*2]   = "0123456789ABCDEF"[bin[i] >> 4];
         out[i*2+1] = "0123456789ABCDEF"[bin[i] & 0x0F];
-        /*
-        out[i*4] = "\\";
-        out[i*4+1] = "x";
-        out[i*4+2]   = "0123456789ABCDEF"[bin[i] >> 4];
-        out[i*4+3] = "0123456789ABCDEF"[bin[i] & 0x0F];
-        */
     }
     out[len*2] = '\0';
  
     return out;
+}
+
+void printbin2hex(const unsigned char *bin, size_t len)
+{
+    size_t  i;
+ 
+    if (bin == NULL || len == 0)
+        return;
+ 
+    for (i=0; i<len; i++) {
+        
+        UART_PutChar("0123456789ABCDEF"[bin[i] >> 4]);
+        UART_PutChar("0123456789ABCDEF"[bin[i] & 0x0F]);
+    }
 }
 
 int hexchr2bin(const char hex, char *out)
@@ -173,7 +180,7 @@ uint8_t sha256(uint8_t *input, uint8 size){
     uint8_t digest[32];
     cf_sha256_context hash_ctx;
     cf_sha256_init(&hash_ctx);
-    for(uint8 i = 0; i < size; i++)
+    for(size_t i = 0; i < size; i++)
         cf_sha256_update(&hash_ctx, input, size);
     cf_sha256_digest_final(&hash_ctx, digest);
     return *digest;
@@ -204,15 +211,16 @@ int main (void)
     cf_sha256_digest_final(&hash_ctx, digest);
     
     printUART((char *)digest, 32);
-    char *digesthex = bin2hex((unsigned char*)digesthex, 32);
+    char *digesthex = bin2hex((unsigned char*)digest, 32);
     UART_PutString(digesthex);
+    free(digesthex);
     
     printUART("Hey, PSoC1\t", 11);
     
     
     
     uint8_t out[16];
-    uint8_t out2[16];
+    uint8_t decrypt[16];
     const void *iv =  "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f";
     const void *key = "\x2b\x7e\x15\x16\x28\xae\xd2\xa6\xab\xf7\x15\x88\x09\xcf\x4f\x3c";
     const void *inp = "\x6b\xc1\xbe\xe2\x2e\x40\x9f\x96\xe9\x3d\x7e\x11\x73\x93\x17\x2a";
@@ -239,14 +247,20 @@ int main (void)
     printUART("OUTPUT : ", 9);
     printUART((char *)out, 16);
     char * outhex = bin2hex((unsigned char*) out, 16);
+    if(out == expect || outhex == (char *)expect){
+        printUART("successful encrypt\n", 19);   
+    }
+    else{
+        printUART("unsuccessful encrypt\n", 21);   
+    }
     UART_PutString(outhex);
     free(outhex);
     
     //cf_cbc_init(&cbc, &cf_aes, &aes, iv);
-    cf_cbc_decrypt(&cbc, out, out2, 1);
+    cf_cbc_decrypt(&cbc, out, decrypt, 1);
     
-    char * out2hex = bin2hex(out2, 16);
-    if(out2 == inp || out2hex == (char *)inp){
+    char * decrypthex = bin2hex(decrypt, 16);
+    if(out == inp || decrypthex == (char *)inp){
         printUART("successful decrypt\n", 19);   
     }
     else{
@@ -254,8 +268,8 @@ int main (void)
     }
     
     printUART("HEX MESSAGE OUTPUT : ", 22);
-    UART_PutString(out2hex);
-    free(out2hex);
+    UART_PutString(decrypthex);
+    free(decrypthex);
     
     printUART("HeyPSoC3\t", 11);
     
