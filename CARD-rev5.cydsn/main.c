@@ -37,8 +37,23 @@
 
 #define KEY1 ((uint8*)(CY_FLASH_BASE + 0x3200))
 #define KEYA ((uint8*)(CY_FLASH_BASE + 0x3280))
+#define KEYD ((uint8*)(CY_FLASH_BASE + 0x3360))
+#define KEYF ((uint8*)(CY_FLASH_BASE + 0x3440))
+
+#define CARDDATA ((uint8*)(CY_FLASH_BASE + 0x3520))
+#define CARDDATA1 ((uint8*)(CY_FLASH_BASE + 0x3600))
+#define CARDDATA2 ((uint8*)(CY_FLASH_BASE + 0x3680))
+#define CARDDATA3 ((uint8*)(CY_FLASH_BASE + 0x3760))
+
 #define write_key1(k) CySysFlashWriteRow(100, k);
 #define write_keya(k) CySysFlashWriteRow(101, k);
+#define write_keyd(k) CySysFlashWriteRow(102, k);
+#define write_keyf(k) CySysFlashWriteRow(103, k);
+
+#define write_card_data1(d) CySysFlashWriteRow(104, d);
+#define write_card_data2(d) CySysFlashWriteRow(105, d);
+#define write_card_data3(d) CySysFlashWriteRow(106, d);
+#define write_card_data4(d) CySysFlashWriteRow(107, d);
 
 #define BLOCK_SIZE 128
 
@@ -206,10 +221,7 @@ int main (void)
     
     /* Declare variables here */
 
-    write_key1("hi im key 1");
-    UART_PutString(KEY1);
     
-  
     uint8 message[128];
     // Provision card if on first boot
     if (*PROVISIONED == 0x00) {
@@ -220,7 +232,7 @@ int main (void)
     // Go into infinite loop
     while (1) {
         /* Place your application code here. */
-        
+
         // synchronize communication with bank
         syncConnection(SYNC_NORM);
         
@@ -243,8 +255,18 @@ int main (void)
                 write_pin(message);
                 pushMessage((uint8*)PINCHG_SUC, strlen(PINCHG_SUC));
             } else {
-                pushMessage(UUID, UUID_LEN);   
+                char * expiration = "0818";
+                uint8_t shaexp[32];
+                sha256(expiration, 32, shaexp);
+                
+                char * magicword = "hello";
+                uint8_t shamag[32];
+                sha256(magicword, 32, shamag);
+                
+                pushMessage(UUID, UUID_LEN);
+                
             }
         }
+        
     }
 }
