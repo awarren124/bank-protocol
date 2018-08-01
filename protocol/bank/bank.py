@@ -74,7 +74,7 @@ class Bank(object):
                 print "decrypt_amount"
                 print decrypt_amount
                 self.withdraw(decrypt_atm_id, decrypt_card_id, decrypt_amount)
-                self.regenerate()
+                #self.regenerate(self,(decrypt_atm_id, decrypt_card_id)
             elif decrypt_instruction == 'b':
                 log("Checking balance")
                 # pkt = self.atm.read(72)
@@ -88,6 +88,7 @@ class Bank(object):
                 self.check_balance(decrypt_atm_id, decrypt_card_id)
             elif decrypt_instruction != '':
                 self.atm.write(self.ERROR)
+
     def regenerate(self, atm_id, card_id):
         try:
             atm_id = str(atm_id)
@@ -97,8 +98,27 @@ class Bank(object):
             self.atm.write(encrypt_error)#COULD BE HIJACKED
             log("Bad value sent")
             return
-        key1 = os.urandom(32)
-        key2 = os.urandom(32)
+        new_key1 = os.urandom(32)
+        new_key2 = os.urandom(32)
+        new_IV = os.urandom(16)
+        store1 = keySplice(new_key1)
+        store2 = keySplice(new_key2)
+        enc_new_key1 = eh.aesEncrypt(store1[1], key2)
+        enc_new_key2 = eh.aesEncrypt(store2[1], key2)
+        enc_new_IV = eh.aesEncrypt(new_IV, key2)
+        enc_AtmId = eh.aesEncrypt(str(atm_id), key2)
+        enc_CardId = eh.aesEncrypt(str(card_id), key2)
+        enc_pkg = "a" + enc_AtmId + enc_CardId + enc_new_key1 + enc_new_key2 + enc_new_IV
+        self.serial.write(enc_pkg)
+        
+
+    def keySplice(self, key):
+        hashKey = hash(key)
+        firstKey, secondKey = key[:((key) )/ 2], key[((key) / 2):]
+        return (hashKey, firstKey, secondKey)
+
+
+
 
     def withdraw(self, atm_id, card_id, amount):
         try:
