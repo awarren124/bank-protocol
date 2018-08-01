@@ -14,6 +14,7 @@ from encryptionHandler import EncryptionHandler
 from Crypto.Cipher import AES
 from Crypto.PublicKey import RSA
 import hashlib
+import os
 key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
 key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
 
@@ -73,6 +74,7 @@ class Bank(object):
                 print "decrypt_amount"
                 print decrypt_amount
                 self.withdraw(decrypt_atm_id, decrypt_card_id, decrypt_amount)
+                self.regenerate()
             elif decrypt_instruction == 'b':
                 log("Checking balance")
                 # pkt = self.atm.read(72)
@@ -86,6 +88,17 @@ class Bank(object):
                 self.check_balance(decrypt_atm_id, decrypt_card_id)
             elif decrypt_instruction != '':
                 self.atm.write(self.ERROR)
+    def regenerate(self, atm_id, card_id):
+        try:
+            atm_id = str(atm_id)
+            card_id = str(card_id)
+        except ValueError:
+            encrypt_error = eh.aesEncrypt(self.ERROR, key2)
+            self.atm.write(encrypt_error)#COULD BE HIJACKED
+            log("Bad value sent")
+            return
+        key1 = os.urandom(32)
+        key2 = os.urandom(32)
 
     def withdraw(self, atm_id, card_id, amount):
         try:
@@ -97,6 +110,7 @@ class Bank(object):
             self.atm.write(encrypt_error)#COULD BE HIJACKED
             log("Bad value sent")
             return
+
 
         atm = self.db.get_atm(atm_id)
         print "card id (hex): " + card_id.encode('hex')
