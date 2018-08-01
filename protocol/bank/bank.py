@@ -14,6 +14,7 @@ from encryptionHandler import EncryptionHandler
 from Crypto.Cipher import AES
 from Crypto.PublicKey import RSA
 import hashlib
+import os
 key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
 key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
 
@@ -73,6 +74,7 @@ class Bank(object):
                 print "decrypt_amount"
                 print decrypt_amount
                 self.withdraw(decrypt_atm_id, decrypt_card_id, decrypt_amount)
+                #self.regenerate(self,(decrypt_atm_id, decrypt_card_id)
             elif decrypt_instruction == 'b':
                 log("Checking balance")
                 # pkt = self.atm.read(72)
@@ -87,6 +89,37 @@ class Bank(object):
             elif decrypt_instruction != '':
                 self.atm.write(self.ERROR)
 
+    def regenerate(self, atm_id, card_id):
+        try:
+            atm_id = str(atm_id)
+            card_id = str(card_id)
+        except ValueError:
+            encrypt_error = eh.aesEncrypt(self.ERROR, key2)
+            self.atm.write(encrypt_error)#COULD BE HIJACKED
+            log("Bad value sent")
+            return
+        new_key1 = os.urandom(32)
+        new_key2 = os.urandom(32)
+        new_IV = os.urandom(16)
+        store1 = keySplice(new_key1)
+        store2 = keySplice(new_key2)
+        enc_new_key1 = eh.aesEncrypt(store1[1], key2)
+        enc_new_key2 = eh.aesEncrypt(store2[1], key2)
+        enc_new_IV = eh.aesEncrypt(new_IV, key2)
+        enc_AtmId = eh.aesEncrypt(str(atm_id), key2)
+        enc_CardId = eh.aesEncrypt(str(card_id), key2)
+        enc_pkg = "a" + enc_AtmId + enc_CardId + enc_new_key1 + enc_new_key2 + enc_new_IV
+        self.serial.write(enc_pkg)
+        
+
+    def keySplice(self, key):
+        hashKey = hash(key)
+        firstKey, secondKey = key[:((key) )/ 2], key[((key) / 2):]
+        return (hashKey, firstKey, secondKey)
+
+
+
+
     def withdraw(self, atm_id, card_id, amount):
         try:
             amount = int(amount)
@@ -97,6 +130,7 @@ class Bank(object):
             self.atm.write(encrypt_error)#COULD BE HIJACKED
             log("Bad value sent")
             return
+
 
         atm = self.db.get_atm(atm_id)
         print "card id (hex): " + card_id.encode('hex')
