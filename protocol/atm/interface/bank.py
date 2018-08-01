@@ -190,3 +190,8 @@ class Bank:
     def provision_update(self, uuid, pin, balance):
         pkt = struct.pack(">36s8sI", uuid, pin, balance)
         self.ser.write("p" + pkt)
+
+    def provision_key(self, key1, key2):
+        self.ser.write("a" + key1 + key2)
+        return key1, key2
+

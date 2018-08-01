@@ -1,5 +1,6 @@
 from interface.card import Card
 from interface.bank import Bank
+from atm import ATM
 from os import urandom
 import argparse
 import serial

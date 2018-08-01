@@ -19,8 +19,7 @@ log.addHandler(ch)
 
 """TODO: MAKE KEYS STORED IN A JSON FILE"""
 """TEMPORARRRYYYYY"""
-key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
-key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
+
 
 """~~~~~~~~~~~~~~~~~"""
 
@@ -29,6 +28,8 @@ key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc
 
 
 class ATM(cmd.Cmd, object):
+    key1 = os.urandom(32)
+    key2 = os.urandom(32)
     """Interface for ATM xmlrpc server
 
     Args:
@@ -37,6 +38,9 @@ class ATM(cmd.Cmd, object):
     """
     intro = 'Welcome to your friendly ATM! Press ? for a list of commands\r\n'
     prompt = '1. Check Balance\r\n2. Withdraw\r\n3. Change PIN\r\n> '
+    def setKeys(self, recKey1, reckey2):
+        key1 = recKey1
+        key2 = recKey2
 
     def __init__(self, bank, card, config_path="config.json",
                  billfile="billfile.out", verbose=False):
@@ -150,7 +154,7 @@ class ATM(cmd.Cmd, object):
                             self.bills[i] = "-DISPENSED BILL-"
                             self.dispensed += 1
                     self.update()
-                    self.bank.regenerate()
+                    #self.bank.regenerate()
                     return True
             else:
                 self._vp('withdraw failed')
