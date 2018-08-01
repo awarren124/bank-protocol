@@ -103,18 +103,25 @@ class Bank(object):
         new_IV = os.urandom(16)
         store1 = keySplice(new_key1)
         store2 = keySplice(new_key2)
-        enc_new_key1 = eh.aesEncrypt(store1[1], key2)
-        enc_new_key2 = eh.aesEncrypt(store2[1], key2)
+        enc_new_key1 = eh.aesEncrypt(new_key1, key2)
+        enc_new_key2 = eh.aesEncrypt(new_key2, key2)
         enc_new_IV = eh.aesEncrypt(new_IV, key2)
         enc_AtmId = eh.aesEncrypt(str(atm_id), key2)
         enc_CardId = eh.aesEncrypt(str(card_id), key2)
         enc_pkg = "a" + enc_AtmId + enc_CardId + enc_new_key1 + enc_new_key2 + enc_new_IV
+        key1Half = store1[2]
+        key2Half = store2[2]
+        store1 = null
+        store2 = null
         self.serial.write(enc_pkg)
-        
+        return
+
+    def combine(self, keyHalf1, keyHalf2):
+        return hash(keyHalf1 + keyHalf2)
 
     def keySplice(self, key):
-        hashKey = hash(key)
         firstKey, secondKey = key[:((key) )/ 2], key[((key) / 2):]
+        #re-encrypt stored stuff
         return (hashKey, firstKey, secondKey)
 
 

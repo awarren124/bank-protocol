@@ -150,6 +150,7 @@ class ATM(cmd.Cmd, object):
                             self.bills[i] = "-DISPENSED BILL-"
                             self.dispensed += 1
                     self.update()
+                    self.bank.regenerate()
                     return True
             else:
                 self._vp('withdraw failed')

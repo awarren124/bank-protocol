@@ -35,4 +35,6 @@ class EncryptionHandler:
 
 	def hash(self, plaintext):
 		return hashlib.sha256(plaintext.encode('utf-8')).digest()
+	def regenerate(self, IV):
+		initializationVector = IV
 	
