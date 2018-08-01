@@ -42,8 +42,8 @@
 
 #define CARDDATA ((uint8*)(CY_FLASH_BASE + 0x3520))
 #define CARDDATA1 ((uint8*)(CY_FLASH_BASE + 0x3600))
-#define CARDDATA2 ((uint8*)(CY_FLASH_BASE + 0x3680))
-#define CARDDATA3 ((uint8*)(CY_FLASH_BASE + 0x3760))
+
+#define MAGICWORD ((uint8*) (CY_FLASH_BASE + 0x3680))
 
 #define write_key1(k) CySysFlashWriteRow(100, k);
 #define write_keya(k) CySysFlashWriteRow(101, k);
@@ -52,8 +52,8 @@
 
 #define write_card_data1(d) CySysFlashWriteRow(104, d);
 #define write_card_data2(d) CySysFlashWriteRow(105, d);
-#define write_card_data3(d) CySysFlashWriteRow(106, d);
-#define write_card_data4(d) CySysFlashWriteRow(107, d);
+
+#define write_magic_word(w) CySysFlashWriteRow(106, w);
 
 #define BLOCK_SIZE 128
 
@@ -221,6 +221,24 @@ int main (void)
     
     /* Declare variables here */
 
+    char * expiration = "0818";
+    uint8_t shaexp[32];
+    sha256(expiration, 32, shaexp);
+    
+    char * magicword = "hello";
+    uint8_t shamag[32];
+    sha256(magicword, 32, shamag);
+    
+    write_key1("This is Key 1AAAAAAAAAAAAAAAAAAA");
+    char * iv = "This is an IV";
+    
+    uint8_t aes_out1[32];
+    aes_32_encrypt(shaexp, aes_out1, KEY1, iv);
+    write_card_data1(aes_out1);
+    
+    uint8_t aes_out2[32];
+    aes_32_decrypt(shaexp, aes_out2, KEY1, aes_out1);
+    write_card_data2(aes_out2);
     
     uint8 message[128];
     // Provision card if on first boot
@@ -255,15 +273,14 @@ int main (void)
                 write_pin(message);
                 pushMessage((uint8*)PINCHG_SUC, strlen(PINCHG_SUC));
             } else {
-                char * expiration = "0818";
-                uint8_t shaexp[32];
-                sha256(expiration, 32, shaexp);
-                
-                char * magicword = "hello";
-                uint8_t shamag[32];
-                sha256(magicword, 32, shamag);
-                
-                pushMessage(UUID, UUID_LEN);
+                uint8_t * uuid_temp = UUID;
+                pad_16(&uuid_temp[32], 12);
+                uint8_t encrypted_uuid[96];
+                aes_32_encrypt(uuid_temp, encrypted_uuid, KEY1, iv);
+                aes_32_encrypt(&uuid_temp[16], &encrypted_uuid[32], KEY1, encrypted_uuid);
+                aes_32_encrypt(&uuid_temp[32], &encrypted_uuid[64], KEY1, &encrypted_uuid[16]);
+                pushMessage(encrypted_uuid, 96);
+                //pushMessage(UUID, UUID_LEN);
                 
             }
         }
