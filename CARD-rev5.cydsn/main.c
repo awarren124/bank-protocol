@@ -12,6 +12,7 @@
 #include <project.h>
 #include "usbserialprotocol.h"
 #include <stdlib.h>
+#include <time.h>
 
 #include "aes.h"
 #include "modes.h"
@@ -238,6 +239,14 @@ void sha256(char * input, uint8 size, uint8_t destination[32]){
     cf_sha256_init(&hash_ctx);
     cf_sha256_update(&hash_ctx, input, size);
     cf_sha256_digest_final(&hash_ctx, destination);
+}
+
+void gen_bytes(uint8_t * buffer, int size){
+    int i;
+    srand(time(NULL));
+    for(i = 0; i<size; i++){
+        buffer[i] = rand() % 256;   
+    }
 }
 
 int main (void)
