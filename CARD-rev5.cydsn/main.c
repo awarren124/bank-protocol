@@ -56,33 +56,6 @@
 
 #define BLOCK_SIZE 128
 
-void mark_provisioned()
-{
-    uint8 row[128];
-    *row = 1;
-    CySysFlashWriteRow(202, row);
-}
-
-// provisions card (should only ever be called once)
-void provision()
-{
-    uint8 message[128];
-    
-    // synchronize with bank
-    syncConnection(SYNC_PROV);
- 
-    pushMessage((uint8*)PROV_MSG, (uint8)strlen(PROV_MSG));
-        
-    // set PIN
-    pullMessage(message);
-    write_pin(message);
-    pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
-    
-    // set account number
-    pullMessage(message);
-    write_uuid(message);
-    pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
-}
 
 uint8 printUART(char * ptr, uint8 len){
     int i;
@@ -90,25 +63,6 @@ uint8 printUART(char * ptr, uint8 len){
         UART_PutChar(ptr[i]);
     }
     return 0;
-}
-
-char *bin2hex(const unsigned char *bin, size_t len)
-{
-    char   *out;
-    size_t  i;
- 
-    if (bin == NULL || len == 0)
-        return NULL;
- 
-    out = malloc(len*2+1);
-    for (i=0; i<len; i++) {
-        
-        out[i*2]   = "0123456789abcdef"[bin[i] >> 4];
-        out[i*2+1] = "0123456789abcdef"[bin[i] & 0x0F];
-    }
-    out[len*2] = '\0';
- 
-    return out;
 }
 
 void printbin2hex(const unsigned char *bin, size_t len)
@@ -124,50 +78,6 @@ void printbin2hex(const unsigned char *bin, size_t len)
         UART_PutChar("0123456789abcdef"[bin[i] & 0x0F]);
     }
     UART_PutString("\t\n");
-}
-
-int hexchr2bin(const char hex, char *out)
-{
-    if (out == NULL)
-        return 0;
- 
-    if (hex >= '0' && hex <= '9') {
-        *out = hex - '0';
-    } else if (hex >= 'A' && hex <= 'F') {
-        *out = hex - 'A' + 10;
-    } else if (hex >= 'a' && hex <= 'f') {
-        *out = hex - 'a' + 10;
-    } else {
-        return 0;
-    }
- 
-    return 1;
-}
-
-size_t hexs2bin(const char *hex, unsigned char **out)
-{
-    size_t len;
-    char   b1;
-    char   b2;
-    size_t i;
- 
-    if (hex == NULL || *hex == '\0' || out == NULL)
-        return 0;
- 
-    len = strlen(hex);
-    if (len % 2 != 0)
-        return 0;
-    len /= 2;
- 
-    *out = malloc(len);
-    memset(*out, 'A', len);
-    for (i=0; i<len; i++) {
-        if (!hexchr2bin(hex[i*2], &b1) || !hexchr2bin(hex[i*2+1], &b2)) {
-            return 0;
-        }
-        (*out)[i] = (b1 << 4) | b2;
-    }
-    return len;
 }
 
 void aes_32_encrypt(uint8_t *plaintext, uint8_t *output,  void* key, void* iv){
@@ -249,6 +159,36 @@ void gen_bytes(uint8_t * buffer, int size){
     }
 }
 
+void mark_provisioned()
+{
+    uint8 row[128];
+    *row = 1;
+    CySysFlashWriteRow(202, row);
+}
+
+// provisions card (should only ever be called once)
+void provision()
+{
+    uint8_t message[128];
+    
+    // synchronize with bank
+    syncConnection(SYNC_PROV);
+ 
+    pushMessage((uint8*)PROV_MSG, (uint8)strlen(PROV_MSG));
+        
+    // set PIN
+    pullMessage(message);
+    uint8_t hashpin[32];
+    sha256((char *)message, 8, hashpin);
+    write_pin(hashpin);
+    pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
+    
+    // set account number
+    pullMessage(message);
+    write_uuid(message);
+    pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
+}
+
 int main (void)
 {
     CyGlobalIntEnable;      /* Enable global interrupts */
@@ -258,45 +198,27 @@ int main (void)
     /* Declare variables here */
 
     char * expiration = "0818";
-    uint8_t shaexp[32];
-    sha256(expiration, 32, shaexp);
+    uint8_t hashexp[32];
+    sha256(expiration, 32, hashexp);
     
     char * magicword = "hello";
-    uint8_t shamag[32];
-    sha256(magicword, 32, shamag);
-    uint8_t * iv = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-    uint8_t * key1 = "ABABABABABABABABABABABABABABABAB";
+    uint8_t hashmag[32];
+    sha256(magicword, 32, hashmag);
     
-    write_key1(key1);
-    write_magic_word(shamag);
-    
-    /*
-    uint8_t * m = "yo my name is bowen and i think im rly smart. have u ever thought about the universe. i have thats how smart i am.pppppppppppppp";
-    uint8_t out[128];
-    aes_encrypt_blocks(m, out, key1, iv, 8);
-    uint8_t out2[128];
-    aes_decrypt_blocks(out, out2, key1, iv, 8);
-    printbin2hex(out, 128);
-    printUART(out2, 128);
-    */
-    
-    /*
-    uint8_t * test = "hello xD how long is this?";
-    int size = strlen((char*)test);
-    uint8_t output[size + size%16];
-    pad_mult_16(test, output, size);
-    printUART(output, size + size%16);
-    */
+    uint8_t * iv = (unsigned char*)"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+   
+    write_key1((unsigned char*)"ABABABABABABABABABABABABABABABAB");
+    write_magic_word(hashmag);
     
     uint8_t hashes[64];
     uint8_t card_data[64];
     
-    memcpy(hashes, shaexp, 32);
-    memcpy(&hashes, shamag, 32);
-    aes_encrypt_blocks(hashes, card_data, key1, iv, 4);
+    memcpy(hashes, hashexp, 32);
+    memcpy(&hashes, hashmag, 32);
+    aes_encrypt_blocks(hashes, card_data, KEY1, iv, 4);
     write_card_data(card_data);
     
-    uint8 message[128];
+    uint8_t message[128];
     // Provision card if on first boot
     if (*PROVISIONED == 0x00) {
         provision();
@@ -312,8 +234,9 @@ int main (void)
         
         // receive pin number from ATM
         pullMessage(message);
-        
-        if (strncmp((char*)message, (char*)PIN, PIN_LEN)) {
+        uint8_t hashpin[32];
+        sha256((char *)message, 8, hashpin);
+        if (strncmp((char*)message, (char*)PIN, 32)) {
             pushMessage((uint8*)PIN_BAD, strlen(PIN_BAD));
         } else {
             pushMessage((uint8*)PIN_OK, strlen(PIN_OK));
