@@ -207,13 +207,28 @@ void aes_decrypt_blocks(uint8_t * input, uint8_t *output, void *key, void *iv, i
     aes_decrypt_blocks(&input[16], &output[16], key, input, blocks-1);
 }
 
-uint8_t pad_16(uint8_t *array, uint8 p){
+uint8_t pad_16(uint8_t *array, int p){
     if(p > 16 || p < 0){
         return 1;   
     }
     int i;
     for(i = 15; i > 15-p; i--){
 	    array[i] = '_';
+    }
+    return 0;
+}
+
+uint8_t pad_mult_16(uint8_t *array, uint8_t *output, int size)
+{
+    int i;
+    int left = size % 16;
+    int target = size+left;
+    if(size % 16 == 0){
+        return 0;
+    }
+    memcpy(output, array, size);
+    for(i = target-1; i>=size; i--){
+        output[i] = '_';   
     }
     return 0;
 }
@@ -240,37 +255,34 @@ int main (void)
     char * magicword = "hello";
     uint8_t shamag[32];
     sha256(magicword, 32, shamag);
-    uint8_t * m = "yo my name is bowen and i think im rly smart. have u ever thought about the universe. i have thats how smart i am.pppppppppppppp";
     uint8_t * iv = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-    uint8_t * k = "ABABABABABABABABABABABABABABABAB";
-    uint8_t out[128];
-    aes_encrypt_blocks(m, out, k, iv, 8);
+    uint8_t * key1 = "ABABABABABABABABABABABABABABABAB";
     
+    /*
+    uint8_t * m = "yo my name is bowen and i think im rly smart. have u ever thought about the universe. i have thats how smart i am.pppppppppppppp";
+    uint8_t out[128];
+    aes_encrypt_blocks(m, out, key1, iv, 8);
     uint8_t out2[128];
-    aes_decrypt_blocks(out, out2, k, iv, 8);
+    aes_decrypt_blocks(out, out2, key1, iv, 8);
     printbin2hex(out, 128);
     printUART(out2, 128);
+    */
+    
     /*
-    write_key1("This Key 1 and is really strong");
-    char * iv = "This is an IV";
+    uint8_t * test = "hello xD how long is this?";
+    int size = strlen((char*)test);
+    uint8_t output[size + size%16];
+    pad_mult_16(test, output, size);
+    printUART(output, size + size%16);
+    */
     
-    uint8_t aes_out1[32];
-    aes_32_encrypt(shaexp, aes_out1, KEY1, iv);
-    aes_32_encrypt(&shaexp[16], &aes_out1[16], KEY1, aes_out1);
-    
-    
-    uint8_t aes_out2[32];
-    aes_32_encrypt(shamag, aes_out2, KEY1, &aes_out1[16]);
-    aes_32_encrypt(&shamag[16], &aes_out2[16], KEY1, aes_out2);
-    
+    uint8_t hashes[64];
     uint8_t card_data[64];
     
-    memcpy(card_data, aes_out1, 32);
-    memcpy(&card_data[32], aes_out2, 32);
+    memcpy(hashes, shaexp, 32);
+    memcpy(&hashes, shamag, 32);
+    aes_encrypt_blocks(hashes, card_data, key1, iv, 4);
     write_card_data(card_data);
-    
-    printbin2hex(card_data, 64);
-    */
     
     uint8 message[128];
     // Provision card if on first boot
@@ -305,12 +317,10 @@ int main (void)
                 write_pin(message);
                 pushMessage((uint8*)PINCHG_SUC, strlen(PINCHG_SUC));
             } else {
-                uint8_t * uuid_temp = UUID;
-                pad_16(&uuid_temp[32], 12);
-                uint8_t encrypted_uuid[96];
-                aes_32_encrypt(uuid_temp, encrypted_uuid, KEY1, iv);
-                aes_32_encrypt(&uuid_temp[16], &encrypted_uuid[32], KEY1, encrypted_uuid);
-                aes_32_encrypt(&uuid_temp[32], &encrypted_uuid[64], KEY1, &encrypted_uuid[16]);
+                uint8_t uuid_temp[48];
+                uint8_t encrypted_uuid[48];
+                pad_mult_16(UUID, uuid_temp, UUID_LEN);
+                aes_encrypt_blocks(uuid_temp, encrypted_uuid, key1, iv, 3);
                 pushMessage(encrypted_uuid, 96);
                 //pushMessage(UUID, UUID_LEN);
                 

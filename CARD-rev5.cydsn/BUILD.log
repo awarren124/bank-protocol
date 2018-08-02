@@ -1,18 +1,18 @@
---------------- Build Started: 08/01/2018 22:03:18 Project: CARD-rev5, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Build Started: 08/01/2018 22:36:42 Project: CARD-rev5, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 The code generation step is up to date.
 arm-none-eabi-gcc.exe -mcpu=cortex-m0 -mthumb -I. -IGenerated_Source\PSoC4 -Wa,-alh=.\CortexM0\ARM_GCC_541\Debug/main.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c main.c -o .\CortexM0\ARM_GCC_541\Debug\main.o
 main.c: In function 'main':
-main.c:243:19: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-     uint8_t * m = "yo my name is bowen and i think im rly smart. have u ever thought about the universe. i have thats how smart i am.pppppppppppppp";
-                   ^
-main.c:244:20: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+main.c:258:20: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
      uint8_t * iv = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
                     ^
-main.c:245:19: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
-     uint8_t * k = "ABABABABABABABABABABABABABABABAB";
-                   ^
-main.c:252:15: warning: pointer targets in passing argument 1 of 'printUART' differ in signedness [-Wpointer-sign]
-     printUART(out2, 128);
+main.c:259:22: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+     uint8_t * key1 = "ABABABABABABABABABABABABABABABAB";
+                      ^
+main.c:271:22: warning: pointer targets in initialization differ in signedness [-Wpointer-sign]
+     uint8_t * test = "hello xD how long is this?";
+                      ^
+main.c:275:15: warning: pointer targets in passing argument 1 of 'printUART' differ in signedness [-Wpointer-sign]
+     printUART(output, size + size%16);
                ^
 main.c:86:7: note: expected 'char *' but argument is of type 'uint8_t * {aka unsigned char *}'
  uint8 printUART(char * ptr, uint8 len){
@@ -25,6 +25,6 @@ No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S "C:\Users\Larry\Documents\PSoC Creator\bwsi\bank-protocol\CARD-rev5.cydsn\CortexM0\ARM_GCC_541\Debug\CARD-rev5.elf"
-Flash used: 9488 of 32768 bytes (29.0%).
+Flash used: 9128 of 32768 bytes (27.9%).
 SRAM used: 1544 of 4096 bytes (37.7%). Stack: 1024 bytes. Heap: 128 bytes.
---------------- Build Succeeded: 08/01/2018 22:03:20 ---------------
+--------------- Build Succeeded: 08/01/2018 22:36:44 ---------------
