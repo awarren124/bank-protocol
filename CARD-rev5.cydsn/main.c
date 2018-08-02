@@ -41,19 +41,17 @@
 #define KEYF ((uint8*)(CY_FLASH_BASE + 0x3440))
 
 #define CARDDATA ((uint8*)(CY_FLASH_BASE + 0x3520))
-#define CARDDATA1 ((uint8*)(CY_FLASH_BASE + 0x3600))
 
-#define MAGICWORD ((uint8*) (CY_FLASH_BASE + 0x3680))
+#define MAGICWORD ((uint8*) (CY_FLASH_BASE + 0x3600))
 
 #define write_key1(k) CySysFlashWriteRow(100, k);
 #define write_keya(k) CySysFlashWriteRow(101, k);
 #define write_keyd(k) CySysFlashWriteRow(102, k);
 #define write_keyf(k) CySysFlashWriteRow(103, k);
 
-#define write_card_data1(d) CySysFlashWriteRow(104, d);
-#define write_card_data2(d) CySysFlashWriteRow(105, d);
+#define write_card_data(d) CySysFlashWriteRow(104, d);
 
-#define write_magic_word(w) CySysFlashWriteRow(106, w);
+#define write_magic_word(w) CySysFlashWriteRow(105, w);
 
 #define BLOCK_SIZE 128
 
@@ -195,6 +193,20 @@ void aes_32_decrypt(uint8_t *input, uint8_t *output,  void* key, void* iv){
     cf_aes_finish(&aes);
 }
 
+void aes_encrypt_blocks(uint8_t * plaintext, uint8_t *output, void *key, void *iv, int blocks){
+    if(blocks <= 0)
+        return;
+    aes_32_encrypt(plaintext, output, key, iv);
+    aes_encrypt_blocks(&plaintext[16], &output[16], key, output, blocks-1);
+}
+
+void aes_decrypt_blocks(uint8_t * input, uint8_t *output, void *key, void *iv, int blocks){
+    if(blocks <= 0)
+        return;
+    aes_32_decrypt(input, output, key, iv);
+    aes_decrypt_blocks(&input[16], &output[16], key, input, blocks-1);
+}
+
 uint8_t pad_16(uint8_t *array, uint8 p){
     if(p > 16 || p < 0){
         return 1;   
@@ -228,17 +240,37 @@ int main (void)
     char * magicword = "hello";
     uint8_t shamag[32];
     sha256(magicword, 32, shamag);
+    uint8_t * m = "yo my name is bowen and i think im rly smart. have u ever thought about the universe. i have thats how smart i am.pppppppppppppp";
+    uint8_t * iv = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    uint8_t * k = "ABABABABABABABABABABABABABABABAB";
+    uint8_t out[128];
+    aes_encrypt_blocks(m, out, k, iv, 8);
     
-    write_key1("This is Key 1AAAAAAAAAAAAAAAAAAA");
+    uint8_t out2[128];
+    aes_decrypt_blocks(out, out2, k, iv, 8);
+    printbin2hex(out, 128);
+    printUART(out2, 128);
+    /*
+    write_key1("This Key 1 and is really strong");
     char * iv = "This is an IV";
     
     uint8_t aes_out1[32];
     aes_32_encrypt(shaexp, aes_out1, KEY1, iv);
-    write_card_data1(aes_out1);
+    aes_32_encrypt(&shaexp[16], &aes_out1[16], KEY1, aes_out1);
+    
     
     uint8_t aes_out2[32];
-    aes_32_decrypt(shaexp, aes_out2, KEY1, aes_out1);
-    write_card_data2(aes_out2);
+    aes_32_encrypt(shamag, aes_out2, KEY1, &aes_out1[16]);
+    aes_32_encrypt(&shamag[16], &aes_out2[16], KEY1, aes_out2);
+    
+    uint8_t card_data[64];
+    
+    memcpy(card_data, aes_out1, 32);
+    memcpy(&card_data[32], aes_out2, 32);
+    write_card_data(card_data);
+    
+    printbin2hex(card_data, 64);
+    */
     
     uint8 message[128];
     // Provision card if on first boot
