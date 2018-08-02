@@ -36,5 +36,15 @@ if __name__ == "__main__":
             db.admin_create_account(uuid, balance)
             print "Account added!"
             print
+            while atm.read() != "a":
+                continue
+
+            print "Reading provisioning info..."
+            key1 = atm.read(48)
+            key2 = atm.read()
+            db.admin_set_keys(key2, "access")
+            print("keys stored")
+            print "Updating database..."
+
     except KeyboardInterrupt:
         print "Shutting down..."

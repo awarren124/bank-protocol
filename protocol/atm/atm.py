@@ -142,7 +142,7 @@ class ATM(cmd.Cmd, object):
         try:
             self._vp('withdraw: Requesting card_id from card')
             card_id = self.card.withdraw(pin)
-	    print(card_id)
+	        print(card_id)
             # request UUID from HSM if card accepts PIN
             if card_id:
                 self._vp('withdraw: Requesting hsm_id from hsm')

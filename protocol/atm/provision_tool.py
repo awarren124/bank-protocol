@@ -37,6 +37,10 @@ if __name__ == "__main__":
     bank = Bank(b_port)
     bank.provision_update("c0573011d92ce40c8b5dbfa73025b352c899", pin, balance)
     print "Provisioning successful"
+    key1 = os.urandom(32)
+    key2 = os.urandom(32)
+    bank.provision_key(key1, key2)
+    print"keys sent"
     if card.provision(uuid, pin):
         print "Card provisioned!"
 

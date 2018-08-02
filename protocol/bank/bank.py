@@ -111,8 +111,8 @@ class Bank(object):
         enc_pkg = "a" + enc_AtmId + enc_CardId + enc_new_key1 + enc_new_key2 + enc_new_IV
         key1Half = store1[2]
         key2Half = store2[2]
-        store1 = null
-        store2 = null
+        store1 = None
+        store2 = None
         self.serial.write(enc_pkg)
         return
 
