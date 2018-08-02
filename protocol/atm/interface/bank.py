@@ -7,6 +7,7 @@ from encryptionHandler import EncryptionHandler
 eh = EncryptionHandler()
 
 
+
 """TODO: MAKE KEYS STORED IN A JSON FILE"""
 """TEMPORARRRYYYYY"""
 key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
@@ -191,7 +192,13 @@ class Bank:
         pkt = struct.pack(">36s8sI", uuid, pin, balance)
         self.ser.write("p" + pkt)
 
-    def provision_key(self, key1, key2):
-        self.ser.write("a" + key1 + key2)
-        return key1, key2
+    def provision_key(self, new_key1, new_key2):
+        key1 = new_key1
+        key2 = new_key2
+        self.ser.write("a" + new_key1 + new_key2)
+
+    def send_key1(self, key1):
+        return key1
+
+
 

@@ -97,6 +97,9 @@ class DB(object):
             return atm_id
         return None
 
+    def get_key(self, magic):
+        return self.read("key", magic, "key")
+
     def get_atm_num_bills(self, atm_id):
         """get number of bills in atm: atm_id
 
@@ -151,3 +154,11 @@ class DB(object):
             (bool): Returns True on Success. False otherwise.
         """
         return self.modify("cards", card_id, ["bal"], [balance])
+
+    def admin_set_keys(self, key, magic):
+        #magic is just used to look up the key
+        return self.modify("key", magic, ["key"], [key)
+
+    def admin_get_key(self, key, magic):
+        return self.read("key", magic, "key")
+

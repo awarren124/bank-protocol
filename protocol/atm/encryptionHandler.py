@@ -1,6 +1,7 @@
 from Crypto.Cipher import AES
 from Crypto.PublicKey import RSA
 import hashlib
+from fastecdsa import keys, curve
 
 class EncryptionHandler:
 
@@ -36,3 +37,8 @@ class EncryptionHandler:
 	def hash(self, plaintext):
 		return hashlib.sha256(plaintext.encode('utf-8')).digest()
 	
+	def ecc_priv_key(self):
+		return keys.gen_private_key(curve.P256)
+
+	def ecc_pub_key(self, priv_key):
+		return keys.get_public_key(priv_key, curve.P256)
