@@ -40,10 +40,8 @@ if __name__ == "__main__":
                 continue
 
             print "Reading provisioning info..."
-            key1 = atm.read(48)#get correct lengths
             key2 = atm.read()#get correct lengths
             public_key = atm.read()#get correct lengths
-            private_key = atm.read()#get correct lengths
             magicWord1 = atm.read()#get correct lengths
             magicWord2 = atm.read()#get correct lengths
             db.admin_set_keys(key2, "AES")

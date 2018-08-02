@@ -3,6 +3,7 @@ from interface.bank import Bank
 from atm import ATM
 from os import urandom
 from encryptionHandler import EncryptionHandler
+from atm_db import DB
 eh = EncryptionHandler()
 import argparse
 import serial
@@ -46,7 +47,12 @@ if __name__ == "__main__":
     store_keys = eh.gen_key_pair()
     magicWord1 = eh.aesEncrypt(magicWord1, key2)
     magicWord2 = eh.aesEncrypt(magicWord2, key2)
-    bank.provision_key(key1, key2, store_keys[0], store_keys[1], magicword1, magicWord2)
+    self.DB.admin_set_keys(key1, "CardKey")
+    self.DB.admin_set_keys(key2, "BankKey")
+    self.DB.admin_set_keys(key1, "magicWord1")
+    self.DB.admin_set_keys(key2, "magicWord2")
+    self.Db.admin_set_keys(store_keys[0], "RSApublic")
+    bank.provision_key(key1, key2, store_keys[1], magicword1, magicWord2)
     print"keys sent"
     if card.provision(uuid, pin):
         print "Card provisioned!"

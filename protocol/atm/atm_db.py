@@ -8,7 +8,7 @@ import os.path
 
 class DB(object):
     """Implements a Database interface for the bank server and admin interface"""
-    def __init__(self, db_path="bank.json"):
+    def __init__(self, db_path="atmcontents.json"):
         self.path = db_path
 
         try:

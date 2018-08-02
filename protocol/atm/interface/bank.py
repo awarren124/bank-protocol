@@ -4,6 +4,7 @@ import logging
 import struct
 import serial
 from encryptionHandler import EncryptionHandler
+from atm_db import DB
 eh = EncryptionHandler()
 
 
@@ -13,7 +14,7 @@ eh = EncryptionHandler()
 key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
 key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
 private_key = ''
-magic_word = ''
+magic_word1 = ''
 
 """~~~~~~~~~~~~~~~~~"""
 
@@ -27,8 +28,9 @@ class Bank:
         port (serial.Serial): Port to connect to
     """
 
-    def __init__(self, port, verbose=False):
+    def __init__(self, port, verbose=False, db_path="atm_content.json"):
         self.ser = serial.Serial(port, baudrate = 115200)
+        self.db = db.DB(db_path=db_path)#figure this out, not sure if it will work
         self.verbose = verbose
 
     def _vp(self, msg, stream=logging.info):
@@ -100,7 +102,7 @@ class Bank:
             str: hsm_id on success
             bool: False on failure
         """
-        magic_word = eh.aesDecrypt(magic_word, key2)
+        magic_word1 = eh.aesDecrypt(magic_word1, key2)
         print("bank withdraw1")
         self._vp('withdraw: Sending request to Bank')
         print("bank withdraw2")
@@ -178,6 +180,7 @@ class Bank:
             return false
 
     def regenerate(self, atm_id, card_id):
+        private_key = self.
         command = ''
         while command != 'r':
             command = self.ser.read(1)
@@ -201,16 +204,8 @@ class Bank:
         pkt = struct.pack(">36s8sI", uuid, pin, balance)
         self.ser.write("p" + pkt)
 
-    def provision_key(self,new_key1, new_key2, pubkey, privkey, magicWord1, magicWord2):
-        key1 = new_key1
-        key2 = spliceFirstHalf(new_key2)
-        private_key = privkey
-        public_key = pubkey
-        magic_word = magicWord
-        self.ser.write("a" + new_key_1 + new_key2 + public_key + magicWord1 + magicWord2)
-
-    def send_key1(self, key1):
-        return key1
+    def provision_key(self,new_key2, pubkey, magicWord1, magicWord2):
+        self.ser.write("a" spliceFirstHalf(new_key2) + pubkey + magicWord1 + magicWord2)
 
     def spliceFirstHalf(self, string):
         return string[len(string)/2:]
