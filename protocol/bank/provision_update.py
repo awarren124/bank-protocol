@@ -44,10 +44,12 @@ if __name__ == "__main__":
             key2 = atm.read()#get correct lengths
             public_key = atm.read()#get correct lengths
             private_key = atm.read()#get correct lengths
-            magicWord = atm.read()#get correct lengths
+            magicWord1 = atm.read()#get correct lengths
+            magicWord2 = atm.read()#get correct lengths
             db.admin_set_keys(key2, "AES")
             db.admin_set_keys(public_key, "RSA")
-            db.admin.set_keys(magicWord, "magicWord1")
+            db.admin.set_keys(magicWord1, "magicWord1")
+            db.admin.set_keys(magicWord2, "magicWord2")
             print("keys stored")
             print "Updating database..."
 

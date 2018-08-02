@@ -159,6 +159,7 @@ class DB(object):
         #magic is just used to look up the key
         return self.modify("key", magic, ["key"], [key)
 
+
     def admin_get_key(self, key, magic):
         return self.read("key", magic, "key")
 

@@ -91,12 +91,12 @@ class ATM(cmd.Cmd, object):
 
             # get balance from bank if card accepted PIN
             if card_id:
-		print("lol")
+		        print("lol")
                 self._vp('check_balance: Requesting balance from Bank')
                 res = self.bank.check_balance(self.uuid, card_id)
-		print(res)
+		        print(res)
                 if res:
-		    print("balance is: " + str(res))
+		        print("balance is: " + str(res))
                     return res
             self._vp('check_balance failed')
             return False
@@ -154,7 +154,7 @@ class ATM(cmd.Cmd, object):
                             self.bills[i] = "-DISPENSED BILL-"
                             self.dispensed += 1
                     self.update()
-                    #self.bank.regenerate()
+                    self.bank.regenerate()
                     return True
             else:
                 self._vp('withdraw failed')

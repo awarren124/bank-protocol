@@ -17,6 +17,7 @@ import hashlib
 import os
 key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
 key2 = ''
+public_key = ''
 
 eh = EncryptionHandler()
 # accessKey2 = eh.hash(key2)
@@ -111,14 +112,18 @@ class Bank(object):
         new_IV = os.urandom(16)
         store1 = keySplice(new_key1)
         store2 = keySplice(new_key2)
-        enc_new_key1 = eh.aesEncrypt(new_key1, key2)
-        enc_new_key2 = eh.aesEncrypt(new_key2, key2)
-        enc_new_IV = eh.aesEncrypt(new_IV, key2)
-        enc_AtmId = eh.aesEncrypt(str(atm_id), key2)
-        enc_CardId = eh.aesEncrypt(str(card_id), key2)
-        enc_pkg = "a" + enc_AtmId + enc_CardId + enc_new_key1 + enc_new_key2 + enc_new_IV
+        self.db.admin_set_keys(store2[2],"AES")#make sure it overrides the old key
+        eh.set_IV(new_IV)
+        enc_new_key1 = eh.RSA_encrypt(new_key1, public_key)
+        enc_new_key2 = eh.RSA_encrypt(enc_new_key2, public_key)
+        enc_new_IV = eh.RSA_encrypt(new_IV, public_key)
+        enc_AtmId = eh.RSA_encrypt(enc_AtmId, public_key)
+        enc_CardId = eh.RSA_encrypt(str(card_id), public_key)
+        enc_pkg = "r" + enc_AtmId + enc_CardId + enc_new_key1 + enc_new_key2 + enc_new_IV#sent to atm
         key1Half = store1[2]
         key2Half = store2[2]
+        new_key1 = None
+        new_key2 = None
         store1 = None
         store2 = None
         self.serial.write(enc_pkg)
@@ -212,6 +217,7 @@ class Bank(object):
             print str(encCardId)
             print str(encAmount)
             self.atm.write(encPacket)
+            self.regenerate(atm_id, card_id))
         else:
             encrypt_bad = eh.aesEncrypt(self.BAD, key2)
             self.atm.write(encrypt_bad)  # COULD BE HIJACKED

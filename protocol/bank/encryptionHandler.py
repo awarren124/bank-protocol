@@ -11,7 +11,8 @@ class EncryptionHandler:
 
 	def uhh(self):
 		return "lol"
-
+	def set_IV(self, newIV):
+		initializationVector = newIV
 	def aesEncrypt(self, plaintext, key):
 		aes = AES.new(key, AES.MODE_CBC, self.initializationVector)
 		offset = (16-len(plaintext) % 16)

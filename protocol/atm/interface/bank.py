@@ -179,19 +179,19 @@ class Bank:
 
     def regenerate(self, atm_id, card_id):
         command = ''
-        while command != 'a':
+        while command != 'r':
             command = self.ser.read(1)
         rec_atm_id = self.ser.read()
         rec_card_id = self.ser.read()
         rec_new_key1 = self.ser.read()
         rec_new_key2 = self.ser.read()
         rec_new_IV = self.ser.read()
-        dec_IV = eh.aesDecrypt(rec_new_IV,key2)
-        eh.regenerate(dec_IV)
-        dec_atm_id = eh.aesDecrypt(rec_atm_id, key2)
-        dec_card_id = eh.aesDecrypt(rec_card_id, key2)
-        dec_new_key1 = eh.aesDecrypt(rec_new_key1, key2)
-        dec_new_key2 = eh.aesDecrypt(rec_new_key2, key2)#figure out how to store keys securely
+        dec_IV = eh.RSA_decrypt(rec_new_IV,private_key)
+        eh.set_IV(dec_IV)
+        dec_atm_id = eh.RSA_decrypt(rec_atm_id,private_key)
+        dec_card_id = eh.RSA_decrypt(rec_card_id,private_key)
+        dec_new_key1 = eh.RSA_decrypt(rec_new_key1,private_key)
+        dec_new_key2 = eh.RSA_decrypt(rec_mew_key2,private_key)#figure out how to store keys securely
         if dec_atm_id == atm_id and dec_card_id == atm.id:
             #replace
         else:
@@ -201,13 +201,13 @@ class Bank:
         pkt = struct.pack(">36s8sI", uuid, pin, balance)
         self.ser.write("p" + pkt)
 
-    def provision_key(self,new_key1, new_key2, pubkey, privkey, magicWord):
+    def provision_key(self,new_key1, new_key2, pubkey, privkey, magicWord1, magicWord2):
         key1 = new_key1
         key2 = spliceFirstHalf(new_key2)
         private_key = privkey
         public_key = pubkey
         magic_word = magicWord
-        self.ser.write("a" + new_key_1 + new_key2 + public_key + magicWord)
+        self.ser.write("a" + new_key_1 + new_key2 + public_key + magicWord1 + magicWord2)
 
     def send_key1(self, key1):
         return key1

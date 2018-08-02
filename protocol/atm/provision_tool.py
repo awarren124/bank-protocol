@@ -41,10 +41,12 @@ if __name__ == "__main__":
     print "Provisioning successful"
     key1 = os.urandom(32)
     key2 = os.urandom(32)
-    magicWord = os.urandom(32)
+    magicWord1 = os.urandom(32)
+    magicWord2 = os.urandom(32)
     store_keys = eh.gen_key_pair()
-    magicWord = eh.aesEncrypt(magicWord, key2)
-    bank.provision_key(key1, key2, store_keys[0], store_keys[1], magicword)
+    magicWord1 = eh.aesEncrypt(magicWord1, key2)
+    magicWord2 = eh.aesEncrypt(magicWord2, key2)
+    bank.provision_key(key1, key2, store_keys[0], store_keys[1], magicword1, magicWord2)
     print"keys sent"
     if card.provision(uuid, pin):
         print "Card provisioned!"
