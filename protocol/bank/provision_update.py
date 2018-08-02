@@ -40,9 +40,14 @@ if __name__ == "__main__":
                 continue
 
             print "Reading provisioning info..."
-            key1 = atm.read(48)
-            key2 = atm.read()
-            db.admin_set_keys(key2, "access")
+            key1 = atm.read(48)#get correct lengths
+            key2 = atm.read()#get correct lengths
+            public_key = atm.read()#get correct lengths
+            private_key = atm.read()#get correct lengths
+            magicWord = atm.read()#get correct lengths
+            db.admin_set_keys(key2, "AES")
+            db.admin_set_keys(public_key, "RSA")
+            db.admin.set_keys(magicWord, "magicWord1")
             print("keys stored")
             print "Updating database..."
 

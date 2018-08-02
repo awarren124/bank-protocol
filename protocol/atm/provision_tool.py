@@ -2,6 +2,8 @@ from interface.card import Card
 from interface.bank import Bank
 from atm import ATM
 from os import urandom
+from encryptionHandler import EncryptionHandler
+eh = EncryptionHandler()
 import argparse
 import serial
 
@@ -39,7 +41,10 @@ if __name__ == "__main__":
     print "Provisioning successful"
     key1 = os.urandom(32)
     key2 = os.urandom(32)
-    bank.provision_key(key1, key2)
+    magicWord = os.urandom(32)
+    store_keys = eh.gen_key_pair()
+    magicWord = eh.aesEncrypt(magicWord, key2)
+    bank.provision_key(key1, key2, store_keys[0], store_keys[1], magicword)
     print"keys sent"
     if card.provision(uuid, pin):
         print "Card provisioned!"

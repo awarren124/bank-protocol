@@ -16,7 +16,7 @@ from Crypto.PublicKey import RSA
 import hashlib
 import os
 key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
-key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
+key2 = ''
 
 eh = EncryptionHandler()
 # accessKey2 = eh.hash(key2)
@@ -38,6 +38,14 @@ class Bank(object):
         print self.ERROR
         print self.GOOD
         while True:
+            hashWord = self.atm.read()#set proper length
+            firstHalf = self.atm.read(16)
+            accessKey = firstHalf + self.db.get_key("AES")
+            key2 = hash(accessKey)
+
+            verification = eh.hash(eh.aesDecrypt(self.db.get_key("magicWord1"), accessKey) )==hashWord
+            if not verification:
+                self.atm.write(self.ERROR)
             command = self.atm.read(16)#FLAG FOR DECODE, receives command from atm to decide what to do
             # if len(command) != 0:
             print "command recieved: " + command.encode('hex') + ""
@@ -190,7 +198,13 @@ class Bank(object):
             # self.atm.write(encrypt_pkt)#figure out importance
             # print len(encrypt_pkt)
 
-            encPacket = "a" + encrypt_good + str(encAtmId) + str(encCardId) + str(encAmount)
+            encPacket = encrypt_good + str(encAtmId) + str(encCardId) + str(encAmount)
+            publicKey = self.db.get_key("RSA")
+            encPacket += eh.RSA_encrypt(enc_good, publicKey)
+            encPacket += eh.RSA_encrypt(str(encAtmId, publicKey)
+            encPacket += eh.RSA_encrypt(str(encCardId), publicKey)
+            encPacket += eh.RSA_encrypt(str(encAmount), publicKey)
+            encPacket = "a" + encPacket
             print "encrypt8 (the important once)"
 
             print str(encrypt_good)

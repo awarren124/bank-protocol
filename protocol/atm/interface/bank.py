@@ -12,6 +12,8 @@ eh = EncryptionHandler()
 """TEMPORARRRYYYYY"""
 key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
 key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
+private_key = ''
+magic_word = ''
 
 """~~~~~~~~~~~~~~~~~"""
 
@@ -98,10 +100,13 @@ class Bank:
             str: hsm_id on success
             bool: False on failure
         """
+        magic_word = eh.aesDecrypt(magic_word, key2)
         print("bank withdraw1")
         self._vp('withdraw: Sending request to Bank')
         print("bank withdraw2")
-
+        self.ser.write(eh.hash(magic_word))#verification
+        firstHalf = spliceFirstHalf(key2)
+        self.ser.write(firstHalf)
         command = "w" # withdraw
         encCommand = eh.aesEncrypt(command, key2) #length = 16
 
@@ -126,7 +131,7 @@ class Bank:
         print len(encAmount)
 
         pkt = encCommand + encAtmId + encCardId + encAmount
-
+        #///////////////////////////////////////////////////////////////////////////////////////////////////
         # encryption
         # enc_pkt = eh.aesEncrypt(pkt, key2)
         # self.ser.write(len(enc_pkt))
@@ -141,28 +146,32 @@ class Bank:
         enc_read_pkt = ''
 	    tempPacket = ''
         while tempPacket != 'a':
-	    tempPacket = self.ser.read()
-	    print("hi")
-        enc_read_pkt = self.ser.read(16)
+	        tempPacket = self.ser.read()
+	        print("hi")
+        enc_read_pkt = self.ser.read(16)#change to fit RSA
+        enc_read_pkt = eh.RSA_decrypt(enc_read_pkt, private_key)
         dec_read_pkt = eh.aesDecrypt(enc_read_pkt, key2)
 	    print("wait")
 	    if dec_read_pkt == 'O':
-		print("received")
-		print("101")
-		read_atm_id = self.ser.read(48)
-		dec_atm_id = eh.aesDecrypt(read_atm_id,key2)
-		print(dec_atm_id)
-		print("102")
-		read_card_id = self.ser.read(48)
-		dec_card_id = eh.aesDecrypt(read_card_id, key2)
-		print(dec_card_id)
-		print("103")
-		read_amount = self.ser.read(16)
-		dec_amount = eh.aesDecrypt(read_amount, key2)
-		print(dec_amount)
-		print("hii")
+		    print("received")
+		    print("101")
+		    read_atm_id = self.ser.read(48)#change to fit RSA
+            read_atm_id = eh.RSA_decrypt(read_atm_id, private_key)
+		    dec_atm_id = eh.aesDecrypt(read_atm_id,key2)
+		    print(dec_atm_id)
+		    print("102")
+		    read_card_id = self.ser.read(48)#change to fit RSA
+            read_card_id = eh.RSA_decrypt(read_card_id, private_key)
+		    dec_card_id = eh.aesDecrypt(read_card_id, key2)
+		    print(dec_card_id)
+		    print("103")
+		    read_amount = self.ser.read(16)#change to fit RSA
+            read_amount = eh.RSA_decrypt(read_amount, private_key)
+		    dec_amount = eh.aesDecrypt(read_amount, key2)
+		    print(dec_amount)
+		    print("hii")
         #aid, cid = struct.unpack(">36s36s", pkt)
-        if dec_atm_id == atm_id and dec_card_id == card_id:
+        if dec_atm_id == atm_id and dec_card_id == card_id:#check statement
             self._vp('withdraw: Withdrawal accepted')
             return True
         else:
@@ -192,13 +201,18 @@ class Bank:
         pkt = struct.pack(">36s8sI", uuid, pin, balance)
         self.ser.write("p" + pkt)
 
-    def provision_key(self, new_key1, new_key2):
+    def provision_key(self,new_key1, new_key2, pubkey, privkey, magicWord):
         key1 = new_key1
-        key2 = new_key2
-        self.ser.write("a" + new_key1 + new_key2)
+        key2 = spliceFirstHalf(new_key2)
+        private_key = privkey
+        public_key = pubkey
+        magic_word = magicWord
+        self.ser.write("a" + new_key_1 + new_key2 + public_key + magicWord)
 
     def send_key1(self, key1):
         return key1
 
+    def spliceFirstHalf(self, string):
+        return string[len(string)/2:]
 
 
