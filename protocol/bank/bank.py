@@ -226,26 +226,25 @@ class Bank(object):
             # self.atm.write(encrypt_pkt)#figure out importance
             # print len(encrypt_pkt)
             good = 'O'
-            encPacket = ''
+            packet = ''
             publicKey = self.db.get_key("RSA")
-            enc_good = eh.RSA_encrypt(good, public_key)  # encrypt with RSA public key amd send values back, sends good value to tell atm to spit money
-            enc_atm= eh.RSA_encrypt(str(atm_id), public_key)
-            enc_card= eh.RSA_encrypt(str(card_id), public_key)
-            enc_amount= eh.RSA_encrypt(str(amount), public_key)
-            enc_magic = eh.RSA_encrypt(eh.aesDecrypt(self.db.admin_get_key("magicWord2"), self.key2), public_key)  # sends magicWord2 which is verification that this was sent from the actual bank
-            print "encrypted lengths"
-            print len(enc_good)
+            print "lengths"
+            print len(good)
             print "atm:"
-            print len(enc_atm)
+            print len(atm_id)
             print "card:"
-            print len(enc_card)
+            print len(card_id)
             print "amount:"
-            print len(enc_amount)
+            print len(str(amount))
             print "magic Word"
             print len(enc_magic)
-            encPacket = "a" + enc_good + enc_atm + enc_card + enc_amount +enc_magic
-            print "encrypt8 (the important once)"
+            packet = good + str(atm_id) + str(card_id) + str(amount) + eh.aesDecrypt(self.db.admin_get_key("magicWord2"), self.key2)
+            enc_packet = eh.RSA_encrypt(packet, public_key)
+            print "length of whole packet:"
+            print len(enc_packet)
 
+            encPacket = "a" + enc_packet
+            print "encrypt8 (the important once)"
             self.atm.write(encPacket)  # send back to atm
             self.regenerate(atm_id, card_id)  # not finished implementing, may be done in the morning
         else:

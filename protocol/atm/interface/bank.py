@@ -158,27 +158,26 @@ class Bank:
         while tempPacket != 'a':
             tempPacket = self.ser.read()
             print("hi")
-        enc_read_pkt = self.ser.read(16)  # change to fit RSA  ======================================
-        dec_read_pkt = eh.RSA_decrypt(enc_read_pkt, private_key)
+        entire_packet = self.ser.read()     # change to fit RSA  ======================================
+        dec_pkt = eh.RSA_decrypt(entire_packet, private_key)
+
+        command = dec_pkt[0]# get o from decrypted concatenated string
         print("wait")
-        if dec_read_pkt == 'O':
-            print("received")
-            print("101")
-            read_atm_id = self.ser.read(48)  # change length to fit RSA ======================================
+        if command == 'O':
+            #figure out the lengths of each individual things that was encrypted to seperate each important piece
             dec_atm_id = eh.RSA_decrypt(read_atm_id, private_key)
             print(dec_atm_id)
             print("102")
-            read_card_id = self.ser.read(48)  # change to fit RSA  ======================================
+            # figure out the lengths of each individual things that was encrypted to seperate each important piece
             dec_card_id = eh.RSA_decrypt(read_card_id, private_key)
             print(dec_card_id)
             print("103")
-            read_amount = self.ser.read(16)  # change to fit RSA  ======================================
+            # figure out the lengths of each individual things that was encrypted to seperate each important piece
             dec_amount = eh.RSA_decrypt(read_amount, private_key)
             print(dec_amount)
             print("hii")
-            read_magic_word2 = self.ser.read(16)  # change to fit RSA  ======================================
             dec_magic_word2 = eh.RSA_decrypt(read_amount, private_key)
-
+            # figure out the lengths of each individual things that was encrypted to seperate each important piece
             # aid, cid = struct.unpack(">36s36s", pkt)
             if dec_magic_word2 == self.atm_db.admin_get_key("magicWord2"):#checks magic word for verification
                 self._vp('withdraw: Withdrawal accepted')
