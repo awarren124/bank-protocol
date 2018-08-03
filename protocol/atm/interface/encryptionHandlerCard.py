@@ -5,7 +5,7 @@ import os
 
 class EncryptionHandlerCard:
     def __init__(self):
-        self.initializationVector = 'This is an IV456'  # 16
+        self.initializationVector = os.urandom(16)  # 16
         self.padCharacter = '_'
         self.numberThatDoesntMatter = 696969
 

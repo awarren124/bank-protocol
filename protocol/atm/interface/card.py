@@ -2,10 +2,10 @@ import logging
 import struct
 import time
 import serial
-from encryptionHandlerCard import EncryptionHandlerCard
 import os
-eh = EncryptionHandlerCard()
+from encryptionHandlerCard import EncryptionHandlerCard
 
+eh = EncryptionHandlerCard()
 
 """TODO: MAKE KEYS STORED IN A JSON FILE"""
 """TEMPORARRRYYYYY"""
@@ -53,8 +53,10 @@ class Card(object):
         if self.verbose:
             stream("card: " + msg)
 
-    def _pad_mult_16(self, array):
+    @staticmethod
+    def _pad_multi_16(self, array):
         return array
+
     def _push_msg(self, msg):
         """Sends encoded and formatted message to PSoC
 
@@ -292,14 +294,13 @@ class Card(object):
         # return self._get_card_id()
         return card_id, card_hash
 
-    def provision(self, card_id, pin, aes_key1, exp_date, mag_word_1):
+    def provision(self, card_id, pin, aes_key1, mag_word_1):
         """Attempts to provision a new ATM card
 
         Args:
             card_id (str): New Card ID for ATM card
             pin (str): Initial PIN for ATM card
             aes_key1 (bytes): initial AES Key 1
-            exp_date (str): Card Expiraiton date
             mag_word_1 (str): Magic Word 1
 
         Returns:

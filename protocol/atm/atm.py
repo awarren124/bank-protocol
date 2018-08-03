@@ -16,13 +16,7 @@ ch = logging.StreamHandler(sys.stdout)
 ch.setFormatter(log_format)
 log.addHandler(ch)
 
-
-
 """TODO: MAKE KEYS STORED IN A JSON FILE"""
-"""TEMPORARRRYYYYY"""
-
-
-"""~~~~~~~~~~~~~~~~~"""
 
 
 class ATM(cmd.Cmd, object):
