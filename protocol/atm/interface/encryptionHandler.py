@@ -1,6 +1,7 @@
 from Crypto.Cipher import AES
 from Crypto.PublicKey import RSA
 import hashlib
+import os
 
 class EncryptionHandler:
 
@@ -17,11 +18,13 @@ class EncryptionHandler:
 		plaintext += (self.padCharacter * offset)
 		ciphertext = aes.encrypt(plaintext)
 		return ciphertext
+
 	def aesDecrypt(self, ciphertext, key):
 		aes = AES.new(key, AES.MODE_CBC, self.initializationVector)
 		plaintext = aes.decrypt(ciphertext)
 		plaintext = plaintext[:plaintext.find(self.padCharacter)]
 		return plaintext
+
 	def rsaEncrypt(self, plaintext, key):
 		rsa = RSA.importKey(key)
 		plaintext = plaintext.encode('utf-8')
@@ -35,6 +38,7 @@ class EncryptionHandler:
 
 	def hash(self, plaintext):
 		return hashlib.sha256(plaintext.encode('utf-8')).digest()
-	def regenerate(self, IV):
-		initializationVector = IV
+
+	def regenerateIV(self):
+		self.initializationVector = os.urandom(16)
 	

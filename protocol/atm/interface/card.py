@@ -43,6 +43,7 @@ class Card(object):
     def __init__(self, port=None, verbose=False, baudrate=115200, timeout=2):
         self.ser = serial.Serial(port, baudrate, timeout=timeout)
         self.verbose = verbose
+        self.aes_key1 = ""
 
     def _vp(self, msg, stream=logging.info):
         """Prints message if verbose was set
@@ -55,18 +56,32 @@ class Card(object):
             stream("card: " + msg)
 
     def _push_msg(self, msg):
+        """Sends encoded and formatted message to PSoC
+
+        Args:
+            msg (str): message to be sent to the PSoC
+        """
+        iv = eh.initializationVector
+        eh.regenerateIV()
+        pkt = struct.pack("B%ds" % (len(msg)), len(msg))
+        self.ser.write(pkt)
+        time.sleep(0.1)
+
+    def _push_msg_enc(self, msg):
         """Sends formatted message to PSoC
 
         Args:
             msg (str): message to be sent to the PSoC
         """
-        # enc_msg = eh.aesEncrypt(k)
-        pkt = struct.pack("B%ds" % (len(msg)), len(msg), msg)
+        enc_msg = eh.aesEncrypt(msg, self.aes_key1)
+        iv = eh.initializationVector
+        eh.regenerateIV()
+        pkt = struct.pack("B%dsB16s" % (len(msg)), len(msg), enc_msg, 16, iv)
         self.ser.write(pkt)
         time.sleep(0.1)
 
     def _pull_msg(self):
-        """Pulls message form the PSoC
+        """Pulls message from the PSoC
 
         Returns:
             string with message from PSoC
@@ -77,8 +92,30 @@ class Card(object):
             return ''
         pkt_len = struct.unpack('B', hdr)[0]
         pkt = self.ser.read(pkt_len)
-        #dec_pkt = eh.aesDecrypt(enc_pkt, key1)
         return pkt
+
+    def _pull_msg_enc(self):
+        """Pulls encoded message from the PSoC
+            Decodes this message
+
+        Returns:
+            string with message from PSoC
+        """
+        hdr = self.ser.read(1)
+        if len(hdr) != 1:
+            self._vp("RECEIVED BAD HEADER: \'%s\'" % hdr, logging.error)
+            return ''
+        pkt_len = struct.unpack('B', hdr)[0]
+        enc_pkt = self.ser.read(pkt_len)
+
+        hdr2 = self.ser.read(1)
+        iv_len = struct.unpack('B', hdr2)[0]
+        iv = self.ser.read(iv_len)
+
+        eh.initializationVector = iv
+
+        dec_pkt = eh.aesDecrypt(enc_pkt, key1)
+        return enc_pkt
 
     def _sync(self, provision):
         """Synchronize communication with PSoC
@@ -218,7 +255,7 @@ class Card(object):
 
         return self._get_cardID()
 
-    def provision(self, cardID, pin):
+    def provision(self, cardID, pin, aes_key1, exp_date, mag_word_1):
         """Attempts to provision a new ATM card
 
         Args:
@@ -229,10 +266,11 @@ class Card(object):
             bool: True if provisioning succeeded, False otherwise
         """
         self._sync(True)
+        self.aes_key1 = aes_key1
 
         msg = self._pull_msg()
         if msg != 'P':
-            self._vp('Card alredy provisioned!', logging.error)
+            self._vp('Card already provisioned!', logging.error)
             return False
         self._vp('Card sent provisioning message')
 
@@ -246,6 +284,20 @@ class Card(object):
             self._vp('Card hasn\'t accepted cardID', logging.error)
         self._vp('Card accepted cardID')
 
-        self._vp('Provisioning complete')
+        self._push_msg('%s\00' % aes_key1)
+        while self._pull_msg() != 'K':
+            self._vp('Card hasn\'t accepted AES Key 1', logging.error)
+        self._vp('Card accepted AES Key 1')
 
+        self._push_msg('%s\00' % exp_date)
+        while self._pull_msg() != 'K':
+            self._vp('Card hasn\'t accepted expiration date', logging.error)
+        self._vp('Card accepted expiration date')
+
+        self._push_msg('%s\00' % mag_word_1)
+        while self._pull_msg() != 'K':
+            self._vp('Card hasn\'t accepted Magic Word 1', logging.error)
+        self._vp('Card accepted Magic Word 1')
+
+        self._vp('Provisioning complete')
         return True
