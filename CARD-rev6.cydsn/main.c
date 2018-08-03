@@ -29,23 +29,25 @@
 #define PIN_OK "OK"
 #define PIN_BAD "BAD"
 #define CHANGE_PIN '3'
+#define CHANGE_MAG_WORD '4'
 
 #define PROVISIONED ((uint8*)(CY_FLASH_BASE + 0x6580))
 
 #define PINHASH ((uint8*)(CY_FLASH_BASE + 0x6400))
 #define CARDID ((uint8*)(CY_FLASH_BASE + 0x6480))
 #define AES_KEY1 ((uint8*)(CY_FLASH_BASE + 0x3200))
-#define MAGICWORD ((uint8*) (CY_FLASH_BASE + 0x3600))
+#define MAGICWORD1HASH ((uint8*) (CY_FLASH_BASE + 0x3600))
 #define CARDDATA ((uint8*)(CY_FLASH_BASE + 0x3280))
 
 #define write_pin_hash(p) CySysFlashWriteRow(200, p);
 #define write_cardid(u) CySysFlashWriteRow(201, u);
 #define write_AES_key1(k) CySysFlashWriteRow(100, k);
-#define write_magic_word(w) CySysFlashWriteRow(105, w);
+#define write_magic_word_1_hash(w) CySysFlashWriteRow(105, w);
 #define write_carddata_hash(d) CySysFlashWriteRow(101, d);
 
 #define BLOCK_SIZE 128
 
+//print len bytes from ptr to UART
 uint8 printUART(char * ptr, uint8 len){
     int i;
     for(i = 0; i<len; i++){
@@ -54,25 +56,7 @@ uint8 printUART(char * ptr, uint8 len){
     return 0;
 }
 
-char *bin2hex(const unsigned char *bin, size_t len)
-{
-    char   *out;
-    size_t  i;
- 
-    if (bin == NULL || len == 0)
-        return NULL;
- 
-    out = malloc(len*2+1);
-    for (i=0; i<len; i++) {
-        
-        out[i*2]   = "0123456789abcdef"[bin[i] >> 4];
-        out[i*2+1] = "0123456789abcdef"[bin[i] & 0x0F];
-    }
-    out[len*2] = '\0';
- 
-    return out;
-}
-
+//print [len] bytes from bin in hex
 void printbin2hex(const unsigned char *bin, size_t len)
 {
     size_t  i;
@@ -88,6 +72,7 @@ void printbin2hex(const unsigned char *bin, size_t len)
     UART_PutString("\t\n");
 }
 
+//encrypt 1 block with AES256
 void aes_32_encrypt(uint8_t *plaintext, uint8_t *output,  void* key, void* iv){
     cf_aes_context aes; 
     cf_aes_init(&aes, key, 32);
@@ -100,6 +85,7 @@ void aes_32_encrypt(uint8_t *plaintext, uint8_t *output,  void* key, void* iv){
     cf_aes_finish(&aes);
 }
 
+//decrypt 1 block with AES256
 void aes_32_decrypt(uint8_t *input, uint8_t *output,  void* key, void* iv){
     cf_aes_context aes; 
     cf_aes_init(&aes, key, 32);
@@ -112,6 +98,7 @@ void aes_32_decrypt(uint8_t *input, uint8_t *output,  void* key, void* iv){
     cf_aes_finish(&aes);
 }
 
+//encrypt [blocks] blocks with AES256
 void aes_encrypt_blocks(uint8_t * plaintext, uint8_t *output, void *key, void *iv, int blocks){
     if(blocks <= 0)
         return;
@@ -119,6 +106,7 @@ void aes_encrypt_blocks(uint8_t * plaintext, uint8_t *output, void *key, void *i
     aes_encrypt_blocks(&plaintext[16], &output[16], key, output, blocks-1);
 }
 
+//decrypt [blocks] blocks with AES256
 void aes_decrypt_blocks(uint8_t * input, uint8_t *output, void *key, void *iv, int blocks){
     if(blocks <= 0)
         return;
@@ -126,6 +114,7 @@ void aes_decrypt_blocks(uint8_t * input, uint8_t *output, void *key, void *iv, i
     aes_decrypt_blocks(&input[16], &output[16], key, input, blocks-1);
 }
 
+//pad the last [p] bytes of a 16 byte array
 uint8_t pad_16(uint8_t *array, int p){
     if(p > 16 || p < 0){
         return 1;   
@@ -137,12 +126,8 @@ uint8_t pad_16(uint8_t *array, int p){
     return 0;
 }
 
-/*
- * args:
- * array; input array
- * output; output array
- * size; capacity of array
-*/
+//pad array up to a multiple of 16 bytes
+//place result in output
 uint8_t pad_mult_16(uint8_t *array, uint8_t *output, int size)
 {
     int i;
@@ -158,6 +143,7 @@ uint8_t pad_mult_16(uint8_t *array, uint8_t *output, int size)
     return 0;
 }
 
+//hash input of size [size] with SHA256, place result in destination
 void sha256(char * input, uint8_t destination[32], uint8 size){
     cf_sha256_context hash_ctx;
     cf_sha256_init(&hash_ctx);
@@ -165,6 +151,7 @@ void sha256(char * input, uint8_t destination[32], uint8 size){
     cf_sha256_digest_final(&hash_ctx, destination);
 }
 
+//generate random bytes to place in the buffer
 void gen_bytes(uint8_t * buffer, int size){
     int i;
     srand(time(NULL));
@@ -173,10 +160,13 @@ void gen_bytes(uint8_t * buffer, int size){
     }
 }
 
+//slice the src string with [a, b)
+//place the result in dest
 void slice(uint8_t * src, uint8_t * dest, size_t a, size_t b){
     size_t i = 0;
-    for(size_t j = a; j < b; ++j){
-        dest[i++] = src[j];
+    for(size_t j = a; j < b; j++){
+        dest[i] = src[j];
+        i++;
     }
 }
 
@@ -220,7 +210,7 @@ void provision()
     pullMessage(message);
     magicWordSize = strlen((char *)message);
     sha256((char *)message, hashedMagicWord, magicWordSize);
-    write_magic_word(hashedMagicWord);
+    write_magic_word_1_hash(hashedMagicWord);
     strncat((char *)unHashedCardData, (char *)message, magicWordSize);
     pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
     
@@ -245,14 +235,21 @@ int main (void)
     
     /* Declare variables here */
     
+    //recieved ciphertext
     uint8_t message[128];
     uint8_t iv[16];
     uint8_t cipherText[48];
-    uint8_t concatReceived[41];
+    
+    //received information
+    uint8_t concatReceived[41]; //store decrypted ciphertext
     uint8_t receivedPIN[PIN_LEN];
     uint8_t request[1];
     uint8_t key1prime[32];
+    
+    //for comparison
     uint8_t hashedReceivedPIN[32];
+    
+    //store returning message
     uint8_t cardDataToSend[100];
     uint8_t paddedCardDataToSend[112];
     uint8_t encryptedCardData[112];
@@ -282,9 +279,10 @@ int main (void)
         // parse encrypted data
         slice(message, cipherText, 16, 64);
         
+        //decrypt encrypted data
         aes_decrypt_blocks(cipherText, concatReceived, AES_KEY1, iv, 3);
         
-        // parse encrypted parts
+        // parse decrypted parts
         slice(concatReceived, receivedPIN, 0, 8);
         slice(concatReceived, request, 8, 9);                           
         slice(concatReceived, key1prime, 9, 41);
@@ -294,11 +292,16 @@ int main (void)
         
         if(strncmp((char *)PINHASH, (char *)hashedReceivedPIN, 32)){
             pushMessage((uint8*)PIN_BAD, strlen(PIN_BAD));
-        }else{
+        }
+        else if(request[0] == CHANGE_PIN){
+        }
+        else if(request[0] == CHANGE_MAG_WORD){
+        }
+        else{
             // assembles card data
             strncpy((char *)cardDataToSend, (char *)CARDID, 36);
             strncat((char *)cardDataToSend, (char *)CARDDATA, 32);
-            strncat((char *)cardDataToSend, (char *)MAGICWORD, 32);
+            strncat((char *)cardDataToSend, (char *)MAGICWORD1HASH, 32);
             
             // pad to be encrypted
             pad_mult_16(cardDataToSend, paddedCardDataToSend, 100);
@@ -319,7 +322,6 @@ int main (void)
             // replace aes key 1
             write_AES_key1(key1prime);
         }
-        
         
     }
 }
