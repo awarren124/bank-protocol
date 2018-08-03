@@ -53,6 +53,11 @@ if __name__ == "__main__":
     self.DB.admin_set_keys(key2, "magicWord2")#stores magicWord2 in the atm, mapped with string "magicWord2" for access
     self.DB.admin_set_keys(store_keys[0], "RSApublic")#ditto
     self.DB.admin_set_keys(store_keys[1]. "RSAprivate")#ditto
+    print "provision lengths:"
+    print len(str(key2))
+    print len(str(store_keys[1]))
+    print len(str(magicWord1))
+    print len(str(magicWord2))
     bank.provision_key(key2, store_keys[1], magicword1, magicWord2)#run provision key in /atm/interface/bank,
     print"keys sent"
     if card.provision(uuid, pin):#for general purposes, ignore

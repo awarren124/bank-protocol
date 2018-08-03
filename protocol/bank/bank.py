@@ -130,7 +130,14 @@ class Bank(object):
         self.db.modify("key", "magicWord2", "key", new_magicWord2)
         enc_new_magic1 = eh.RSA_encrypt(new_magicWord1, public_key)
         enc_new_magic2 = eh.RSA_encrypt(new_magicWord2, public_key)
-        enc_pkg = "r" + enc_new_key2 + enc_new_IV + enc_new_magic1 + enc_new_magic2 + enc_magic_word1 + enc_magic_word_2#sent to atm
+        print "lengths in order, fill in"
+        print len(enc_new_key2)
+        print len(enc_new_IV)
+        print len(enc_new_magic1)
+        print len(enc_new_magic2)
+        print len(enc_magic_word1)
+        print len(enc_magic_word2)
+        enc_pkg = "r" + enc_new_key2 + enc_new_IV + enc_new_magic1 + enc_new_magic2 + enc_magic_word1 + enc_magic_word2#sent to atm
         #key1Half = store1[2]
         key2Half = store2[2]
         new_key1 = None
@@ -223,15 +230,25 @@ class Bank(object):
             # print len(encrypt_good)
             # self.atm.write(encrypt_pkt)#figure out importance
             # print len(encrypt_pkt)
-
+            good = 'O'
             encPacket = ''
             publicKey = self.db.get_key("RSA")
-            encPacket += eh.RSA_encrypt(enc_good, public_keyKey)#encrypt with RSA public key amd send values back, sends good value to tell atm to spit money
-            encPacket += eh.RSA_encrypt(str(encAtmId, public_Key)
-            encPacket += eh.RSA_encrypt(str(encCardId), public_Key)
-            encPacket += eh.RSA_encrypt(str(encAmount), public_Key)
-            encPacket += eh.RSA_encrypt(self.db.get_key("magiWord2"), public_key)#sends magicWord2 which is verification that this was sent from the actual bank
-            encPacket = "a" + encPacket
+            enc_good = eh.RSA_encrypt(good, public_keyKey)#encrypt with RSA public key amd send values back, sends good value to tell atm to spit money
+            enc_atm= eh.RSA_encrypt(str(atm_id, public_Key)
+            enc_card= eh.RSA_encrypt(str(card_id), public_Key)
+            enc_amount= eh.RSA_encrypt(str(amount), public_Key)
+            enc_magic = eh.RSA_encrypt(eh.aesDecrypt(self.db.get_key("magiWord2"), key2), public_key)#sends magicWord2 which is verification that this was sent from the actual bank
+            print "encrypted lengths"
+            print len(enc_good)
+            print "atm:"
+            print len(enc_atm)
+            print "card:"
+            print len(enc_card)
+            print "amount:"
+            print len(enc_amount)
+            print "magic Word"
+            print len(enc_magic)
+            encPacket = "a" + enc_good + enc_atm + enc_card + enc_amount +enc_magic
             print "encrypt8 (the important once)"
 
             print str(encrypt_good)

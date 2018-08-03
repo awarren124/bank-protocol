@@ -109,8 +109,11 @@ class Bank:
         print("bank withdraw1")
         self._vp('withdraw: Sending request to Bank')
         print("bank withdraw2")
-        self.ser.write(eh.hash(magic_word))#verification, sends hashed version of magicword1 so the bank, can use it to compare, and verify the atm
+        hash_magic = eh.hash(magic_word1)
+        print(len(hash_magic))
+        self.ser.write(hash_magic)#verification, sends hashed version of magicword1 so the bank, can use it to compare, and verify the atm
         firstHalf = spliceFirstHalf(key2)# split key, and send over first half to be combined with the second half, so it could be properly used
+        print(len(firstHalf))
         self.ser.write(firstHalf)
         command = "w" # withdraw
         encCommand = eh.aesEncrypt(command, key2) #length = 16, encrypts command
@@ -127,6 +130,7 @@ class Bank:
         encAtmId = eh.aesEncrypt(atm_id, key2)#encrypts atm_id
         encCardId = eh.aesEncrypt(card_id, key2)#encrypts_card id
         encAmount = eh.aesEncrypt(str(amount), key2)#encrypts amount
+        encPin = eh.aesEncrypt(pin, key2)#add ================================================================================
 
         print("len(encAtmId):")
         print(len(encAtmId))
@@ -134,8 +138,10 @@ class Bank:
         print(len(encCardId))
         print("len(encAmount):")
         print(len(encAmount))
+        print("len(encPin):")
+        print(len(encPin))
 
-        pkt = encCommand + encAtmId + encCardId + encAmount#sends encrypted data over the bank
+        pkt = encCommand + encAtmId + encCardId + encAmount + encPin#sends encrypted data over the bank
         #///////////////////////////////////////////////////////////////////////////////////////////////////
         # encryption
         # enc_pkt = eh.aesEncrypt(pkt, key2)
