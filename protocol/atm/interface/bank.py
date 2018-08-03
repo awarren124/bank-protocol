@@ -115,32 +115,25 @@ class Bank:
         print(len(firstHalf))
         command = "w" # withdraw
         self.ser.write(firstHalf)
-        encCommand = eh.aesEncrypt(command, key2) # length = 16, encrypts command
+
+        print("len(AtmId):")
+        print(len(atm_id))
+        print("len(CardId):")
+        print(len(card_id))
+        print("len(Amount):")
+        print(len(str(amount)))
+        print("len(Pin):")
+        print(len(str(pin)))
+
+        pkt = command + atm_id + card_id + str(amount) + str(pin)
+        enc_pkt = eh.aesEncrypt(pkt, key2)
 
         # len(atm_id) == 72
-        print("len(atm_id):")
-        print(len(atm_id))
-        print("len(card_id):")
-        print(len(card_id))
-        print(card_id)
+
         # data = struct.pack(">36s36sI", atm_id, card_id, amount)
         # encData = eh.aesEncrypt(data, key2)
 
-        encAtmId = eh.aesEncrypt(atm_id, key2)  # encrypts atm_id
-        encCardId = eh.aesEncrypt(card_id, key2)  # encrypts_card id
-        encAmount = eh.aesEncrypt(str(amount), key2)  # encrypts amount
-        encPin = eh.aesEncrypt(pin, key2)  # add ================================================================================
 
-        print("len(encAtmId):")
-        print(len(encAtmId))
-        print("len(encCardId):")
-        print(len(encCardId))
-        print("len(encAmount):")
-        print(len(encAmount))
-        print("len(encPin):")
-        print(len(encPin))
-
-        pkt = encCommand + encAtmId + encCardId + encAmount + encPin#sends encrypted data over the bank
         #///////////////////////////////////////////////////////////////////////////////////////////////////
         # encryption
         # enc_pkt = eh.aesEncrypt(pkt, key2)

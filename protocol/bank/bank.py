@@ -47,16 +47,15 @@ class Bank(object):
             if not verification:  # if atm is verified continue, else end it there
                 self.atm.write(self.ERROR)
                 return
-            command = self.atm.read(16)  # FLAG FOR DECODE, receives command from atm to decide what to do
+
+            pkt = self.atm.read()# figure out length===============================================================================
+            dec_pkt = eh.aesDecrypt(pkt, self.key2)
+            command = dec_pkt[:]  #receives command from atm to decide what to do, figure out correct splicing
             # if len(command) != 0:
             print("command recieved: " + command.encode('hex') + "")
             print("length = %s" % (len(command)))
             decrypt_instruction = None
-            try:
-                decrypt_instruction = eh.aesDecrypt(command, self.key2)[0]#???? decrypts command
-                print(decrypt_instruction)
-            except:
-                pass
+
             if decrypt_instruction == 'w':
                 log("Withdrawing")
                 print("encrypt1")
@@ -68,15 +67,10 @@ class Bank(object):
                 # print "decrypted data: " +  decrypt_data
                 # print len(decrypt_data)
                 # atm_id, card_id, amount = struct.unpack('36s36sI', decrypt_data)
-                atm_id = self.atm.read(48)
-                card_id = self.atm.read(48)
-                amount = self.atm.read(16)
-                pin = self.atm.read(16) # PlEASE ADD PIN SENDING FROM THE CARD============================================================================================
-                decrypt_atm_id = eh.aesDecrypt(atm_id,self.key2)  # use key2 to decrypt al of the information
-                decrypt_card_id = eh.aesDecrypt(card_id, self.key2)
-                decrypt_amount = eh.aesDecrypt(amount, self.key2)
-                decrypt_pin = eh.aesDecrypt(pin, self.key2)
-                # print "num: " + num
+                atm_id = dec_pkt[:]# figure out correct lengths ===========================================
+                card_id = dec_pkt[:]# figure out correct lengths ===========================================
+                amount = dec_pkt[:]# figure out correct lengths ===========================================
+                pin = dec_pkt[:] # PlEASE ADD PIN SENDING FROM THE CARD============================================================================================
                 # atm_id, card_id, amount = struct.unpack(">36s36sI", decrypt_data)#unpack that and
                 print("decrypt_atm_id: ")
                 print(decrypt_atm_id)
@@ -84,8 +78,8 @@ class Bank(object):
                 print(decrypt_card_id)
                 print("decrypt_amount")
                 print(decrypt_amount)
-                self.withdraw(decrypt_atm_id, decrypt_card_id, decrypt_amount, decrypt_pin)#run withdraw
-                self.regenerate(self,(decrypt_atm_id, decrypt_card_id))
+                self.withdraw(atm_id, card_id, amount, pin)#run withdraw
+                self.regenerate(self,(atm_id, card_id))#fix parameters, regenerate takes these arbitrarily pointless inputs, please fix =======================================
             elif decrypt_instruction == 'b':
                 log("Checking balance")
                 # pkt = self.atm.read(72)
