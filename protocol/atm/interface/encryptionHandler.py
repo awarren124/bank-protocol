@@ -5,12 +5,9 @@ import os
 
 class EncryptionHandler:
 
-	initializationVector = 'This is an IV456' #16
+	initializationVector = 'This is an IV456'  # 16
 	padCharacter = '_'
 	numberThatDoesntMatter = 696969
-
-	def uhh(self):
-		return "lol"
 
 	def aesEncrypt(self, plaintext, key):
 		aes = AES.new(key, AES.MODE_CBC, self.initializationVector)
@@ -41,4 +38,3 @@ class EncryptionHandler:
 
 	def regenerateIV(self):
 		self.initializationVector = os.urandom(16)
-	

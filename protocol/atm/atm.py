@@ -24,10 +24,6 @@ log.addHandler(ch)
 
 """~~~~~~~~~~~~~~~~~"""
 
-
-
-
-
 class ATM(cmd.Cmd, object):
     key1 = os.urandom(32)
     key2 = os.urandom(32)
@@ -39,6 +35,7 @@ class ATM(cmd.Cmd, object):
     """
     intro = 'Welcome to your friendly ATM! Press ? for a list of commands\r\n'
     prompt = '1. Check Balance\r\n2. Withdraw\r\n3. Change PIN\r\n> '
+
     def setKeys(self, recKey1, recKey2):
         key1 = recKey1
         key2 = recKey2
@@ -170,7 +167,7 @@ class ATM(cmd.Cmd, object):
     def get_pin(self, prompt="Please insert 8-digit PIN: "):
         pin = ''
         while len(pin) != 8:
-            pin = input(prompt)
+            pin = raw_input(prompt)
             if not pin.isdigit():
                 print("Please only use digits")
                 continue
@@ -188,7 +185,7 @@ class ATM(cmd.Cmd, object):
 
         amount = 'bad'
         while not amount.isdigit():
-            amount = input("Please enter valid amount to withdraw: ")
+            amount = raw_input("Please enter valid amount to withdraw: ")
 
         if self.withdraw(pin, int(amount)):
             print("Withdraw success!")
