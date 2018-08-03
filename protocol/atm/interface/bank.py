@@ -55,40 +55,40 @@ class Bank:
             bool: False on failure
         """
         self._vp('check_balance: Sending request to Bank')
-	print("check1")
-	enc_command = eh.aesEncrypt("b", key2)
-	enc_atm_id = eh.aesEncrypt(atm_id, key2)
-	enc_card_id = eh.aesEncrypt(card_id, key2)
-    enc_pkt = enc_command + enc_atm_id + enc_card_id
-	print("enc_pkt")
-    self.ser.write(enc_pkt)
-	"""
-	pkt = ""
-        while pkt not in "ONE":
-            pkt = self.ser.read()
-        if pkt != "O":
-            return False
-        pkt = self.ser.read(76)
-        #aid, cid, bal = struct.unpack(">36s36sI", pkt)
-	"""
-	cmd = ""
-	while cmd != 'a':
-	    print("initialized")
-	    cmd = self.ser.read(1)
-	decision = self.ser.read(16)
-	dec_decision = eh.aesDecrypt(decision, key2)
-	if dec_decision == 'O':
-	    aid = self.ser.read(48)
-	    cid = self.ser.read(48)
-	    bal = self.ser.read(16)	
-	    dec_aid = eh.aesDecrypt(aid, key2)
-	    dec_cid = eh.aesDecrypt(cid, key2)
-	    dec_bal = eh.aesDecrypt(bal, key2)
-	    print(dec_bal)
+        print("check1")
+        enc_command = eh.aesEncrypt("b", key2)
+        enc_atm_id = eh.aesEncrypt(atm_id, key2)
+        enc_card_id = eh.aesEncrypt(card_id, key2)
+        enc_pkt = enc_command + enc_atm_id + enc_card_id
+        print("enc_pkt")
+        self.ser.write(enc_pkt)
+        """
+        pkt = ""
+            while pkt not in "ONE":
+                pkt = self.ser.read()
+            if pkt != "O":
+                return False
+            pkt = self.ser.read(76)
+            #aid, cid, bal = struct.unpack(">36s36sI", pkt)
+        """
+        cmd = ""
+        while cmd != 'a':
+            print("initialized")
+            cmd = self.ser.read(1)
+        decision = self.ser.read(16)
+        dec_decision = eh.aesDecrypt(decision, key2)
+        if dec_decision == 'O':
+            aid = self.ser.read(48)
+            cid = self.ser.read(48)
+            bal = self.ser.read(16)	
+            dec_aid = eh.aesDecrypt(aid, key2)
+            dec_cid = eh.aesDecrypt(cid, key2)
+            dec_bal = eh.aesDecrypt(bal, key2)
+            print(dec_bal)
             self._vp('check_balance: returning balance')
             return dec_bal
-	else:
-	    return false
+        else:
+            return false
 
     def withdraw(self, atm_id, card_id, amount):
         """Requests a withdrawal from the account associated with the card_id
@@ -116,11 +116,11 @@ class Bank:
         encCommand = eh.aesEncrypt(command, key2) #length = 16, encrypts command
 
         #len(atm_id) == 72
-        print "len(atm_id):"
-        print len(atm_id)
-        print "len(card_id):"
-        print len(card_id)
-	    print(card_id)
+        print("len(atm_id):")
+        print(len(atm_id))
+        print("len(card_id):")
+        print(len(card_id))
+        print(card_id)
         # data = struct.pack(">36s36sI", atm_id, card_id, amount)
         # encData = eh.aesEncrypt(data, key2)
 
@@ -128,49 +128,49 @@ class Bank:
         encCardId = eh.aesEncrypt(card_id, key2)#encrypts_card id
         encAmount = eh.aesEncrypt(str(amount), key2)#encrypts amount
 
-        print "len(encAtmId):"
-        print len(encAtmId)
-        print "len(encCardId):"
-        print len(encCardId)
-        print "len(encAmount):"
-        print len(encAmount)
+        print("len(encAtmId):")
+        print(len(encAtmId))
+        print("len(encCardId):")
+        print(len(encCardId))
+        print("len(encAmount):")
+        print(len(encAmount))
 
         pkt = encCommand + encAtmId + encCardId + encAmount#sends encrypted data over the bank
         #///////////////////////////////////////////////////////////////////////////////////////////////////
         # encryption
         # enc_pkt = eh.aesEncrypt(pkt, key2)
         # self.ser.write(len(enc_pkt))
-	    print(pkt)
+        print(pkt)
         self.ser.write(pkt)#sends
-	    print("sent")
+        print("sent")
         # while pkt not in "ONE":
         #     pkt = self.ser.read()
         # if pkt != "O":
         #     self._vp('withdraw: request denied')
         #     return False
         enc_read_pkt = ''
-	    tempPacket = ''
+        tempPacket = ''
         while tempPacket != 'a':
-	        tempPacket = self.ser.read()
-	        print("hi")
+            tempPacket = self.ser.read()
+            print("hi")
         enc_read_pkt = self.ser.read(16)#change to fit RSA  ======================================
         enc_read_pkt = eh.RSA_decrypt(enc_read_pkt, private_key)
-	    print("wait")
-	    if enc_read_pkt == 'O':
-		    print("received")
-		    print("101")
-		    read_atm_id = self.ser.read(48)#change length to fit RSA ======================================
+        print("wait")
+        if enc_read_pkt == 'O':
+            print("received")
+            print("101")
+            read_atm_id = self.ser.read(48)#change length to fit RSA ======================================
             read_atm_id = eh.RSA_decrypt(read_atm_id, private_key)
-		    print(dec_atm_id)
-		    print("102")
-		    read_card_id = self.ser.read(48)#change to fit RSA  ======================================
+            print(dec_atm_id)
+            print("102")
+            read_card_id = self.ser.read(48)#change to fit RSA  ======================================
             read_card_id = eh.RSA_decrypt(read_card_id, private_key)
-		    print(dec_card_id)
-		    print("103")
-		    read_amount = self.ser.read(16)#change to fit RSA  ======================================
+            print(dec_card_id)
+            print("103")
+            read_amount = self.ser.read(16)#change to fit RSA  ======================================
             read_amount = eh.RSA_decrypt(read_amount, private_key)
-		    print(dec_amount)
-		    print("hii")
+            print(dec_amount)
+            print("hii")
             read_magic_word2 = self.ser.read(16)#change to fit RSA  ======================================
             read_magic_word2 = eh.RSA_decrypt(read_amount, private_key)
 

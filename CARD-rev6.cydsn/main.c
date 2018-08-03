@@ -88,50 +88,6 @@ void printbin2hex(const unsigned char *bin, size_t len)
     UART_PutString("\t\n");
 }
 
-int hexchr2bin(const char hex, char *out)
-{
-    if (out == NULL)
-        return 0;
- 
-    if (hex >= '0' && hex <= '9') {
-        *out = hex - '0';
-    } else if (hex >= 'A' && hex <= 'F') {
-        *out = hex - 'A' + 10;
-    } else if (hex >= 'a' && hex <= 'f') {
-        *out = hex - 'a' + 10;
-    } else {
-        return 0;
-    }
- 
-    return 1;
-}
-
-size_t hexs2bin(const char *hex, unsigned char **out)
-{
-    size_t len;
-    char   b1;
-    char   b2;
-    size_t i;
- 
-    if (hex == NULL || *hex == '\0' || out == NULL)
-        return 0;
- 
-    len = strlen(hex);
-    if (len % 2 != 0)
-        return 0;
-    len /= 2;
- 
-    *out = malloc(len);
-    memset(*out, 'A', len);
-    for (i=0; i<len; i++) {
-        if (!hexchr2bin(hex[i*2], &b1) || !hexchr2bin(hex[i*2+1], &b2)) {
-            return 0;
-        }
-        (*out)[i] = (b1 << 4) | b2;
-    }
-    return len;
-}
-
 void aes_32_encrypt(uint8_t *plaintext, uint8_t *output,  void* key, void* iv){
     cf_aes_context aes; 
     cf_aes_init(&aes, key, 32);
@@ -286,6 +242,8 @@ int main (void)
     size_t requestLength = 10;                  //////// temporary pls change
     
     uint8_t message[128];
+    uint8_t header[1];
+    
     uint8_t concatReceived[50];
     uint8_t receivedPIN[PIN_LEN];
     uint8_t request[requestLength];
@@ -310,7 +268,10 @@ int main (void)
         
         // receive encrypted pin, request, and key 1'
         pullMessage(message);
-        char * iv = "y0u kn0w 1 h4d t0 d0 1t t0 '3m";                      /////IV???!?!?!!?
+        //char * iv = "y0u kn0w 1 h4d t0 d0 1t t0 '3m";                      /////IV???!?!?!!?
+        uint8_t iv[16];
+        gen_bytes(iv, 16);
+        
         aes_32_decrypt(message, concatReceived, AES_KEY1, iv);
         
         // parse encrypted parts
@@ -337,6 +298,8 @@ int main (void)
         }
         
         //free up some memory for the next transaction ??????
+        //unneeded, overwrite buffers
+        /*
         free(&message);
         free(&concatReceived);
         free(&receivedPIN);
@@ -345,5 +308,6 @@ int main (void)
         free(&hashedReceivedPIN);
         free(&cardDataToSend);
         free(&encryptedCardData);
+        */
     }
 }
