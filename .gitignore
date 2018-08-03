@@ -5,6 +5,9 @@
 *.cywrk.*
 *.cyprj.*
 
+### IntelliJ ###
+*.idea*
+
 # Generated Assets and Resources
 Debug/
 Release/
