@@ -99,8 +99,7 @@ class DB(object):
             return atm_id
         return None
     '''
-    def get_key(self, magic):
-        return self.read("key", magic, "key")
+
     '''
     def get_atm_num_bills(self, atm_id):
         """get number of bills in atm: atm_id
@@ -163,11 +162,13 @@ class DB(object):
         return self.modify("cards", card_id, ["bal"], [balance])
     '''
 
-    def admin_set_keys(self, key, magic):  # add keys to the database
-        # magic is just used to look up the key
-        return self.modify("key", magic, ["key"], [key])
+    def admin_set_keys(self, key, label):
+        #magic is just used to look up the key
+        key = base64.b64encode(key)
+        return self.modify("keys", "keys", [label], [key])
 
-    def admin_get_key(self, magic):  # access keys from the database
-        return self.read("key", magic, "key")
 
+    def admin_get_key(self, label):
+        key = self.read("keys", "keys", label)
+        return base64.b64decode(key)
 

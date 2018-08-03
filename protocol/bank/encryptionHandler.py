@@ -2,6 +2,7 @@ from Crypto.Cipher import AES
 from Crypto.PublicKey import RSA
 import hashlib
 import rsa
+import base64
 
 class EncryptionHandler:
 
@@ -11,21 +12,25 @@ class EncryptionHandler:
 
 	def uhh(self):
 		return "lol"
+
 	def set_IV(self, newIV):
 		initializationVector = newIV
 	def aesEncrypt(self, plaintext, key):
+		plaintext = str(plaintext)
 		aes = AES.new(key, AES.MODE_CBC, self.initializationVector)
 		offset = (16-len(plaintext) % 16)
 		plaintext += (self.padCharacter * offset)
 		ciphertext = aes.encrypt(plaintext)
+		ciphertext = base64.b64encode(ciphertext)
 		return ciphertext
 	def aesDecrypt(self, ciphertext, key):
-		print "aesDecrypt"
-		print "ciphertext: " + ciphertext
 		aes = AES.new(key, AES.MODE_CBC, self.initializationVector)
-		plaintext = aes.decrypt(ciphertext)#.decode('utf-8')
+		print(ciphertext)
+		ciphertext = base64.b64decode(ciphertext)
+		print(ciphertext)
+		plaintext = str(aes.decrypt(ciphertext))
+		print(plaintext)
 		plaintext = plaintext[:plaintext.find(self.padCharacter)]
-		print "plaintext: " + plaintext
 		return plaintext
 	def rsaEncrypt(self, plaintext, key):
 		rsa = RSA.importKey(key)
@@ -39,14 +44,14 @@ class EncryptionHandler:
 		return plaintext
 
 	def hash(self, plaintext):
-		print plaintext
-		return hashlib.sha256(plaintext.encode('utf-8')).digest()
+		return hashlib.sha256(plaintext).hexdigest()
 
 	def gen_key_pair(self):
-		(pubkey, privkey) = rsa.newkeys(512)
+		(pubkey, privkey) = rsa.newkeys(2048)
 		return pubkey, privkey
 
 	def RSA_encrypt(self, cipherText, publicKey):
+		cipherText = cipherText.encode('utf-8')
 		return rsa.encrypt(cipherText, publicKey)
 
 	def RSA_decrypt(self, cipherText, priavteKey):
