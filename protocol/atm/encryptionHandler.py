@@ -7,7 +7,7 @@ import rsa
 class EncryptionHandler:
 
     initializationVector = 'This is an IV456' #16
-    padCharacter = '+'
+    padCharacter = '_'
     numberThatDoesntMatter = 696969
 
     def uhh(self):
@@ -18,7 +18,7 @@ class EncryptionHandler:
 
     def aesEncrypt(self, plaintext, key):
         aes = AES.new(key, AES.MODE_CBC, self.initializationVector)
-        offset = (16-len(plaintext) % 16)
+        offset = (16 - (len(plaintext) % 16))
         plaintext += (self.padCharacter * offset)
         ciphertext = aes.encrypt(plaintext)
         return ciphertext

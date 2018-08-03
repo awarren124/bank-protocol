@@ -18,7 +18,7 @@ class EncryptionHandler:
 	def aesEncrypt(self, plaintext, key):
 		plaintext = str(plaintext)
 		aes = AES.new(key, AES.MODE_CBC, self.initializationVector)
-		offset = (16-len(plaintext) % 16)
+		offset = (16 - (len(plaintext) % 16))
 		plaintext += (self.padCharacter * offset)
 		ciphertext = aes.encrypt(plaintext)
 		ciphertext = base64.b64encode(ciphertext)
