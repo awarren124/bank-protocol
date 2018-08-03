@@ -7,19 +7,13 @@ import os
 eh = EncryptionHandler()
 
 
-
 """TODO: MAKE KEYS STORED IN A JSON FILE"""
 """TEMPORARRRYYYYY"""
 key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
 key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
 
 """~~~~~~~~~~~~~~~~~"""
-
-
-
-
-
-
+PAD = '_'
 
 class NotProvisioned(Exception):
     pass
@@ -57,6 +51,8 @@ class Card(object):
         if self.verbose:
             stream("card: " + msg)
 
+    def _pad_mult_16(self, array):
+        return array
     def _push_msg(self, msg):
         """Sends encoded and formatted message to PSoC
 
@@ -78,12 +74,13 @@ class Card(object):
         enc_msg = eh.aesEncrypt(msg, self.aes_key1)
         iv = eh.initializationVector
         eh.regenerateIV()
-        pkt = struct.pack("B%dsB16s" % (len(msg)), len(msg), enc_msg, 16, iv)
+        # pkt = struct.pack("16s%ds" % (len(enc_msg)), iv, enc_msg)  #
+        pkt = struct.pack("B16s48s", 64, iv, enc_msg)  # 16 byte iv, 48 byte ciphertext
         self.ser.write(pkt)
         time.sleep(0.1)
 
     def _pull_msg(self):
-        """Pulls message from the PSoC
+        """Pulls message from the PSoC and decodes
 
         Returns:
             string with message from PSoC
@@ -107,17 +104,21 @@ class Card(object):
         if len(hdr) != 1:
             self._vp("RECEIVED BAD HEADER: \'%s\'" % hdr, logging.error)
             return ''
-        pkt_len = struct.unpack('B', hdr)[0]
-        enc_pkt = self.ser.read(pkt_len)
 
-        hdr2 = self.ser.read(1)
-        iv_len = struct.unpack('B', hdr2)[0]
-        iv = self.ser.read(iv_len)
+        pkt_len = struct.unpack('B', hdr)[0]
+        iv = self.ser.read(16)
+
+        ciphertext_size = pkt_len - 16
+        ciphertext = self.ser.read(ciphertext_size)
 
         eh.initializationVector = iv
 
-        dec_pkt = eh.aesDecrypt(enc_pkt, key1)
-        return enc_pkt
+        dec_pkt = eh.aesDecrypt(ciphertext, self.aes_key1)
+        pad_start = len(dec_pkt)
+        if PAD in dec_pkt:
+            pad_start = dec_pkt.index(PAD)
+        dec_pkt = dec_pkt[:pad_start:]
+        return dec_pkt
 
     def _sync(self, provision):
         """Synchronize communication with PSoC
@@ -167,19 +168,16 @@ class Card(object):
         self._vp('Card response was %s' % resp)
         return resp == 'OK'
 
-    def _get_cardID(self):
-        """Retrieves the cardID from the ATM card
+    def _get_card_id(self):
+        """Retrieves the card_id from the card
 
         Returns:
-            str: cardID of ATM card
+            str: card_id of card
         """
-        cardID = self._pull_msg()#key1) 
-        #decrypt
+        card_id = self._pull_msg_enc()
 
-        #eh.aesDecrypt()
-
-        self._vp('Card sent cardID %s' % cardID)
-        return cardID
+        self._vp('Card sent card ID %s' % card_id)
+        return card_id
 
     def _send_op(self, op):
         """Sends requested operation to ATM card
@@ -195,20 +193,26 @@ class Card(object):
             self._vp('Card hasn\'t received op', logging.error)
         self._vp('Card received op')
 
-    def _auth_send_op(self, pin, op):  
+    def _auth_send_op(self, pin, op):
+        """Sends encrypted PIN and operation to ATM card
+
+        Args:
+            pin (string): Inputted PIN to send
+            op (int): Operation to send
+
+        """
         self._vp('Sending pin %s and op %d' % (pin, op))
         new_key1 = os.urandom(32)
-        message = "%s%d%s" % (pin, op, new_key1)
+        message = "%s%d%s" % (pin, op, new_key1)  # 8 byte pin, 1 byte op, 32 byte key1
         self._push_msg_enc(message)
 
         resp = self._pull_msg_enc()
-        plain = eh.aesDecrypt(resp, self.aes_key1)
-        if plain[-32::] == eh.hash(self.magic_word_1):
+        if resp[-32::] == eh.hash(self.magic_word_1):
             self._vp('Card response good, card received op')
             self.aes_key1 = new_key1
-            id = plain[:36:]
-            card_hash = plain[36:68:]
-            return True, id, card_hash
+            card_id = resp[:36:]
+            card_hash = resp[36:68:]
+            return True, card_id, card_hash
         return False, "", ""
 
     def change_pin(self, old_pin, new_pin):
@@ -242,7 +246,7 @@ class Card(object):
             pin (str): Challenge PIN
 
         Returns:
-            str: cardID of ATM card on success
+            str: Card id of ATM card on success
             bool: False if PIN didn't match
         """
         self._sync(False)
@@ -255,7 +259,7 @@ class Card(object):
         response, card_id, card_hash = self._auth_send_op(pin, self.CHECK_BAL)
         if not response:
             return False
-        # return self._get_cardID()
+        # return self._get_card_id()
         return card_id, card_hash
 
     def withdraw(self, pin):
@@ -265,7 +269,7 @@ class Card(object):
             pin (str): Challenge PIN
 
         Returns:
-            str: cardID of ATM card on success
+            str: Card id of card on success
             bool: False if PIN didn't match
         """
         self._sync(False)
@@ -280,15 +284,18 @@ class Card(object):
         if not response:
             return False
         
-        # return self._get_cardID()
+        # return self._get_card_id()
         return card_id, card_hash
 
-    def provision(self, cardID, pin, aes_key1, exp_date, mag_word_1):
+    def provision(self, card_id, pin, aes_key1, exp_date, mag_word_1):
         """Attempts to provision a new ATM card
 
         Args:
-            cardID (str): New cardID for ATM card
+            card_id (str): New Card ID for ATM card
             pin (str): Initial PIN for ATM card
+            aes_key1 (bytes): initial AES Key 1
+            exp_date (str): Card Expiraiton date
+            mag_word_1 (str): Magic Word 1
 
         Returns:
             bool: True if provisioning succeeded, False otherwise
@@ -308,10 +315,10 @@ class Card(object):
             self._vp('Card hasn\'t accepted PIN', logging.error)
         self._vp('Card accepted PIN')
 
-        self._push_msg('%s\00' % cardID)
+        self._push_msg('%s\00' % card_id)
         while self._pull_msg() != 'K':
-            self._vp('Card hasn\'t accepted cardID', logging.error)
-        self._vp('Card accepted cardID')
+            self._vp('Card hasn\'t accepted Card ID, logging.error')
+        self._vp('Card accepted Card ID')
 
         self._push_msg('%s\00' % aes_key1)
         while self._pull_msg() != 'K':

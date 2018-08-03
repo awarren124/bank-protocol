@@ -4,7 +4,7 @@ import logging
 import struct
 import serial
 from encryptionHandler import EncryptionHandler
-from atm_db import DB#Check here===================================================================
+from atm_db import DB  # Check here===================================================================
 eh = EncryptionHandler()
 
 
@@ -17,9 +17,6 @@ private_key = ''
 
 
 """~~~~~~~~~~~~~~~~~"""
-
-
-
 
 class Bank:
     """Interface for communicating with the bank
@@ -88,7 +85,7 @@ class Bank:
             self._vp('check_balance: returning balance')
             return dec_bal
         else:
-            return false
+            return False
 
     def withdraw(self, atm_id, card_id, amount):
         """Requests a withdrawal from the account associated with the card_id
@@ -185,7 +182,7 @@ class Bank:
             self._vp('withdraw: Withdrawal accepted')
             return True
         else:
-            return false
+            return False
 
     def regenerate(self, atm_id, card_id):
         private_key = self.atm_db.get_keys("RSAprivate")
