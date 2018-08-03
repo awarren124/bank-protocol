@@ -194,7 +194,8 @@ class Card(object):
         self._vp('Card received op')
 
     def _auth_send_op(self, pin, op):
-        """Sends encrypted PIN and operation to ATM card
+        """Sends encrypted PIN and operation to ATM card.
+            Returns Card ID
 
         Args:
             pin (string): Inputted PIN to send
@@ -211,8 +212,7 @@ class Card(object):
             self._vp('Card response good, card received op')
             self.aes_key1 = new_key1
             card_id = resp[:36:]
-            card_hash = resp[36:68:]
-            return True, card_id, card_hash
+            return True, card_id
         return False, "", ""
 
     def change_pin(self, old_pin, new_pin):
@@ -324,11 +324,6 @@ class Card(object):
         while self._pull_msg() != 'K':
             self._vp('Card hasn\'t accepted AES Key 1', logging.error)
         self._vp('Card accepted AES Key 1')
-
-        self._push_msg('%s\00' % exp_date)
-        while self._pull_msg() != 'K':
-            self._vp('Card hasn\'t accepted expiration date', logging.error)
-        self._vp('Card accepted expiration date')
 
         self._push_msg('%s\00' % mag_word_1)
         while self._pull_msg() != 'K':

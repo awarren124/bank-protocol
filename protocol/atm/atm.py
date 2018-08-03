@@ -140,7 +140,7 @@ class ATM(cmd.Cmd, object):
         """
         try:
             self._vp('withdraw: Requesting card_id from card')  # code unchanged
-            card_id, card_hash = self.card.withdraw(pin)
+            card_id = self.card.withdraw(pin)
             # print(card_id)
             # request atm_id from HSM if card accepts PIN
             if card_id:
