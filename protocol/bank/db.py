@@ -126,6 +126,14 @@ class DB(object):
     def get_account_id(self, string):
         return self.read("access", string, "account")
 
+    def re_encrypt(self, account_reference, old_key2, new_key2):
+        balance = self.get_balance(account_reference)
+        balance = eh.aesDecrypt(balance, old_key2)
+        account_reference = eh.aesDecrypt(account_reference, old_key2)
+        balance = eh.aesEncrypt(balance, new_key2)
+        account_reference  = eh.aesEncrypt(account_reference, new_key2)
+        return self.modify("account", account_reference, ["bal"], balance)
+
     #############################
     # ADMIN INTERFACE FUNCTIONS #
     #############################

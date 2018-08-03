@@ -3,7 +3,7 @@ from interface.bank import Bank
 from atm import ATM
 from os import urandom
 from encryptionHandler import EncryptionHandler
-from atm_db import DB
+from atm_db import DB # ======================================, fix that
 eh = EncryptionHandler()
 import argparse
 import serial

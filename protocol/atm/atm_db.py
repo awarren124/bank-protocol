@@ -70,7 +70,7 @@ class DB(object):
     ############################
 
 
-
+    '''
     def set_balance(self, card_id, balance):
         """set balance of account: card_id
 
@@ -98,10 +98,10 @@ class DB(object):
         if self.get_atm_num_bills(atm_id):
             return atm_id
         return None
-
+    '''
     def get_key(self, magic):
         return self.read("key", magic, "key")
-
+    '''
     def get_atm_num_bills(self, atm_id):
         """get number of bills in atm: atm_id
 
@@ -120,11 +120,11 @@ class DB(object):
         """
         return True
         return self.modify("atms", atm_id, ["nbills"], [num_bills])
-
+    '''
     #############################
     # ADMIN INTERFACE FUNCTIONS #
     #############################
-
+    '''
     def admin_create_account(self, card_id, amount):
         """create account with account_name, card_id, and amount
 
@@ -161,13 +161,13 @@ class DB(object):
             (bool): Returns True on Success. False otherwise.
         """
         return self.modify("cards", card_id, ["bal"], [balance])
-
-    def admin_set_keys(self, key, magic):
+    '''
+    def admin_set_keys(self, key, magic):#add keys to the database
         #magic is just used to look up the key
         return self.modify("key", magic, ["key"], [key)
 
 
-    def admin_get_key(self, key, magic):
+    def admin_get_key(self, magic):#access keys from the database
         return self.read("key", magic, "key")
 
 

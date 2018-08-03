@@ -4,7 +4,7 @@ import logging
 import struct
 import serial
 from encryptionHandler import EncryptionHandler
-from atm_db import DB
+from atm_db import DB#Check here===================================================================
 eh = EncryptionHandler()
 
 
@@ -153,25 +153,25 @@ class Bank:
         while tempPacket != 'a':
 	        tempPacket = self.ser.read()
 	        print("hi")
-        enc_read_pkt = self.ser.read(16)#change to fit RSA
+        enc_read_pkt = self.ser.read(16)#change to fit RSA  ======================================
         enc_read_pkt = eh.RSA_decrypt(enc_read_pkt, private_key)
 	    print("wait")
 	    if enc_read_pkt == 'O':
 		    print("received")
 		    print("101")
-		    read_atm_id = self.ser.read(48)#change to fit RSA
+		    read_atm_id = self.ser.read(48)#change length to fit RSA ======================================
             read_atm_id = eh.RSA_decrypt(read_atm_id, private_key)
 		    print(dec_atm_id)
 		    print("102")
-		    read_card_id = self.ser.read(48)#change to fit RSA
+		    read_card_id = self.ser.read(48)#change to fit RSA  ======================================
             read_card_id = eh.RSA_decrypt(read_card_id, private_key)
 		    print(dec_card_id)
 		    print("103")
-		    read_amount = self.ser.read(16)#change to fit RSA
+		    read_amount = self.ser.read(16)#change to fit RSA  ======================================
             read_amount = eh.RSA_decrypt(read_amount, private_key)
 		    print(dec_amount)
 		    print("hii")
-            read_magic_word2 = self.ser.read(16)#change to fit RSA
+            read_magic_word2 = self.ser.read(16)#change to fit RSA  ======================================
             read_magic_word2 = eh.RSA_decrypt(read_amount, private_key)
 
         #aid, cid = struct.unpack(">36s36s", pkt)
@@ -185,22 +185,25 @@ class Bank:
         private_key = self.atm_db.get_keys("RSAprivate")
         command = ''
         while command != 'r':
-            command = self.ser.read(1)
-        rec_atm_id = self.ser.read()
-        rec_card_id = self.ser.read()
-        rec_new_key1 = self.ser.read()
+            command = self.ser.read(1) #receives everything from bank
+        #rec_new_key1 = self.ser.read()
         rec_new_key2 = self.ser.read()
         rec_new_IV = self.ser.read()
         dec_IV = eh.RSA_decrypt(rec_new_IV,private_key)
         eh.set_IV(dec_IV)
-        dec_atm_id = eh.RSA_decrypt(rec_atm_id,private_key)
-        dec_card_id = eh.RSA_decrypt(rec_card_id,private_key)
-        dec_new_key1 = eh.RSA_decrypt(rec_new_key1,private_key)
-        dec_new_key2 = eh.RSA_decrypt(rec_mew_key2,private_key)#figure out how to store keys securely
-        if dec_atm_id == atm_id and dec_card_id == atm.id:
-            #replace
-        else:
-            return false
+        rec_new_magic1 = self.ser.read()#find lengths=============================================================================
+        rec_new_magic2 = self.ser.read()
+        ver_magic1 = self.ser.read()
+        ver_magic2 = self.ser.read()
+        dec_new_key2 = eh.RSA_decrypt(rec_mew_key2,private_key)
+        dec_new_magic1 = eh.RSA_decrypt(rec_new_magic1, private_key)
+        dec_new_magic2 = eh.RSA_decrypt(rec_new_magic2, private_key)
+        dec_ver_megic1 = eh.RSA_decrypt(ver_magic1, private_key)
+        dec_ver_magic2 = eh.RSA_decrypt(ver_magic2, private_key)
+        if magic1 == self.atm_db.get_keys("magicWord1") and magic2 == self.atm_db.get_keys("magicWord2"):#check line syntax, checks to verify the bank is the bank
+            self.atm_db.set_keys(dec_new_key2, "BankKey")#replaces bank key with new key
+            self.atm_db.set_keys(dec_new_magic1, "magicWord1")#replaces magic words
+            self.atm_db.set_keys(dec_new_magic2, "magicWord2")#replaces magic words
 
     def provision_update(self, uuid, pin, balance):
         pkt = struct.pack(">36s8sI", uuid, pin, balance)

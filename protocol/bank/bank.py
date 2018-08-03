@@ -85,7 +85,7 @@ class Bank(object):
                 print "decrypt_amount"
                 print decrypt_amount
                 self.withdraw(decrypt_atm_id, decrypt_card_id, decrypt_amount, decrypt_pin)#run withdraw
-                #self.regenerate(self,(decrypt_atm_id, decrypt_card_id)
+                self.regenerate(self,(decrypt_atm_id, decrypt_card_id)
             elif decrypt_instruction == 'b':
                 log("Checking balance")
                 # pkt = self.atm.read(72)
@@ -100,7 +100,7 @@ class Bank(object):
             elif decrypt_instruction != '':
                 self.atm.write(self.ERROR)
 
-    def regenerate(self, atm_id, card_id):#check protocol diagram
+    def regenerate(self, atm_id, card_id):#check protocol diagram, will fix sometime
         try:
             atm_id = str(atm_id)
             card_id = str(card_id)
@@ -111,19 +111,27 @@ class Bank(object):
             return
         public_key = self.db.get_key("RSA")
         #new_key1 = os.urandom(32)
-        new_key2 = os.urandom(32)
+        new_key2 = os.urandom(32)#generates new keys, magicwords, and initialization vector
+        new_magicWord1 = os.urandom(32)
+        new_magicWord2 = os.urandom(32)
         new_IV = os.urandom(16)
         #store1 = keySplice(new_key1)
-        store2 = keySplice(new_key2)
+        store2 = keySplice(new_key2)#splits key
         self.db.admin_set_keys(store2[2],"AES")#make sure it overrides the old key
-        eh.set_IV(new_IV)
+        eh.set_IV(new_IV)#set encryption handler with the new IV
         #enc_new_key1 = eh.RSA_encrypt(new_key1, public_key)
-        enc_new_key2 = eh.RSA_encrypt(enc_new_key2, public_key)
+        enc_new_key2 = eh.RSA_encrypt(enc_new_key2, public_key)#encrypt keys to be sent over to the atm with RSA public key1
         enc_new_IV = eh.RSA_encrypt(new_IV, public_key)
-        enc_AtmId = eh.RSA_encrypt(enc_AtmId, public_key)
-        enc_CardId = eh.RSA_encrypt(str(card_id), public_key)
-        enc_pkg = "r" + enc_AtmId + enc_CardId + enc_new_key1 + enc_new_key2 + enc_new_IV#sent to atm
-        key1Half = store1[2]
+        account_reference = self.db.get_account_id("access")#gets account reference
+        self.db.re_encrypt(account_reference, new_key2, key2)#re-encrypts account data using new keys
+        enc_magic_word1 = eh.RSA_encrypt(eh.aesDecrypt(self.db.get_key("magicWord1"),key2), public_key)
+        enc_magic_word2 = eh.RSA_encrypt(eh.aesDecrypt(self.db.get_key("magicWord2"), key2), public_key)
+        self.db.modify("key", "magicWord1", "key", new_magicWord1)  # sets the magicwords with the new ones
+        self.db.modify("key", "magicWord2", "key", new_magicWord2)
+        enc_new_magic1 = eh.RSA_encrypt(new_magicWord1, public_key)
+        enc_new_magic2 = eh.RSA_encrypt(new_magicWord2, public_key)
+        enc_pkg = "r" + enc_new_key2 + enc_new_IV + enc_new_magic1 + enc_new_magic2 + enc_magic_word1 + enc_magic_word_2#sent to atm
+        #key1Half = store1[2]
         key2Half = store2[2]
         new_key1 = None
         new_key2 = None
@@ -143,7 +151,7 @@ class Bank(object):
 
 
 
-    def withdraw(self, atm_id, card_id, amount, pin):
+    def withdraw(self, atm_id, card_id, amount, pin):#check protocol/sequence diagram
         try:
             amount = int(amount)
             atm_id = str(atm_id)
@@ -169,10 +177,10 @@ class Bank(object):
             return
         enc_balance = self.db.get_balance(enc_account_reference)  # uses accounts reference id to get the balance
         balance = eh.aesDecrypt(enc_balance, key2)#sets balance accordingly
-        atm = self.db.get_atm(atm_id)#change this
+        atm = self.db.get_atm(atm_id)#change this/not sure what this is actually doing, please figure out
         print "card id (hex): " + card_id.encode('hex')
         print "checking atm: " + str(atm_id.encode('hex'))
-        if atm is None:#FIX==============================================================
+        if atm is None:#Figure out what this is doing
             encrypt_error = eh.aesEncrypt(self.Error,self.key2)
             self.atm.write(self.ERROR)#COULD BE HIJACKED
             log("Bad ATM ID")
@@ -181,20 +189,20 @@ class Bank(object):
         num_bills = self.db.get_atm_num_bills(atm_id)
         # print "checking num_bills: " + num_bills
 
-        if num_bills is None:#FIX==============================================================
+        if num_bills is None:#Figure out what this is doing
             encrypt_error = eh.aesEncrypt(self.ERROR, self.key2)
             self.atm.write(encrypt_error)#COULD BE HIJACKED
             log("Bad ATM ID")
             return
 
-        if num_bills < amount:#FIX==============================================================
+        if num_bills < amount:#Figure out what this is doing
             encrypt_bad = aesEncrypt(self.BAD, self.key2)
             self.atm.write(encrypt_bad)#COULD BE HIJACKED
             log("Insufficient funds in ATM")
             return
         print "card id : " + card_id
         #balance = self.db.get_balance(card_id)
-        if balance is None:#FIX==============================================================
+        if balance is None:
             encrypt_bad = eh.aesEncrypt(self.BAD, self.key2)
             self.atm.write(encrypt_bad)  # COULD BE HIJACKED
             log("Bad card ID")
@@ -202,8 +210,8 @@ class Bank(object):
 
         final_amount = balance - amount
         if final_amount >= 0:
-            self.db.set_balance(card_id, final_amount)#FLAG
-            self.db.set_atm_num_bills(atm_id, num_bills - amount)#FLAG
+            self.db.set_balance(card_id, final_amount)#Fix this function, shouldn't work, make sure there is encryption
+            self.db.set_atm_num_bills(atm_id, num_bills - amount)#this one proabably works, but is probably insecure
             log("Valid withdrawal")
             # pkt = struct.pack(">36s36sI", atm_id, card_id, amount)#figure out importance
             print "encrypt4"
@@ -231,7 +239,7 @@ class Bank(object):
             print str(encCardId)
             print str(encAmount)
             self.atm.write(encPacket)#send back to atm
-            self.regenerate(atm_id, card_id))
+            self.regenerate(atm_id, card_id))#not finished implementing, may be done in the morning
         else:
             encrypt_bad = eh.aesEncrypt(self.BAD, key2)
             self.atm.write(encrypt_bad)  # COULD BE HIJACKED

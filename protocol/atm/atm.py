@@ -6,6 +6,7 @@ from interface import card, bank
 import os
 import json
 import argparse
+from atm_db import DB
 
 log = logging.getLogger('')
 log.setLevel(logging.DEBUG)
@@ -154,7 +155,7 @@ class ATM(cmd.Cmd, object):
                             self.bills[i] = "-DISPENSED BILL-"
                             self.dispensed += 1
                     self.update()
-                    self.bank.regenerate()
+                    #self.bank.regenerate()#regenerate keys
                     return True
             else:
                 self._vp('withdraw failed')

@@ -38,10 +38,10 @@ if __name__ == "__main__":
                 continue
 
             print "Reading provisioning info..."
-            key2 = atm.read()#get correct lengths
-            public_key = atm.read()#get correct lengths
-            magicWord1 = atm.read()#get correct lengths
-            magicWord2 = atm.read()#get correct lengths
+            key2 = atm.read()#get correct lengths, put them here ======================================
+            public_key = atm.read()#get correct lengths ======================================
+            magicWord1 = atm.read()#get correct lengths ======================================
+            magicWord2 = atm.read()#get correct lengths ======================================
 
             print("keys stored")
             print "Updating database..."
