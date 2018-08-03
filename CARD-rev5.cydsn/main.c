@@ -62,7 +62,7 @@ void printbin2hex(const unsigned char *bin, size_t len)
 {
     size_t  i;
  
-    if (bin == NULL || len == 0)
+    if (bin == NULL '' len == 0)
         return;
  
     for (i=0; i<len; i++) {
@@ -112,7 +112,7 @@ void aes_decrypt_blocks(uint8_t * input, uint8_t *output, void *key, void *iv, i
 }
 
 uint8_t pad_16(uint8_t *array, int p){
-    if(p > 16 || p < 0){
+    if(p > 16 '' p < 0){
         return 1;   
     }
     int i;
@@ -163,6 +163,9 @@ void mark_provisioned()
 void provision()
 {
     uint8_t message[128];
+    uint8_t unHashedCardData[32];
+    uint8_t cardDataHash[32];
+    uint8 magicWordSize = 10;                    ////////Temporary pls adjust
     
     // synchronize with bank
     syncConnection(SYNC_PROV);
@@ -181,20 +184,25 @@ void provision()
     write_cardid(message);
     pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
     
-    // get expiration date
-    pullMessage(message);
-    write_cardid(message);
-    pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
-    
-    // get magic word 1
-    pullMessage(message);
-    write_cardid(message);
-    pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
-    
     // set Key 1
     pullMessage(message);
-    write_cardid(message);
+    write_AES_key1(message);
     pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
+    
+    // get expiration date and add it to carddata
+    pullMessage(message);
+    strncpy((char *)unHashedCardData, (char *)message, 4);
+    pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
+    
+    // get magic word 1 and add it to carddata
+    pullMessage(message);
+    strncat((char *)unHashedCardData, (char *)message, magicWordSize);
+    pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
+    
+    // hash carddata and store it
+    sha256((char *)unHashedCardData, cardDataHash, 4 + magicWordSize);
+    write_card_hash(cardDataHash);
+    
 }
 
 int main (void)
