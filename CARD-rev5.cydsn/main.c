@@ -232,7 +232,7 @@ int main (void)
         } else {
             pushMessage((uint8*)PIN_OK, strlen(PIN_OK));
             
-            // get command
+            // get request
             pullMessage(message);
             pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
             
