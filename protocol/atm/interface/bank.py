@@ -3,7 +3,7 @@
 import logging
 import struct
 import serial
-from encryptionHandler import EncryptionHandler
+from encryptionHandlerCard import EncryptionHandler
 from atm_db import DB  # Check here===================================================================
 eh = EncryptionHandler()
 

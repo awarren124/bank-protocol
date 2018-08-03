@@ -2,9 +2,9 @@ import logging
 import struct
 import time
 import serial
-from encryptionHandler import EncryptionHandler
+from encryptionHandlerCard import EncryptionHandlerCard
 import os
-eh = EncryptionHandler()
+eh = EncryptionHandlerCard()
 
 
 """TODO: MAKE KEYS STORED IN A JSON FILE"""
@@ -14,6 +14,7 @@ key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc
 
 """~~~~~~~~~~~~~~~~~"""
 PAD = '_'
+
 
 class NotProvisioned(Exception):
     pass
@@ -34,6 +35,7 @@ class Card(object):
     CHECK_BAL = 1
     WITHDRAW = 2
     CHANGE_PIN = 3
+    CHANGE_MAGWORD1 = 4
 
     def __init__(self, port=None, verbose=False, baudrate=115200, timeout=2):
         self.ser = serial.Serial(port, baudrate, timeout=timeout)
@@ -60,7 +62,7 @@ class Card(object):
             msg (str): message to be sent to the PSoC
         """
         iv = eh.initializationVector
-        eh.regenerateIV()
+        eh.regenIV()
         pkt = struct.pack("B%ds" % (len(msg)), len(msg))
         self.ser.write(pkt)
         time.sleep(0.1)
@@ -73,7 +75,7 @@ class Card(object):
         """
         enc_msg = eh.aesEncrypt(msg, self.aes_key1)
         iv = eh.initializationVector
-        eh.regenerateIV()
+        eh.regenIV()
         # pkt = struct.pack("16s%ds" % (len(enc_msg)), iv, enc_msg)  #
         pkt = struct.pack("B16s48s", 64, iv, enc_msg)  # 16 byte iv, 48 byte ciphertext
         self.ser.write(pkt)
@@ -202,17 +204,20 @@ class Card(object):
             op (int): Operation to send
 
         """
-        self._vp('Sending pin %s and op %d' % (pin, op))
-        new_key1 = os.urandom(32)
-        message = "%s%d%s" % (pin, op, new_key1)  # 8 byte pin, 1 byte op, 32 byte key1
-        self._push_msg_enc(message)
+        assert(1 <= op <= 4)
+        if op <= 2:
+            self._vp('Sending pin %s and op %d' % (pin, op))
+            new_key1 = os.urandom(32)
+            message = "%s%d%s" % (pin, op, new_key1)  # 8 byte pin, 1 byte op, 32 byte key1
+            self._push_msg_enc(message)
 
-        resp = self._pull_msg_enc()
-        if resp[-32::] == eh.hash(self.magic_word_1):
-            self._vp('Card response good, card received op')
-            self.aes_key1 = new_key1
-            card_id = resp[:36:]
-            return True, card_id
+            resp = self._pull_msg_enc()
+            if resp[-32::] == eh.hash(self.magic_word_1):
+                self._vp('Card response good, card received op')
+                self.aes_key1 = new_key1
+                card_id = resp[:36:]
+                return True, card_id
+            return False, "", ""
         return False, "", ""
 
     def change_pin(self, old_pin, new_pin):
