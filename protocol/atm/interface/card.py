@@ -3,9 +3,9 @@ import struct
 import time
 import serial
 import os
-from encryptionHandlerCard import EncryptionHandlerCard
+from encryptionHandlerInterface import EncryptionHandlerInterface
 
-eh = EncryptionHandlerCard()
+eh = EncryptionHandlerInterface()
 
 """TODO: MAKE KEYS STORED IN A JSON FILE"""
 """TEMPORARRRYYYYY"""

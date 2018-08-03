@@ -11,9 +11,6 @@ import serial
 import argparse
 import struct
 from encryptionHandler import EncryptionHandler
-from Crypto.Cipher import AES
-from Crypto.PublicKey import RSA
-import hashlib
 import os
 
 eh = EncryptionHandler()
@@ -145,7 +142,7 @@ class Bank(object):
         new_key1 = None
         new_key2 = None
         store2 = None
-        self.serial.write(enc_pkt)
+        self.atm.write(enc_pkt)
         return
 
     def combine(self, keyHalf1, keyHalf2):
@@ -176,7 +173,7 @@ class Bank(object):
         account_reference = eh.aesDecrypt(enc_account_reference, self.key2)  # decrypt the reference and compare
         balance = 0
         if account_reference != final_hash:  # checks to make sure the atm information, matches the actual matches the actual bank infromation
-            encrypt_error = eh.aesEncrypt(self.Error, self.key2)
+            encrypt_error = eh.aesEncrypt(self.ERROR, self.key2)
             self.atm.write(self.ERROR)  # COULD BE HIJACKED
             log("bad information")
             return
@@ -186,7 +183,7 @@ class Bank(object):
         print "card id (hex): " + card_id.encode('hex')
         print "checking atm: " + str(atm_id.encode('hex'))
         if atm is None:  # Figure out what this is doing
-            encrypt_error = eh.aesEncrypt(self.Error,self.key2)
+            encrypt_error = eh.aesEncrypt(self.ERROR, self.key2)
             self.atm.write(self.ERROR)# COULD BE HIJACKED
             log("Bad ATM ID")
             return
