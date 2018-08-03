@@ -155,39 +155,34 @@ class Bank:
 	        print("hi")
         enc_read_pkt = self.ser.read(16)#change to fit RSA
         enc_read_pkt = eh.RSA_decrypt(enc_read_pkt, private_key)
-        dec_read_pkt = eh.aesDecrypt(enc_read_pkt, key2)
 	    print("wait")
-	    if dec_read_pkt == 'O':
+	    if enc_read_pkt == 'O':
 		    print("received")
 		    print("101")
 		    read_atm_id = self.ser.read(48)#change to fit RSA
             read_atm_id = eh.RSA_decrypt(read_atm_id, private_key)
-		    dec_atm_id = eh.aesDecrypt(read_atm_id,key2)
 		    print(dec_atm_id)
 		    print("102")
 		    read_card_id = self.ser.read(48)#change to fit RSA
             read_card_id = eh.RSA_decrypt(read_card_id, private_key)
-		    dec_card_id = eh.aesDecrypt(read_card_id, key2)
 		    print(dec_card_id)
 		    print("103")
 		    read_amount = self.ser.read(16)#change to fit RSA
             read_amount = eh.RSA_decrypt(read_amount, private_key)
-		    dec_amount = eh.aesDecrypt(read_amount, key2)
 		    print(dec_amount)
 		    print("hii")
             read_magic_word2 = self.ser.read(16)#change to fit RSA
             read_magic_word2 = eh.RSA_decrypt(read_amount, private_key)
-		    dec_magic_word2 = eh.aesDecrypt(read_amount, key2)
 
         #aid, cid = struct.unpack(">36s36s", pkt)
-        if dec_magic_word2 == self.atm_db.get_keys("magicWord2"):#checks magic word for verification
+        if enc_magic_word2 == self.atm_db.get_keys("magicWord2"):#checks magic word for verification
             self._vp('withdraw: Withdrawal accepted')
             return True
         else:
             return false
 
     def regenerate(self, atm_id, card_id):
-        private_key = self.
+        private_key = self.atm_db.get_keys("RSAprivate")
         command = ''
         while command != 'r':
             command = self.ser.read(1)

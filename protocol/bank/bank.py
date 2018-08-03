@@ -100,7 +100,7 @@ class Bank(object):
             elif decrypt_instruction != '':
                 self.atm.write(self.ERROR)
 
-    def regenerate(self, atm_id, card_id):
+    def regenerate(self, atm_id, card_id):#check protocol diagram
         try:
             atm_id = str(atm_id)
             card_id = str(card_id)
@@ -110,14 +110,14 @@ class Bank(object):
             log("Bad value sent")
             return
         public_key = self.db.get_key("RSA")
-        new_key1 = os.urandom(32)
+        #new_key1 = os.urandom(32)
         new_key2 = os.urandom(32)
         new_IV = os.urandom(16)
-        store1 = keySplice(new_key1)
+        #store1 = keySplice(new_key1)
         store2 = keySplice(new_key2)
         self.db.admin_set_keys(store2[2],"AES")#make sure it overrides the old key
         eh.set_IV(new_IV)
-        enc_new_key1 = eh.RSA_encrypt(new_key1, public_key)
+        #enc_new_key1 = eh.RSA_encrypt(new_key1, public_key)
         enc_new_key2 = eh.RSA_encrypt(enc_new_key2, public_key)
         enc_new_IV = eh.RSA_encrypt(new_IV, public_key)
         enc_AtmId = eh.RSA_encrypt(enc_AtmId, public_key)
