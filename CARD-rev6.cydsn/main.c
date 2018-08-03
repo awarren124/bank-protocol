@@ -37,13 +37,11 @@
 #define CARDID ((uint8*)(CY_FLASH_BASE + 0x6480))
 #define AES_KEY1 ((uint8*)(CY_FLASH_BASE + 0x3200))
 #define MAGICWORD1HASH ((uint8*) (CY_FLASH_BASE + 0x3600))
-#define CARDDATA ((uint8*)(CY_FLASH_BASE + 0x3280))
 
 #define write_pin_hash(p) CySysFlashWriteRow(200, p);
 #define write_cardid(u) CySysFlashWriteRow(201, u);
 #define write_AES_key1(k) CySysFlashWriteRow(100, k);
 #define write_magic_word_1_hash(w) CySysFlashWriteRow(105, w);
-#define write_carddata_hash(d) CySysFlashWriteRow(101, d);
 
 #define BLOCK_SIZE 128
 
@@ -174,10 +172,8 @@ void slice(uint8_t * src, uint8_t * dest, size_t a, size_t b){
 void provision()
 {
     uint8_t message[128];
-    uint8_t unHashedCardData[32];
-    uint8_t cardDataHash[32];
-    uint8_t hashedMagicWord[32];
-    size_t magicWordSize;                  
+    uint8_t hashpin[32];
+    uint8_t hashedMagicWord[32];  
     
     // synchronize with bank
     syncConnection(SYNC_PROV);
@@ -186,7 +182,6 @@ void provision()
         
     // set hashed PIN
     pullMessage(message);
-    uint8_t hashpin[32];
     sha256((char *)message, hashpin, 8);
     write_pin_hash(hashpin);
     pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
@@ -201,23 +196,11 @@ void provision()
     write_AES_key1(message);
     pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
     
-    // get expiration date and add it to carddata
+    // get magic word 1, hash it, then store it
     pullMessage(message);
-    strncpy((char *)unHashedCardData, (char *)message, 4);
-    pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
-    
-    // get magic word 1, hash it, store it, then add it to carddata
-    pullMessage(message);
-    magicWordSize = strlen((char *)message);
-    sha256((char *)message, hashedMagicWord, magicWordSize);
+    sha256((char *)message, hashedMagicWord, 32);
     write_magic_word_1_hash(hashedMagicWord);
-    strncat((char *)unHashedCardData, (char *)message, magicWordSize);
     pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
-    
-    // hash carddata and store it
-    sha256((char *)unHashedCardData, cardDataHash, 4 + magicWordSize);
-    write_carddata_hash(cardDataHash);
-    
 }
 
 void mark_provisioned()
@@ -250,11 +233,11 @@ int main (void)
     uint8_t hashedReceivedPIN[32];
     
     //store returning message
-    uint8_t cardDataToSend[100];
+    uint8_t cardDataToSend[68];
     uint8_t paddedCardDataToSend[112];
     uint8_t encryptedCardData[112];
     uint8_t ivToSend[16];
-    uint8_t outgoingInfoBlock[128];
+    uint8_t outgoingInfoBlock[96];
     
     
     // Provision card if on first boot
@@ -300,24 +283,23 @@ int main (void)
         else{
             // assembles card data
             strncpy((char *)cardDataToSend, (char *)CARDID, 36);
-            strncat((char *)cardDataToSend, (char *)CARDDATA, 32);
             strncat((char *)cardDataToSend, (char *)MAGICWORD1HASH, 32);
             
             // pad to be encrypted
-            pad_mult_16(cardDataToSend, paddedCardDataToSend, 100);
+            pad_mult_16(cardDataToSend, paddedCardDataToSend, 68);
             
             // generates new encryption iv
             gen_bytes(ivToSend, 16);
             
             // encrypts card data
-            aes_encrypt_blocks(paddedCardDataToSend, encryptedCardData, AES_KEY1, ivToSend, 7);
+            aes_encrypt_blocks(paddedCardDataToSend, encryptedCardData, AES_KEY1, ivToSend, 5);
             
             // assembles final batch of information to send (iv and encrypted data)
             strncpy((char *) outgoingInfoBlock, (char *)iv, 16);
-            strncat((char *) outgoingInfoBlock, (char *)encryptedCardData, 112);
+            strncat((char *) outgoingInfoBlock, (char *)encryptedCardData, 80);
             
             // sends the message
-            pushMessage(outgoingInfoBlock, 128);
+            pushMessage(outgoingInfoBlock, 96);
             
             // replace aes key 1
             write_AES_key1(key1prime);

@@ -2,10 +2,10 @@ import logging
 import struct
 import time
 import serial
-from encryptionHandler import EncryptionHandler
 import os
-eh = EncryptionHandler()
+from encryptionHandlerCard import EncryptionHandlerCard
 
+eh = EncryptionHandlerCard()
 
 """TODO: MAKE KEYS STORED IN A JSON FILE"""
 """TEMPORARRRYYYYY"""
@@ -14,6 +14,7 @@ key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc
 
 """~~~~~~~~~~~~~~~~~"""
 PAD = '_'
+
 
 class NotProvisioned(Exception):
     pass
@@ -34,6 +35,7 @@ class Card(object):
     CHECK_BAL = 1
     WITHDRAW = 2
     CHANGE_PIN = 3
+    CHANGE_MAGWORD1 = 4
 
     def __init__(self, port=None, verbose=False, baudrate=115200, timeout=2):
         self.ser = serial.Serial(port, baudrate, timeout=timeout)
@@ -51,8 +53,10 @@ class Card(object):
         if self.verbose:
             stream("card: " + msg)
 
-    def _pad_mult_16(self, array):
+    @staticmethod
+    def _pad_multi_16(self, array):
         return array
+
     def _push_msg(self, msg):
         """Sends encoded and formatted message to PSoC
 
@@ -60,7 +64,7 @@ class Card(object):
             msg (str): message to be sent to the PSoC
         """
         iv = eh.initializationVector
-        eh.regenerateIV()
+        eh.regenIV()
         pkt = struct.pack("B%ds" % (len(msg)), len(msg))
         self.ser.write(pkt)
         time.sleep(0.1)
@@ -73,7 +77,7 @@ class Card(object):
         """
         enc_msg = eh.aesEncrypt(msg, self.aes_key1)
         iv = eh.initializationVector
-        eh.regenerateIV()
+        eh.regenIV()
         # pkt = struct.pack("16s%ds" % (len(enc_msg)), iv, enc_msg)  #
         pkt = struct.pack("B16s48s", 64, iv, enc_msg)  # 16 byte iv, 48 byte ciphertext
         self.ser.write(pkt)
@@ -194,25 +198,28 @@ class Card(object):
         self._vp('Card received op')
 
     def _auth_send_op(self, pin, op):
-        """Sends encrypted PIN and operation to ATM card
+        """Sends encrypted PIN and operation to ATM card.
+            Returns Card ID
 
         Args:
             pin (string): Inputted PIN to send
             op (int): Operation to send
 
         """
-        self._vp('Sending pin %s and op %d' % (pin, op))
-        new_key1 = os.urandom(32)
-        message = "%s%d%s" % (pin, op, new_key1)  # 8 byte pin, 1 byte op, 32 byte key1
-        self._push_msg_enc(message)
+        assert(1 <= op <= 4)
+        if op <= 2:
+            self._vp('Sending pin %s and op %d' % (pin, op))
+            new_key1 = os.urandom(32)
+            message = "%s%d%s" % (pin, op, new_key1)  # 8 byte pin, 1 byte op, 32 byte key1
+            self._push_msg_enc(message)
 
-        resp = self._pull_msg_enc()
-        if resp[-32::] == eh.hash(self.magic_word_1):
-            self._vp('Card response good, card received op')
-            self.aes_key1 = new_key1
-            card_id = resp[:36:]
-            card_hash = resp[36:68:]
-            return True, card_id, card_hash
+            resp = self._pull_msg_enc()
+            if resp[-32::] == eh.hash(self.magic_word_1):
+                self._vp('Card response good, card received op')
+                self.aes_key1 = new_key1
+                card_id = resp[:36:]
+                return True, card_id
+            return False, "", ""
         return False, "", ""
 
     def change_pin(self, old_pin, new_pin):
@@ -287,14 +294,13 @@ class Card(object):
         # return self._get_card_id()
         return card_id, card_hash
 
-    def provision(self, card_id, pin, aes_key1, exp_date, mag_word_1):
+    def provision(self, card_id, pin, aes_key1, mag_word_1):
         """Attempts to provision a new ATM card
 
         Args:
             card_id (str): New Card ID for ATM card
             pin (str): Initial PIN for ATM card
             aes_key1 (bytes): initial AES Key 1
-            exp_date (str): Card Expiraiton date
             mag_word_1 (str): Magic Word 1
 
         Returns:
@@ -324,11 +330,6 @@ class Card(object):
         while self._pull_msg() != 'K':
             self._vp('Card hasn\'t accepted AES Key 1', logging.error)
         self._vp('Card accepted AES Key 1')
-
-        self._push_msg('%s\00' % exp_date)
-        while self._pull_msg() != 'K':
-            self._vp('Card hasn\'t accepted expiration date', logging.error)
-        self._vp('Card accepted expiration date')
 
         self._push_msg('%s\00' % mag_word_1)
         while self._pull_msg() != 'K':

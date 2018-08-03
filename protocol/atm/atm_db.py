@@ -4,6 +4,7 @@ This module implements an interface to the bank_server database.
 
 import json
 import os.path
+import base64
 
 
 class DB(object):
