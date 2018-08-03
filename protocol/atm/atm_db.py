@@ -162,12 +162,11 @@ class DB(object):
         """
         return self.modify("cards", card_id, ["bal"], [balance])
     '''
-    def admin_set_keys(self, key, magic):#add keys to the database
-        #magic is just used to look up the key
-        return self.modify("key", magic, ["key"], [key)
+    def admin_set_keys(self, key, magic):  # add keys to the database
+        # magic is just used to look up the key
+        return self.modify("key", magic, ["key"], [key])
 
-
-    def admin_get_key(self, magic):#access keys from the database
+    def admin_get_key(self, magic):  # access keys from the database
         return self.read("key", magic, "key")
 
 

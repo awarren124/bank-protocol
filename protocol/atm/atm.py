@@ -24,6 +24,7 @@ log.addHandler(ch)
 
 """~~~~~~~~~~~~~~~~~"""
 
+
 class ATM(cmd.Cmd, object):
     key1 = os.urandom(32)
     key2 = os.urandom(32)
@@ -49,7 +50,7 @@ class ATM(cmd.Cmd, object):
         self.billfile = billfile
         self.verbose = verbose
         cfg = self.config()
-        self.cardID = cfg["cardID"].decode("hex")
+        self.atm_id = cfg["atm_id"].decode("hex")
         self.dispensed = int(cfg["dispensed"])
         self.bills = cfg["bills"]
         self.update()
@@ -60,7 +61,7 @@ class ATM(cmd.Cmd, object):
 
     def config(self):
         if not os.path.isfile(self.config_path):
-            cfg = {"cardID": os.urandom(36).encode('hex'), "dispensed": 0,
+            cfg = {"atm_id": os.urandom(36).encode('hex'), "dispensed": 0,
                    "bills": ["example bill %5d" % i for i in range(128)]}
             return cfg
         else:
@@ -69,7 +70,7 @@ class ATM(cmd.Cmd, object):
 
     def update(self):
         with open(self.config_path, "w") as f:
-            f.write(json.dumps({"cardID": self.cardID.encode("hex"), "dispensed": self.dispensed,
+            f.write(json.dumps({"atm_id": self.atm_id.encode("hex"), "dispensed": self.dispensed,
                                 "bills": self.bills}))
 
     def check_balance(self, pin):
@@ -89,9 +90,9 @@ class ATM(cmd.Cmd, object):
 
             # get balance from bank if card accepted PIN
             if card_id:
-                print("lol")
+                print("Communicated with card")
                 self._vp('check_balance: Requesting balance from Bank')
-                res = self.bank.check_balance(self.cardID, card_id)
+                res = self.bank.check_balance(self.atm_id, card_id)
                 print(res)
                 if res:
                     print("balance is: " + str(res))
@@ -141,10 +142,11 @@ class ATM(cmd.Cmd, object):
             self._vp('withdraw: Requesting card_id from card')  # code unchanged
             card_id, card_hash = self.card.withdraw(pin)
             # print(card_id)
-            # request cardID from HSM if card accepts PIN
+            # request atm_id from HSM if card accepts PIN
             if card_id:
+                print("Communicated with card")
                 self._vp('withdraw: Requesting hsm_id from hsm')
-                if self.bank.withdraw(self.cardID, card_id, amount):  # run withdraw in /interface/bank.py
+                if self.bank.withdraw(self.atm_id, card_id, amount):  # run withdraw in /interface/bank.py
                     with open(self.billfile, "w") as f:
                         self._vp('withdraw: Dispensing bills...')
                         for i in range(self.dispensed, self.dispensed + amount):
@@ -152,7 +154,7 @@ class ATM(cmd.Cmd, object):
                             self.bills[i] = "-DISPENSED BILL-"
                             self.dispensed += 1
                     self.update()
-                    #self.bank.regenerate()#regenerate keys
+                    # self.bank.regenerate()  # regenerate keys
                     return True
             else:
                 self._vp('withdraw failed')
