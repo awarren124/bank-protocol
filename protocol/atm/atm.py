@@ -151,7 +151,7 @@ class ATM(cmd.Cmd, object):
                     # self.bank.regenerate()  # regenerate keys
                     return True
             else:
-                self._vp('withdraw failed')
+                self._vp('withdraw failed')a
                 return False
         except ValueError:
             self._vp('amount must be an int')
