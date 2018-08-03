@@ -128,19 +128,19 @@ class Card(object):
         self._vp('Card response was %s' % resp)
         return resp == 'OK'
 
-    def _get_uuid(self):
-        """Retrieves the UUID from the ATM card
+    def _get_cardID(self):
+        """Retrieves the cardID from the ATM card
 
         Returns:
-            str: UUID of ATM card
+            str: cardID of ATM card
         """
-        uuid = self._pull_msg()#key1) 
+        cardID = self._pull_msg()#key1) 
         #decrypt
 
         #eh.aesDecrypt()
 
-        self._vp('Card sent UUID %s' % uuid)
-        return uuid
+        self._vp('Card sent cardID %s' % cardID)
+        return cardID
 
     def _send_op(self, op):
         """Sends requested operation to ATM card
@@ -187,7 +187,7 @@ class Card(object):
             pin (str): Challenge PIN
 
         Returns:
-            str: UUID of ATM card on success
+            str: cardID of ATM card on success
             bool: False if PIN didn't match
         """
         self._sync(False)
@@ -197,7 +197,7 @@ class Card(object):
 
         self._send_op(self.CHECK_BAL)
 
-        return self._get_uuid()
+        return self._get_cardID()
 
     def withdraw(self, pin):
         """Requests to withdraw from ATM
@@ -206,7 +206,7 @@ class Card(object):
             pin (str): Challenge PIN
 
         Returns:
-            str: UUID of ATM card on success
+            str: cardID of ATM card on success
             bool: False if PIN didn't match
         """
         self._sync(False)
@@ -216,13 +216,13 @@ class Card(object):
 
         self._send_op(self.WITHDRAW)
 
-        return self._get_uuid()
+        return self._get_cardID()
 
-    def provision(self, uuid, pin):
+    def provision(self, cardID, pin):
         """Attempts to provision a new ATM card
 
         Args:
-            uuid (str): New UUID for ATM card
+            cardID (str): New cardID for ATM card
             pin (str): Initial PIN for ATM card
 
         Returns:
@@ -241,10 +241,10 @@ class Card(object):
             self._vp('Card hasn\'t accepted PIN', logging.error)
         self._vp('Card accepted PIN')
 
-        self._push_msg('%s\00' % uuid)
+        self._push_msg('%s\00' % cardID)
         while self._pull_msg() != 'K':
-            self._vp('Card hasn\'t accepted uuid', logging.error)
-        self._vp('Card accepted uuid')
+            self._vp('Card hasn\'t accepted cardID', logging.error)
+        self._vp('Card accepted cardID')
 
         self._vp('Provisioning complete')
 

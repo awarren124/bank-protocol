@@ -38,7 +38,7 @@ class ATM(cmd.Cmd, object):
     """
     intro = 'Welcome to your friendly ATM! Press ? for a list of commands\r\n'
     prompt = '1. Check Balance\r\n2. Withdraw\r\n3. Change PIN\r\n> '
-    def setKeys(self, recKey1, reckey2):
+    def setKeys(self, recKey1, recKey2):
         key1 = recKey1
         key2 = recKey2
 
@@ -51,7 +51,7 @@ class ATM(cmd.Cmd, object):
         self.billfile = billfile
         self.verbose = verbose
         cfg = self.config()
-        self.uuid = cfg["uuid"].decode("hex")
+        self.cardID = cfg["cardID"].decode("hex")
         self.dispensed = int(cfg["dispensed"])
         self.bills = cfg["bills"]
         self.update()
@@ -62,7 +62,7 @@ class ATM(cmd.Cmd, object):
 
     def config(self):
         if not os.path.isfile(self.config_path):
-            cfg = {"uuid": os.urandom(36).encode('hex'), "dispensed": 0,
+            cfg = {"cardID": os.urandom(36).encode('hex'), "dispensed": 0,
                    "bills": ["example bill %5d" % i for i in range(128)]}
             return cfg
         else:
@@ -71,7 +71,7 @@ class ATM(cmd.Cmd, object):
 
     def update(self):
         with open(self.config_path, "w") as f:
-            f.write(json.dumps({"uuid": self.uuid.encode("hex"), "dispensed": self.dispensed,
+            f.write(json.dumps({"cardID": self.cardID.encode("hex"), "dispensed": self.dispensed,
                                 "bills": self.bills}))
 
     def check_balance(self, pin):
@@ -91,12 +91,12 @@ class ATM(cmd.Cmd, object):
 
             # get balance from bank if card accepted PIN
             if card_id:
-		        print("lol")
+                print("lol")
                 self._vp('check_balance: Requesting balance from Bank')
-                res = self.bank.check_balance(self.uuid, card_id)
-		        print(res)
+                res = self.bank.check_balance(self.cardID, card_id)
+                print(res)
                 if res:
-		        print("balance is: " + str(res))
+                    print("balance is: " + str(res))
                     return res
             self._vp('check_balance failed')
             return False
@@ -142,11 +142,11 @@ class ATM(cmd.Cmd, object):
         try:
             self._vp('withdraw: Requesting card_id from card')#code unchanged
             card_id = self.card.withdraw(pin)
-	        print(card_id)
-            # request UUID from HSM if card accepts PIN
+            print(card_id)
+            # request cardID from HSM if card accepts PIN
             if card_id:
                 self._vp('withdraw: Requesting hsm_id from hsm')
-                if self.bank.withdraw(self.uuid, card_id, amount):# run withdraw in /interface/bank.py
+                if self.bank.withdraw(self.cardID, card_id, amount):# run withdraw in /interface/bank.py
                     with open(self.billfile, "w") as f:
                         self._vp('withdraw: Dispensing bills...')
                         for i in range(self.dispensed, self.dispensed + amount):
@@ -169,9 +169,9 @@ class ATM(cmd.Cmd, object):
     def get_pin(self, prompt="Please insert 8-digit PIN: "):
         pin = ''
         while len(pin) != 8:
-            pin = raw_input(prompt)
+            pin = input(prompt)
             if not pin.isdigit():
-                print "Please only use digits"
+                print("Please only use digits")
                 continue
         return pin
 
@@ -179,7 +179,7 @@ class ATM(cmd.Cmd, object):
         """Check Balance"""
         pin = self.get_pin()
         if not self.check_balance(pin):
-            print "Balance lookup failed!"
+            print("Balance lookup failed!")
 
     def do_2(self, args):
         """Withdraw"""
@@ -187,21 +187,21 @@ class ATM(cmd.Cmd, object):
 
         amount = 'bad'
         while not amount.isdigit():
-            amount = raw_input("Please enter valid amount to withdraw: ")
+            amount = input("Please enter valid amount to withdraw: ")
 
         if self.withdraw(pin, int(amount)):
-            print "Withdraw success!"
+            print("Withdraw success!")
         else:
-            print "Withdraw failed!"
+            print("Withdraw failed!")
 
     def do_3(self, args):
         """Change PIN"""
         old_pin = self.get_pin()
         new_pin = self.get_pin("Please insert new 8-digit PIN: ")
         if self.change_pin(old_pin, new_pin):
-            print "PIN change success!"
+            print("PIN change success!")
         else:
-            print "PIN change failed!"
+            print("PIN change failed!")
 
 
 def parse_args():
