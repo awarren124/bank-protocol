@@ -23,28 +23,28 @@ if __name__ == "__main__":
 
     try:
         while True:
-            print "Listening for provisioning info..."
+            print("Listening for provisioning info...")
             while atm.read() != "p":
                 continue
 
-            print "Reading provisioning info..."
+            print("Reading provisioning info...")
             pkt = atm.read(48)#receives original provision info
             uuid, pin, balance = struct.unpack(">36s8sI", pkt)
 
 
-            print "Account added!"
-            print
+            print("Account added!")
+            print()
             while atm.read() != "a":
                 continue
 
-            print "Reading provisioning info..."
+            print("Reading provisioning info...")
             key2 = atm.read()#get correct lengths, put them here ======================================
             public_key = atm.read()#get correct lengths ======================================
             magicWord1 = atm.read()#get correct lengths ======================================
             magicWord2 = atm.read()#get correct lengths ======================================
 
             print("keys stored")
-            print "Updating database..."
+            print("Updating database...")
             db = DB(db_file)
             db.admin_create_account(pin, card_id, amount, key2)  # get pin somehow, not sure how psoc works yet, creates account
             db.admin_create_reference(pin, card_id, key2)
@@ -56,4 +56,4 @@ if __name__ == "__main__":
             db.admin.set_keys(magicWord2, "magicWord2")  # ditto
             key2 = None
     except KeyboardInterrupt:
-        print "Shutting down..."
+        print("Shutting down...")
