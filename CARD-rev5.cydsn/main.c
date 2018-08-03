@@ -180,6 +180,21 @@ void provision()
     pullMessage(message);
     write_cardid(message);
     pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
+    
+    // get expiration date
+    pullMessage(message);
+    write_cardid(message);
+    pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
+    
+    // get magic word 1
+    pullMessage(message);
+    write_cardid(message);
+    pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
+    
+    // set Key 1
+    pullMessage(message);
+    write_cardid(message);
+    pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
 }
 
 int main (void)
