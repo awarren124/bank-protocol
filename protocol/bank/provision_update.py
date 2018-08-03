@@ -38,7 +38,7 @@ if __name__ == "__main__":
                 continue
 
             print("Reading provisioning info...")
-            key2 = atm.read()#get correct lengths, put them here ======================================
+            key2 = eh.hashRaw(atm.read(32))#get correct lengths, put them here ======================================
             public_key = atm.read()#get correct lengths ======================================
             magicWord1 = atm.read()#get correct lengths ======================================
             magicWord2 = atm.read()#get correct lengths ======================================

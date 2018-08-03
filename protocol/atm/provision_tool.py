@@ -44,6 +44,7 @@ if __name__ == "__main__":
     # =====MARK=========#
     # bank.provision_update("c0573011d92ce40c8b5dbfa73025b352c899", pin, balance)
     print "Provisioning successful"
+
     key1 = os.urandom(32)  # starts by generating all keys for creation of the account, key1 used between card and atm
     key2 = os.urandom(32)  # key2 is the key specifically used btwn bank and atm
 
@@ -66,6 +67,7 @@ if __name__ == "__main__":
     db.admin_set_keys(store_keys[0], "RSApublic")  # ditto
     db.admin_set_keys(store_keys[1], "RSAprivate")  # ditto
 
+>>>>>>> refs/remotes/origin/master
     print "provision lengths:"
     print "AES key 2 length: %s" % len(str(key2))
     print "RSA private key length: %s" % len(str(store_keys[1]))

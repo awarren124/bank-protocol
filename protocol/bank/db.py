@@ -93,7 +93,7 @@ class DB(object):
         Returns:
             (string or None): Returns balance on Success. None otherwise.
         """
-        return self.read("account", account_reference, "bal")
+        return self.read("accountdata", account_reference, "bal")
 
     def get_atm(self, atm_id):
         """get atm_id of atm: atm_id
@@ -129,8 +129,8 @@ class DB(object):
         return True
         return self.modify("atms", atm_id, ["nbills"], [num_bills])
 
-    def get_account_id(self, string):
-        return self.read("access", string, "account")
+    def get_account_reference(self, key):
+        return self.read("access", "access", key)
 
     def re_encrypt(self, account_reference, old_key2, new_key2):
         balance = self.get_balance(account_reference)
@@ -138,7 +138,7 @@ class DB(object):
         account_reference = eh.aesDecrypt(account_reference, old_key2)
         balance = eh.aesEncrypt(balance, new_key2)
         account_reference  = eh.aesEncrypt(account_reference, new_key2)
-        return self.modify("account", account_reference, ["bal"], balance)
+        self.modify("account", account_reference, ["bal"], balance)
 
     #############################
     # ADMIN INTERFACE FUNCTIONS #
