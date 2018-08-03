@@ -14,7 +14,7 @@ eh = EncryptionHandler()
 key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
 key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
 private_key = ''
-magic_word1 = ''
+
 
 """~~~~~~~~~~~~~~~~~"""
 
@@ -102,6 +102,9 @@ class Bank:
             str: hsm_id on success
             bool: False on failure
         """
+        key2 = self.atm_id.get_keys("BankKey")
+        magic_word1 = self.atm_id.get_keys("magicWord1")
+        private_key = self.atm_id.get_keys("RSAprivate")
         magic_word1 = eh.aesDecrypt(magic_word1, key2)#atm decrypts magic word1
         print("bank withdraw1")
         self._vp('withdraw: Sending request to Bank')
@@ -172,8 +175,12 @@ class Bank:
 		    dec_amount = eh.aesDecrypt(read_amount, key2)
 		    print(dec_amount)
 		    print("hii")
+            read_magic_word2 = self.ser.read(16)#change to fit RSA
+            read_magic_word2 = eh.RSA_decrypt(read_amount, private_key)
+		    dec_magic_word2 = eh.aesDecrypt(read_amount, key2)
+
         #aid, cid = struct.unpack(">36s36s", pkt)
-        if dec_atm_id == atm_id and dec_card_id == card_id:#check statement, check tampering? pointless right now
+        if dec_magic_word2 == self.atm_db.get_keys("magicWord2"):#checks magic word for verification
             self._vp('withdraw: Withdrawal accepted')
             return True
         else:
@@ -205,7 +212,7 @@ class Bank:
         self.ser.write("p" + pkt)
 
     def provision_key(self,new_key2, pubkey, magicWord1, magicWord2):
-        self.ser.write("a" + spliceSecondHalf(new_key2) + pubkey + magicWord1 + magicWord2)#sends the bank half of key2, the pub key, and the 2 encrypted magicwords
+        self.ser.write("a"  + pubkey + magicWord1 + magicWord2)#sends the bank key2, the pub key, and the 2 encrypted magicwords
 
     def spliceSecondHalf(self, string):
         return string[:len(string)/2]
