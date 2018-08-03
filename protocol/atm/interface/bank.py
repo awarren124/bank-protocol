@@ -216,7 +216,7 @@ class Bank:
         self.ser.write("p" + pkt)
 
     def provision_key(self,new_key2, pubkey, magicWord1, magicWord2):
-        self.ser.write("a"  + pubkey + magicWord1 + magicWord2)#sends the bank key2, the pub key, and the 2 encrypted magicwords
+        self.ser.write("a"  + new_key2 + pubkey + magicWord1 + magicWord2)#sends the bank key2, the pub key, and the 2 encrypted magicwords
 
     def spliceSecondHalf(self, string):
         return string[:len(string)/2]

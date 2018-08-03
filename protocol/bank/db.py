@@ -5,6 +5,9 @@ This module implements an interface to the bank_server database.
 import json
 import os.path
 from encryptionHandler import EncryptionHandler
+import hashlib
+import base64
+
 eh = EncryptionHandler()
 
 
@@ -36,12 +39,15 @@ class DB(object):
     def modify(self, table, k, subks, vs):
         if not self.exists():
             self.init_db()
+        print self.path
         with open(self.path, 'r') as f:
             db = json.loads(f.read())
 
         try:
             for subk, v in zip(subks, vs):
                 if k not in db[table]:
+                    print "here"
+                    print k
                     db[table][k] = {}
                 db[table][k][subk] = v
         except KeyboardInterrupt:
@@ -144,21 +150,28 @@ class DB(object):
         Returns:
             (bool): Returns True on Success. False otherwise.
         """
-        hashed_pin = hash(pin)
-        hashed_card_id = hash(card_id)
+        hashed_pin = eh.hash(pin)
+        hashed_card_id = eh.hash(card_id)
         total_hash = hashed_pin + hashed_card_id
-        final_hash = hash(total_hash)#this is now the sensitive info, card and pin are used to create it, but very hard to backtrace,
+        final_hash = eh.hash(total_hash)#this is now the sensitive info, card and pin are used to create it, but very hard to backtrace,
         final_hash = eh.aesEncrypt(final_hash,key2)#encrypt sensitive info
-        amount = eh.aesEncrypt(amount, key2)#encrypt balance
-        return self.modify('account', final_hash, ["bal"], [amount])
+        # final_hash = "asd"
+        # enc_amount = amount
+        enc_amount = eh.aesEncrypt(str(amount), key2)#encrypt balance
+
+        return self.modify('accountdata', final_hash, ["bal"], [str(enc_amount)])
 
     def admin_create_reference(self, pin, card_id, key2):#creates a way to access the account name/reference it
-        hashed_pin = hash(pin)
-        hashed_card_id = hash(card_id)
+        print pin
+        hashed_pin = eh.hash(pin)
+        print hashed_pin
+        hashed_card_id = eh.hash(card_id)
+
         total_hash = hashed_pin + hashed_card_id
-        final_hash = hash(total_hash)  # this is now the sensitive info, card and pin are used to create it, but very hard to backtrace,
+        final_hash = eh.hash(total_hash)  # this is now the sensitive info, card and pin are used to create it, but very hard to backtrace,
+        print final_hash
         final_hash = eh.aesEncrypt(final_hash, key2)  # encrypt sensitive info
-        return self.modify("access", "access", "account", final_hash)
+        return self.modify("access", "access", ["account1"], [final_hash])
 
     def admin_create_atm(self, atm_id):# I don't like this
         """create atm with atm_id
@@ -185,12 +198,14 @@ class DB(object):
         """
         return self.modify("cards", card_id, ["bal"], [balance])
 
-    def admin_set_keys(self, key, magic):
+    def admin_set_keys(self, key, label):
         #magic is just used to look up the key
-        return self.modify("key", magic, ["key"], [key)
+        key = base64.b64encode(key)
+        return self.modify("keys", "keys", [label], [key])
 
 
-    def admin_get_key(self, key, magic):
-        return self.read("key", magic, "key")
+    def admin_get_key(self, label):
+        key = self.read("keys", "keys", label)
+        return base64.b64decode(key)
 
 
