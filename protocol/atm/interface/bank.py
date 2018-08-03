@@ -102,15 +102,15 @@ class Bank:
             str: hsm_id on success
             bool: False on failure
         """
-        magic_word1 = eh.aesDecrypt(magic_word1, key2)
+        magic_word1 = eh.aesDecrypt(magic_word1, key2)#atm decrypts magic word1
         print("bank withdraw1")
         self._vp('withdraw: Sending request to Bank')
         print("bank withdraw2")
-        self.ser.write(eh.hash(magic_word))#verification
-        firstHalf = spliceFirstHalf(key2)
+        self.ser.write(eh.hash(magic_word))#verification, sends hashed version of magicword1 so the bank, can use it to compare, and verify the atm
+        firstHalf = spliceFirstHalf(key2)# split key, and send over first half to be combined with the second half, so it could be properly used
         self.ser.write(firstHalf)
         command = "w" # withdraw
-        encCommand = eh.aesEncrypt(command, key2) #length = 16
+        encCommand = eh.aesEncrypt(command, key2) #length = 16, encrypts command
 
         #len(atm_id) == 72
         print "len(atm_id):"
@@ -121,9 +121,9 @@ class Bank:
         # data = struct.pack(">36s36sI", atm_id, card_id, amount)
         # encData = eh.aesEncrypt(data, key2)
 
-        encAtmId = eh.aesEncrypt(atm_id, key2)
-        encCardId = eh.aesEncrypt(card_id, key2)
-        encAmount = eh.aesEncrypt(str(amount), key2)
+        encAtmId = eh.aesEncrypt(atm_id, key2)#encrypts atm_id
+        encCardId = eh.aesEncrypt(card_id, key2)#encrypts_card id
+        encAmount = eh.aesEncrypt(str(amount), key2)#encrypts amount
 
         print "len(encAtmId):"
         print len(encAtmId)
@@ -132,13 +132,13 @@ class Bank:
         print "len(encAmount):"
         print len(encAmount)
 
-        pkt = encCommand + encAtmId + encCardId + encAmount
+        pkt = encCommand + encAtmId + encCardId + encAmount#sends encrypted data over the bank
         #///////////////////////////////////////////////////////////////////////////////////////////////////
         # encryption
         # enc_pkt = eh.aesEncrypt(pkt, key2)
         # self.ser.write(len(enc_pkt))
 	    print(pkt)
-        self.ser.write(pkt)
+        self.ser.write(pkt)#sends
 	    print("sent")
         # while pkt not in "ONE":
         #     pkt = self.ser.read()
@@ -173,7 +173,7 @@ class Bank:
 		    print(dec_amount)
 		    print("hii")
         #aid, cid = struct.unpack(">36s36s", pkt)
-        if dec_atm_id == atm_id and dec_card_id == card_id:#check statement
+        if dec_atm_id == atm_id and dec_card_id == card_id:#check statement, check tampering? pointless right now
             self._vp('withdraw: Withdrawal accepted')
             return True
         else:
@@ -205,9 +205,9 @@ class Bank:
         self.ser.write("p" + pkt)
 
     def provision_key(self,new_key2, pubkey, magicWord1, magicWord2):
-        self.ser.write("a" spliceFirstHalf(new_key2) + pubkey + magicWord1 + magicWord2)
+        self.ser.write("a" + spliceSecondHalf(new_key2) + pubkey + magicWord1 + magicWord2)#sends the bank half of key2, the pub key, and the 2 encrypted magicwords
 
-    def spliceFirstHalf(self, string):
-        return string[len(string)/2:]
+    def spliceSecondHalf(self, string):
+        return string[:len(string)/2]
 
 

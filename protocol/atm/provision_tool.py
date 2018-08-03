@@ -40,21 +40,22 @@ if __name__ == "__main__":
     bank = Bank(b_port)
     bank.provision_update("c0573011d92ce40c8b5dbfa73025b352c899", pin, balance)
     print "Provisioning successful"
-    key1 = os.urandom(32)
-    key2 = os.urandom(32)
-    magicWord1 = os.urandom(32)
-    magicWord2 = os.urandom(32)
-    store_keys = eh.gen_key_pair()
-    magicWord1 = eh.aesEncrypt(magicWord1, key2)
+    key1 = os.urandom(32)#starts by generating all keys for creation of the account, key1 used between card and atm
+    key2 = os.urandom(32)#key2 is the key specifically used btwn bank and atm
+    magicWord1 = os.urandom(32)#verification words, stored by both atm and bank upon creation
+    magicWord2 = os.urandom(32)#verification words, stored by both atm and bank upon creation
+    store_keys = eh.gen_key_pair()#RSA key pair, atm stores private, bank stores public
+    magicWord1 = eh.aesEncrypt(magicWord1, key2)#encrypt both verification words with key2
     magicWord2 = eh.aesEncrypt(magicWord2, key2)
-    self.DB.admin_set_keys(key1, "CardKey")
-    self.DB.admin_set_keys(key2, "BankKey")
-    self.DB.admin_set_keys(key1, "magicWord1")
-    self.DB.admin_set_keys(key2, "magicWord2")
-    self.Db.admin_set_keys(store_keys[0], "RSApublic")
-    bank.provision_key(key1, key2, store_keys[1], magicword1, magicWord2)
+    self.DB.admin_set_keys(key1, "CardKey")#stores key1 in the atm, mapped with string "CardKey" for access
+    self.DB.admin_set_keys(key2, "BankKey"))#stores key2 in the atm, mapped with string "BankKey" for access
+    self.DB.admin_set_keys(key1, "magicWord1")#stores magicWord1 in the atm, mapped with string "magicWord1" for access
+    self.DB.admin_set_keys(key2, "magicWord2")#stores magicWord2 in the atm, mapped with string "magicWord2" for access
+    self.DB.admin_set_keys(store_keys[0], "RSApublic")#ditto
+    self.DB.admin_set_keys(store_keys[1]. "RSAprivate")#ditto
+    bank.provision_key(key2, store_keys[1], magicword1, magicWord2)#run provision key in /atm/interface/bank,
     print"keys sent"
-    if card.provision(uuid, pin):
+    if card.provision(uuid, pin):#for general purposes, ignore
         print "Card provisioned!"
 
         # update bank

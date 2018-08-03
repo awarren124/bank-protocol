@@ -28,12 +28,12 @@ if __name__ == "__main__":
                 continue
 
             print "Reading provisioning info..."
-            pkt = atm.read(48)
+            pkt = atm.read(48)#receives original provision info
             uuid, pin, balance = struct.unpack(">36s8sI", pkt)
 
             print "Updating database..."
             db = DB(db_file)
-            db.admin_create_account(uuid, balance)
+            db.admin_create_account(uuid, balance)#look into killing this
             print "Account added!"
             print
             while atm.read() != "a":
@@ -44,10 +44,10 @@ if __name__ == "__main__":
             public_key = atm.read()#get correct lengths
             magicWord1 = atm.read()#get correct lengths
             magicWord2 = atm.read()#get correct lengths
-            db.admin_set_keys(key2, "AES")
-            db.admin_set_keys(public_key, "RSA")
-            db.admin.set_keys(magicWord1, "magicWord1")
-            db.admin.set_keys(magicWord2, "magicWord2")
+            db.admin_set_keys(key2, "AES")#stores appropriate keys with appropriate access string in the bank database
+            db.admin_set_keys(public_key, "RSA")#ditto
+            db.admin.set_keys(magicWord1, "magicWord1")#ditto
+            db.admin.set_keys(magicWord2, "magicWord2")#ditto
             print("keys stored")
             print "Updating database..."
 

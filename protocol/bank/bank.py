@@ -38,22 +38,21 @@ class Bank(object):
         print self.ERROR
         print self.GOOD
         while True:
-            hashWord = self.atm.read()#set proper length
-            firstHalf = self.atm.read(16)
-            accessKey = firstHalf + self.db.get_key("AES")
-            self.key2 = hash(accessKey)
+            hashWord = self.atm.read()#set proper length, receives the hashed version of magic word1
+            firstHalf = self.atm.read(16)# receives the first half of key2
+            accessKey = firstHalf + self.db.get_key("AES")#combines both halves of key2
+            self.key2 = hash(accessKey)#hashes it to get the real encryption key
 
-            verification = eh.hash(eh.aesDecrypt(self.db.get_key("magicWord1"), accessKey) )==hashWord
-            if not verification:
+            verification = eh.hash(eh.aesDecrypt(self.db.get_key("magicWord1"), accessKey) )==hashWord #decrypt the bank's copy of magic word1 and hash it, and compare it to what the atm sent over
+            if not verification:#if atm is verified continue, else end it there
                 self.atm.write(self.ERROR)
-            public_key = self.db.get_key("RSA")
             command = self.atm.read(16)#FLAG FOR DECODE, receives command from atm to decide what to do
             # if len(command) != 0:
             print "command recieved: " + command.encode('hex') + ""
             print("length = %s" % (len(command)))
             decrypt_instruction = None
             try:
-                decrypt_instruction = eh.aesDecrypt(command, self.key2)[0]
+                decrypt_instruction = eh.aesDecrypt(command, self.key2)[0]#???? decrypts command
                 print decrypt_instruction
             except:
                 pass
@@ -71,7 +70,7 @@ class Bank(object):
                 atm_id = self.atm.read(48)
                 card_id = self.atm.read(48)
                 amount = self.atm.read(16)
-                decrypt_atm_id = eh.aesDecrypt(atm_id,self.key2)
+                decrypt_atm_id = eh.aesDecrypt(atm_id,self.key2)#use key2 to decrypt al of the information
                 decrypt_card_id = eh.aesDecrypt(card_id, self.key2)
                 decrypt_amount = eh.aesDecrypt(amount, self.key2)
                 # print "num: " + num 
@@ -82,7 +81,7 @@ class Bank(object):
                 print decrypt_card_id
                 print "decrypt_amount"
                 print decrypt_amount
-                self.withdraw(decrypt_atm_id, decrypt_card_id, decrypt_amount)
+                self.withdraw(decrypt_atm_id, decrypt_card_id, decrypt_amount)#run withdraw
                 #self.regenerate(self,(decrypt_atm_id, decrypt_card_id)
             elif decrypt_instruction == 'b':
                 log("Checking balance")
@@ -151,12 +150,12 @@ class Bank(object):
             self.atm.write(encrypt_error)#COULD BE HIJACKED
             log("Bad value sent")
             return
-        public_key = self.db.get_key("RSA")
+        public_key = self.db.get_key("RSA")#retrieve rsa public key from database
 
-        atm = self.db.get_atm(atm_id)
+        atm = self.db.get_atm(atm_id)#change this
         print "card id (hex): " + card_id.encode('hex')
         print "checking atm: " + str(atm_id.encode('hex'))
-        if atm is None:
+        if atm is None:#FIX==============================================================
             encrypt_error = eh.aesEncrypt(self.Error,self.key2)
             self.atm.write(self.ERROR)#COULD BE HIJACKED
             log("Bad ATM ID")
@@ -165,20 +164,20 @@ class Bank(object):
         num_bills = self.db.get_atm_num_bills(atm_id)
         # print "checking num_bills: " + num_bills
 
-        if num_bills is None:
+        if num_bills is None:#FIX==============================================================
             encrypt_error = eh.aesEncrypt(self.ERROR, self.key2)
             self.atm.write(encrypt_error)#COULD BE HIJACKED
             log("Bad ATM ID")
             return
 
-        if num_bills < amount:
+        if num_bills < amount:#FIX==============================================================
             encrypt_bad = aesEncrypt(self.BAD, self.key2)
             self.atm.write(encrypt_bad)#COULD BE HIJACKED
             log("Insufficient funds in ATM")
             return
         print "card id : " + card_id
         balance = self.db.get_balance(card_id)
-        if balance is None:
+        if balance is None:#FIX==============================================================
             encrypt_bad = eh.aesEncrypt(self.BAD, self.key2)
             self.atm.write(encrypt_bad)  # COULD BE HIJACKED
             log("Bad card ID")
@@ -190,7 +189,7 @@ class Bank(object):
             self.db.set_atm_num_bills(atm_id, num_bills - amount)#FLAG
             log("Valid withdrawal")
             # pkt = struct.pack(">36s36sI", atm_id, card_id, amount)#figure out importance
-            encAtmId = eh.aesEncrypt(str(atm_id), self.key2)
+            encAtmId = eh.aesEncrypt(str(atm_id), self.key2)#relatively pointless, but encrypt with key2
             encCardId = eh.aesEncrypt(str(card_id), self.key2)
             encAmount = eh.aesEncrypt(str(amount), self.key2)
             print "encrypt4"
@@ -206,7 +205,7 @@ class Bank(object):
 
             encPacket = encrypt_good + str(encAtmId) + str(encCardId) + str(encAmount)
             publicKey = self.db.get_key("RSA")
-            encPacket += eh.RSA_encrypt(enc_good, public_keyKey)
+            encPacket += eh.RSA_encrypt(enc_good, public_keyKey)#encrypt with RSA public key amd send values back
             encPacket += eh.RSA_encrypt(str(encAtmId, public_Key)
             encPacket += eh.RSA_encrypt(str(encCardId), public_Key)
             encPacket += eh.RSA_encrypt(str(encAmount), public_Key)
@@ -217,7 +216,7 @@ class Bank(object):
             print str(encAtmId)
             print str(encCardId)
             print str(encAmount)
-            self.atm.write(encPacket)
+            self.atm.write(encPacket)#send back to atm
             self.regenerate(atm_id, card_id))
         else:
             encrypt_bad = eh.aesEncrypt(self.BAD, key2)
