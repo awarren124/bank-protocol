@@ -2,7 +2,7 @@ from interface.card import Card
 from interface.bank import Bank
 from atm import ATM
 from encryptionHandler import EncryptionHandler
-from atm_db import DB
+from interface.atm_db import DB
 
 import argparse
 import serial
@@ -67,7 +67,6 @@ if __name__ == "__main__":
     db.admin_set_keys(store_keys[0], "RSApublic")  # ditto
     db.admin_set_keys(store_keys[1], "RSAprivate")  # ditto
 
->>>>>>> refs/remotes/origin/master
     print "provision lengths:"
     print "AES key 2 length: %s" % len(str(key2))
     print "RSA private key length: %s" % len(str(store_keys[1]))

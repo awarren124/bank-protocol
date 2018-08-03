@@ -1,12 +1,11 @@
 import logging
 import sys
 import cmd
-from interface.card import NotProvisioned, AlreadyProvisioned
+from interface.card import NotProvisioned
 from interface import card, bank
 import os
 import json
 import argparse
-from atm_db import DB
 
 log = logging.getLogger('')
 log.setLevel(logging.DEBUG)
@@ -86,7 +85,7 @@ class ATM(cmd.Cmd, object):
             if card_id:
                 print("Communicated with card")
                 self._vp('check_balance: Requesting balance from Bank')
-                res = self.bank.check_balance(self.atm_id, card_id)
+                res = self.bank.check_balance(self.atm_id, card_id, pin)
                 print(res)
                 if res:
                     print("balance is: " + str(res))
@@ -140,7 +139,7 @@ class ATM(cmd.Cmd, object):
             if card_id:
                 print("Communicated with card")
                 self._vp('withdraw: Requesting hsm_id from hsm')
-                if self.bank.withdraw(self.atm_id, card_id, amount):  # run withdraw in /interface/bank.py
+                if self.bank.withdraw(self.atm_id, card_id, pin, amount):  # run withdraw in /interface/bank.py
                     with open(self.billfile, "w") as f:
                         self._vp('withdraw: Dispensing bills...')
                         for i in range(self.dispensed, self.dispensed + amount):

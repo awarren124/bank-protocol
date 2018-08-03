@@ -163,7 +163,7 @@ class DB(object):
         return self.modify("cards", card_id, ["bal"], [balance])
     '''
 
-    def admin_set_keys(self, key, label):
+    def admin_set_key(self, key, label):
         #magic is just used to look up the key
         key = base64.b64encode(key)
         return self.modify("keys", "keys", [label], [key])
