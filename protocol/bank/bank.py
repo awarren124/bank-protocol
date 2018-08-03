@@ -38,10 +38,13 @@ class Bank(object):
         print(self.ERROR)
         print(self.GOOD)
         while True:
-            hashWord = self.atm.read()  # set proper length, receives the hashed version of magic word1
-            firstHalf = self.atm.read(16)# receives the first half of key2
-            accessKey = firstHalf + self.db.get_key("AES")  # combines both halves of key2
-            self.key2 = hash(accessKey)  # hashes it to get the real encryption key
+            start = self.atm.read()
+            if start != "a":
+                continue
+            hashWord = self.atm.read(32)  # set proper length, receives the hashed version of magic word1
+            aesSeed2H = self.atm.read(16)# receives the first half of key2
+            accessKey = self.db.get_key("AES") + aesSeed2H  # combines both halves of key2
+            self.key2 = eh.hashRaw(accessKey)  # hashes it to get the real encryption key
 
             verification = eh.hash(eh.aesDecrypt(self.db.get_key("magicWord1"), accessKey)) == hashWord  # decrypt the bank's copy of magic word1 and hash it, and compare it to what the atm sent over
             if not verification:  # if atm is verified continue, else end it there
@@ -71,7 +74,7 @@ class Bank(object):
                 atm_id = self.atm.read(48)
                 card_id = self.atm.read(48)
                 amount = self.atm.read(16)
-                pin = self.atm.read() # PlEASE ADD PIN SENDING FROM THE CARD============================================================================================
+                pin = self.atm.read(16) # PlEASE ADD PIN SENDING FROM THE CARD============================================================================================
                 decrypt_atm_id = eh.aesDecrypt(atm_id,self.key2)  # use key2 to decrypt al of the information
                 decrypt_card_id = eh.aesDecrypt(card_id, self.key2)
                 decrypt_amount = eh.aesDecrypt(amount, self.key2)
@@ -115,19 +118,18 @@ class Bank(object):
         new_magicWord1 = os.urandom(32)
         new_magicWord2 = os.urandom(32)
         new_IV = os.urandom(16)
-        # store1 = keySplice(new_key1)
-        store2 = keySplice(new_key2)  # splits key
-        self.db.admin_set_keys(store2[2],"AES")  # make sure it overrides the old key
+        store2 = spliceSecondHalf(new_key2)
+        self.db.admin_set_keys(store2,"AES")  # make sure it overrides the old key
         eh.set_IV(new_IV)  # set encryption handler with the new IV
         # enc_new_key1 = eh.RSA_encrypt(new_key1, public_key)
         enc_new_key2 = eh.RSA_encrypt(enc_new_key2, public_key)  # encrypt keys to be sent over to the atm with RSA public key1
         enc_new_IV = eh.RSA_encrypt(new_IV, public_key)
-        account_reference = self.db.get_account_id("access")  # gets account reference
+        account_reference = self.db.get_account_reference("account1")  # gets account reference
         self.db.re_encrypt(account_reference, new_key2, key2)  # re-encrypts account data using new keys
         enc_magic_word1 = eh.RSA_encrypt(eh.aesDecrypt(self.db.get_key("magicWord1"),key2), public_key)
         enc_magic_word2 = eh.RSA_encrypt(eh.aesDecrypt(self.db.get_key("magicWord2"), key2), public_key)
-        self.db.modify("key", "magicWord1", "key", new_magicWord1)  # sets the magicwords with the new ones
-        self.db.modify("key", "magicWord2", "key", new_magicWord2)
+        self.db.modify("keys", "keys", "magicWord1", new_magicWord1)  # sets the magicwords with the new ones
+        self.db.modify("keys", "keys", "magicWord2", new_magicWord2)
         enc_new_magic1 = eh.RSA_encrypt(new_magicWord1, public_key)
         enc_new_magic2 = eh.RSA_encrypt(new_magicWord2, public_key)
         print("lengths in order, fill in")
@@ -137,14 +139,12 @@ class Bank(object):
         print(len(enc_new_magic2))
         print(len(enc_magic_word1))
         print(len(enc_magic_word2))
-        enc_pkg = "r" + enc_new_key2 + enc_new_IV + enc_new_magic1 + enc_new_magic2 + enc_magic_word1 + enc_magic_word2#sent to atm
-        #key1Half = store1[2]
-        key2Half = store2[2]
+        enc_pkt = "r" + enc_new_key2 + enc_new_IV + enc_new_magic1 + enc_new_magic2 + enc_magic_word1 + enc_magic_word2#sent to atm
+        key2Half = store2
         new_key1 = None
         new_key2 = None
-        store1 = None
         store2 = None
-        self.serial.write(enc_pkg)
+        self.serial.write(enc_pkt)
         return
 
     def combine(self, keyHalf1, keyHalf2):
@@ -167,11 +167,11 @@ class Bank(object):
             log("Bad value sent")
             return
         public_key = self.db.get_key("RSA")  # retrieve rsa public key from database
-        hashed_pin = hash(pin)  # take the card, pin sent from atm, and concatenate and hash to verify it is the real info
-        hashed_card_id = hash(card_id)
+        hashed_pin = eh.hash(pin)  # take the card, pin sent from atm, and concatenate and hash to verify it is the real info
+        hashed_card_id = eh.hash(card_id)
         total_hash = hashed_pin + hashed_card_id
-        final_hash = hash(total_hash)
-        enc_account_reference = self.db.get_account_id("access")  # gets accounts reference id
+        final_hash = eh.hash(total_hash)
+        enc_account_reference = self.db.get_account_reference("account1")  # gets accounts reference id
         account_reference = eh.aesDecrypt(enc_account_reference, key2)  # decrypt the reference and compare
         balance = 0
         if account_reference != final_hash:  # checks to make sure the atm information, matches the actual matches the actual bank infromation
@@ -234,7 +234,7 @@ class Bank(object):
             enc_atm= eh.RSA_encrypt(str(atm_id), public_Key)
             enc_card= eh.RSA_encrypt(str(card_id), public_Key)
             enc_amount= eh.RSA_encrypt(str(amount), public_Key)
-            enc_magic = eh.RSA_encrypt(eh.aesDecrypt(self.db.get_key("magiWord2"), key2), public_key)  # sends magicWord2 which is verification that this was sent from the actual bank
+            enc_magic = eh.RSA_encrypt(eh.aesDecrypt(self.db.admin_get_key("magicWord2"), key2), public_key)  # sends magicWord2 which is verification that this was sent from the actual bank
             print "encrypted lengths"
             print len(enc_good)
             print "atm:"
@@ -287,7 +287,8 @@ class Bank(object):
             print len(encrypt_balance)
             packet = "a" + encrypt_good + encrypt_atm_id + encrypt_card_id + encrypt_balance
             self.atm.write(packet)
-
+    def spliceSecondHalf(self, string):
+        return string[:len(string)/2]
 
 def parse_args():
     parser = argparse.ArgumentParser()

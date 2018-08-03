@@ -47,8 +47,8 @@ if __name__ == "__main__":
     magicWord1 = os.urandom(32)#verification words, stored by both atm and bank upon creation
     magicWord2 = os.urandom(32)#verification words, stored by both atm and bank upon creation
     store_keys = eh.gen_key_pair()#RSA key pair, atm stores private, bank stores public
-    magicWord1 = eh.aesEncrypt(magicWord1, key2)#encrypt both verification words with key2
-    magicWord2 = eh.aesEncrypt(magicWord2, key2)
+    # magicWord1 = eh.aesEncrypt(magicWord1, key2)#encrypt both verification words with key2
+    # magicWord2 = eh.aesEncrypt(magicWord2, key2)
     self.DB.admin_set_keys(key1, "CardKey")#stores key1 in the atm, mapped with string "CardKey" for access
     self.DB.admin_set_keys(key2, "BankKey")#stores key2 in the atm, mapped with string "BankKey" for access
     self.DB.admin_set_keys(key1, "magicWord1")#stores magicWord1 in the atm, mapped with string "magicWord1" for access

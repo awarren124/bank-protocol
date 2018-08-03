@@ -46,6 +46,9 @@ class EncryptionHandler:
 	def hash(self, plaintext):
 		return hashlib.sha256(plaintext).hexdigest()
 
+	def hashRaw(self, plaintext):
+		return hashlib.sha256(plaintext).digest()
+
 	def gen_key_pair(self):
 		(pubkey, privkey) = rsa.newkeys(2048)
 		return pubkey, privkey

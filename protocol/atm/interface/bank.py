@@ -25,7 +25,7 @@ class Bank:
         port (serial.Serial): Port to connect to
     """
 
-    def __init__(self, port, verbose=False, db_path="atm_content.json"):
+    def __init__(self, port, verbose=False, db_path="atmcontents.json"):
         self.ser = serial.Serial(port, baudrate = 115200)
         self.db = db.DB(db_path=db_path)#figure this out, not sure if it will work
         self.verbose = verbose
@@ -99,20 +99,22 @@ class Bank:
             str: hsm_id on success
             bool: False on failure
         """
-        key2 = self.atm_id.get_keys("BankKey")
-        magic_word1 = self.atm_id.get_keys("magicWord1")
-        private_key = self.atm_id.get_keys("RSAprivate")
-        magic_word1 = eh.aesDecrypt(magic_word1, key2)#atm decrypts magic word1
+        key2 = self.db.get_keys("BankKey")
+        magic_word1 = self.db.get_keys("magicWord1")
+        private_key = self.db.get_keys("RSAprivate")
+        # magic_word1 = eh.aesDecrypt(magic_word1, key2)#atm decrypts magic word1
         print("bank withdraw1")
         self._vp('withdraw: Sending request to Bank')
         print("bank withdraw2")
         hash_magic = eh.hash(magic_word1)
         print(len(hash_magic))
+        self.ser.write("a") #start byte
+
         self.ser.write(hash_magic)#verification, sends hashed version of magicword1 so the bank, can use it to compare, and verify the atm
-        firstHalf = spliceFirstHalf(key2)# split key, and send over first half to be combined with the second half, so it could be properly used
+        firstHalf = spliceSecondHalf(key2)# split key, and send over first half to be combined with the second half, so it could be properly used
         print(len(firstHalf))
-        self.ser.write(firstHalf)
         command = "w" # withdraw
+        self.ser.write(firstHalf)
         encCommand = eh.aesEncrypt(command, key2) #length = 16, encrypts command
 
         #len(atm_id) == 72
@@ -177,12 +179,12 @@ class Bank:
             read_magic_word2 = self.ser.read(16)#change to fit RSA  ======================================
             read_magic_word2 = eh.RSA_decrypt(read_amount, private_key)
 
-        #aid, cid = struct.unpack(">36s36s", pkt)
-        if enc_magic_word2 == self.atm_db.get_keys("magicWord2"):#checks magic word for verification
-            self._vp('withdraw: Withdrawal accepted')
-            return True
-        else:
-            return False
+            #aid, cid = struct.unpack(">36s36s", pkt)
+            if enc_magic_word2 == self.atm_db.get_keys("magicWord2"):#checks magic word for verification
+                self._vp('withdraw: Withdrawal accepted')
+                return True
+            else:
+                return False
 
     def regenerate(self, atm_id, card_id):
         private_key = self.atm_db.get_keys("RSAprivate")
