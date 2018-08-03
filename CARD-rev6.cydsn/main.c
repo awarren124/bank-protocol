@@ -37,13 +37,11 @@
 #define CARDID ((uint8*)(CY_FLASH_BASE + 0x6480))
 #define AES_KEY1 ((uint8*)(CY_FLASH_BASE + 0x3200))
 #define MAGICWORD1HASH ((uint8*) (CY_FLASH_BASE + 0x3600))
-#define CARDDATA ((uint8*)(CY_FLASH_BASE + 0x3280))
 
 #define write_pin_hash(p) CySysFlashWriteRow(200, p);
 #define write_cardid(u) CySysFlashWriteRow(201, u);
 #define write_AES_key1(k) CySysFlashWriteRow(100, k);
 #define write_magic_word_1_hash(w) CySysFlashWriteRow(105, w);
-#define write_carddata_hash(d) CySysFlashWriteRow(101, d);
 
 #define BLOCK_SIZE 128
 
@@ -201,23 +199,12 @@ void provision()
     write_AES_key1(message);
     pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
     
-    // get expiration date and add it to carddata
-    pullMessage(message);
-    strncpy((char *)unHashedCardData, (char *)message, 4);
-    pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
-    
-    // get magic word 1, hash it, store it, then add it to carddata
+    // get magic word 1, hash it, then store it
     pullMessage(message);
     magicWordSize = strlen((char *)message);
     sha256((char *)message, hashedMagicWord, magicWordSize);
     write_magic_word_1_hash(hashedMagicWord);
-    strncat((char *)unHashedCardData, (char *)message, magicWordSize);
     pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
-    
-    // hash carddata and store it
-    sha256((char *)unHashedCardData, cardDataHash, 4 + magicWordSize);
-    write_carddata_hash(cardDataHash);
-    
 }
 
 void mark_provisioned()
