@@ -137,6 +137,12 @@ uint8_t pad_16(uint8_t *array, int p){
     return 0;
 }
 
+/*
+ * args:
+ * array; input array
+ * output; output array
+ * size; capacity of array
+*/
 uint8_t pad_mult_16(uint8_t *array, uint8_t *output, int size)
 {
     int i;
@@ -239,18 +245,19 @@ int main (void)
     
     /* Declare variables here */
     
-    size_t requestLength = 10;                  //////// temporary pls change
-    
     uint8_t message[128];
-    uint8_t header[1];
-    
-    uint8_t concatReceived[50];
+    uint8_t iv[16];
+    uint8_t cipherText[48];
+    uint8_t concatReceived[41];
     uint8_t receivedPIN[PIN_LEN];
-    uint8_t request[requestLength];
-    uint8_t key1prime[256];
+    uint8_t request[1];
+    uint8_t key1prime[32];
     uint8_t hashedReceivedPIN[32];
-    uint8_t cardDataToSend[strlen((char *)CARDID) + 64];
-    uint8_t encryptedCardData[16];
+    uint8_t cardDataToSend[100];
+    uint8_t paddedCardDataToSend[112];
+    uint8_t encryptedCardData[112];
+    uint8_t ivToSend[16];
+    uint8_t outgoingInfoBlock[128];
     
     
     // Provision card if on first boot
@@ -268,46 +275,51 @@ int main (void)
         
         // receive encrypted pin, request, and key 1'
         pullMessage(message);
-        //char * iv = "y0u kn0w 1 h4d t0 d0 1t t0 '3m";                      /////IV???!?!?!!?
-        uint8_t iv[16];
-        gen_bytes(iv, 16);
         
-        aes_32_decrypt(message, concatReceived, AES_KEY1, iv);
+        // parse iv
+        slice(message, iv, 0, 16);
+        
+        // parse encrypted data
+        slice(message, cipherText, 16, 64);
+        
+        aes_decrypt_blocks(cipherText, concatReceived, AES_KEY1, iv, 3);
         
         // parse encrypted parts
         slice(concatReceived, receivedPIN, 0, 8);
-        slice(concatReceived, request, 8, 8 + requestLength);                           //////Why do we need this?
-        slice(concatReceived, key1prime, 8 + requestLength, 40 + requestLength);
+        slice(concatReceived, request, 8, 9);                           
+        slice(concatReceived, key1prime, 9, 41);
         
         // hash received PIN and compare
         sha256((char *)receivedPIN, hashedReceivedPIN, 8);
+        
         if(strncmp((char *)PINHASH, (char *)hashedReceivedPIN, 32)){
             pushMessage((uint8*)PIN_BAD, strlen(PIN_BAD));
         }else{
             // assembles card data
-            strncpy((char *)cardDataToSend, (char *)CARDID, strlen((char *)CARDID));
+            strncpy((char *)cardDataToSend, (char *)CARDID, 36);
             strncat((char *)cardDataToSend, (char *)CARDDATA, 32);
             strncat((char *)cardDataToSend, (char *)MAGICWORD, 32);
             
-            // encrypts and sends the card data
-            aes_32_encrypt(cardDataToSend, encryptedCardData, AES_KEY1, iv);
-            pushMessage(encryptedCardData, 16);
+            // pad to be encrypted
+            pad_mult_16(cardDataToSend, paddedCardDataToSend, 100);
+            
+            // generates new encryption iv
+            gen_bytes(ivToSend, 16);
+            
+            // encrypts card data
+            aes_encrypt_blocks(paddedCardDataToSend, encryptedCardData, AES_KEY1, ivToSend, 7);
+            
+            // assembles final batch of information to send (iv and encrypted data)
+            strncpy((char *) outgoingInfoBlock, (char *)iv, 16);
+            strncat((char *) outgoingInfoBlock, (char *)encryptedCardData, 112);
+            
+            // sends the message
+            pushMessage(outgoingInfoBlock, 128);
             
             // replace aes key 1
             write_AES_key1(key1prime);
         }
         
-        //free up some memory for the next transaction ??????
-        //unneeded, overwrite buffers
-        /*
-        free(&message);
-        free(&concatReceived);
-        free(&receivedPIN);
-        free(&request);
-        free(&key1prime);
-        free(&hashedReceivedPIN);
-        free(&cardDataToSend);
-        free(&encryptedCardData);
-        */
+        
     }
 }
