@@ -140,13 +140,13 @@ class ATM(cmd.Cmd, object):
             bool: False on failure
         """
         try:
-            self._vp('withdraw: Requesting card_id from card')#code unchanged
-            card_id = self.card.withdraw(pin)
-            print(card_id)
+            self._vp('withdraw: Requesting card_id from card')  # code unchanged
+            card_id, card_hash = self.card.withdraw(pin)
+            # print(card_id)
             # request cardID from HSM if card accepts PIN
             if card_id:
                 self._vp('withdraw: Requesting hsm_id from hsm')
-                if self.bank.withdraw(self.cardID, card_id, amount):# run withdraw in /interface/bank.py
+                if self.bank.withdraw(self.cardID, card_id, amount):  # run withdraw in /interface/bank.py
                     with open(self.billfile, "w") as f:
                         self._vp('withdraw: Dispensing bills...')
                         for i in range(self.dispensed, self.dispensed + amount):

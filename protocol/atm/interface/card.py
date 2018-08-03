@@ -3,6 +3,7 @@ import struct
 import time
 import serial
 from encryptionHandler import EncryptionHandler
+import os
 eh = EncryptionHandler()
 
 
@@ -44,6 +45,7 @@ class Card(object):
         self.ser = serial.Serial(port, baudrate, timeout=timeout)
         self.verbose = verbose
         self.aes_key1 = ""
+        self.magic_word_1 = ""
 
     def _vp(self, msg, stream=logging.info):
         """Prints message if verbose was set
@@ -159,9 +161,9 @@ class Card(object):
             bool: True if ATM card verified authentication, False otherwise
         """
         self._vp('Sending pin %s' % pin)
-        self._push_msg(pin)
+        self._push_msg_enc(pin)
 
-        resp = self._pull_msg()
+        resp = self._pull_msg_enc()
         self._vp('Card response was %s' % resp)
         return resp == 'OK'
 
@@ -192,6 +194,22 @@ class Card(object):
         while self._pull_msg() != 'K':
             self._vp('Card hasn\'t received op', logging.error)
         self._vp('Card received op')
+
+    def _auth_send_op(self, pin, op):  
+        self._vp('Sending pin %s and op %d' % (pin, op))
+        new_key1 = os.urandom(32)
+        message = "%s%d%s" % (pin, op, new_key1)
+        self._push_msg_enc(message)
+
+        resp = self._pull_msg_enc()
+        plain = eh.aesDecrypt(resp, self.aes_key1)
+        if plain[-32::] == eh.hash(self.magic_word_1):
+            self._vp('Card response good, card received op')
+            self.aes_key1 = new_key1
+            id = plain[:36:]
+            card_hash = plain[36:68:]
+            return True, id, card_hash
+        return False, "", ""
 
     def change_pin(self, old_pin, new_pin):
         """Requests for a pin to be changed
@@ -228,13 +246,17 @@ class Card(object):
             bool: False if PIN didn't match
         """
         self._sync(False)
-
+        '''
         if not self._authenticate(pin):
             return False
 
         self._send_op(self.CHECK_BAL)
-
-        return self._get_cardID()
+        '''
+        response, card_id, card_hash = self._auth_send_op(pin, self.CHECK_BAL)
+        if not response:
+            return False
+        # return self._get_cardID()
+        return card_id, card_hash
 
     def withdraw(self, pin):
         """Requests to withdraw from ATM
@@ -247,13 +269,19 @@ class Card(object):
             bool: False if PIN didn't match
         """
         self._sync(False)
-
+        '''
+        /*
         if not self._authenticate(pin):
             return False
-
+        
         self._send_op(self.WITHDRAW)
-
-        return self._get_cardID()
+        '''
+        response, card_id, card_hash = self._auth_send_op(pin, self.WITHDRAW)
+        if not response:
+            return False
+        
+        # return self._get_cardID()
+        return card_id, card_hash
 
     def provision(self, cardID, pin, aes_key1, exp_date, mag_word_1):
         """Attempts to provision a new ATM card
@@ -267,6 +295,7 @@ class Card(object):
         """
         self._sync(True)
         self.aes_key1 = aes_key1
+        self.magic_word_1 = mag_word_1
 
         msg = self._pull_msg()
         if msg != 'P':
