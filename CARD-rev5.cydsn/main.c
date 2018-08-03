@@ -30,29 +30,22 @@
 #define PIN_BAD "BAD"
 #define CHANGE_PIN '3'
 
-#define PIN ((uint8*)(CY_FLASH_BASE + 0x6400))
-#define UUID ((uint8*)(CY_FLASH_BASE + 0x6480))
+#define AES_KEY1 ((uint8*)(CY_FLASH_BASE + 0x3200))
+
+#define CARDDATA ((uint8*)(CY_FLASH_BASE + 0x3280))
+#define MAGICWORD ((uint8*) (CY_FLASH_BASE + 0x3360))
+
+#define PINHASH ((uint8*)(CY_FLASH_BASE + 0x6400))
+#define CARDID ((uint8*)(CY_FLASH_BASE + 0x6480))
 #define PROVISIONED ((uint8*)(CY_FLASH_BASE + 0x6580))
-#define write_pin(p) CySysFlashWriteRow(200, p);
-#define write_uuid(u) CySysFlashWriteRow(201, u);
 
-#define KEY1 ((uint8*)(CY_FLASH_BASE + 0x3200))
-#define KEYA ((uint8*)(CY_FLASH_BASE + 0x3280))
-#define KEYD ((uint8*)(CY_FLASH_BASE + 0x3360))
-#define KEYF ((uint8*)(CY_FLASH_BASE + 0x3440))
+#define write_AES_key1(k) CySysFlashWriteRow(100, k);
 
-#define CARDDATA ((uint8*)(CY_FLASH_BASE + 0x3520))
+#define write_card_hash(d) CySysFlashWriteRow(101, d);
+#define write_magic_word_hash(w) CySysFlashWriteRow(102, w);
 
-#define MAGICWORD ((uint8*) (CY_FLASH_BASE + 0x3600))
-
-#define write_key1(k) CySysFlashWriteRow(100, k);
-#define write_keya(k) CySysFlashWriteRow(101, k);
-#define write_keyd(k) CySysFlashWriteRow(102, k);
-#define write_keyf(k) CySysFlashWriteRow(103, k);
-
-#define write_card_data(d) CySysFlashWriteRow(104, d);
-
-#define write_magic_word(w) CySysFlashWriteRow(105, w);
+#define write_pin_hash(p) CySysFlashWriteRow(200, p);
+#define write_cardid(u) CySysFlashWriteRow(201, u);
 
 #define BLOCK_SIZE 128
 
@@ -144,7 +137,7 @@ uint8_t pad_mult_16(uint8_t *array, uint8_t *output, int size)
     return 0;
 }
 
-void sha256(char * input, uint8 size, uint8_t destination[32]){
+void sha256(char * input, uint8_t destination[32], uint8 size){
     cf_sha256_context hash_ctx;
     cf_sha256_init(&hash_ctx);
     cf_sha256_update(&hash_ctx, input, size);
@@ -176,16 +169,16 @@ void provision()
  
     pushMessage((uint8*)PROV_MSG, (uint8)strlen(PROV_MSG));
         
-    // set PIN
+    // set hashed PIN
     pullMessage(message);
     uint8_t hashpin[32];
-    sha256((char *)message, 8, hashpin);
-    write_pin(hashpin);
+    sha256((char *)message, hashpin, 8);
+    write_pin_hash(hashpin);
     pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
     
-    // set account number
+    // set card ID
     pullMessage(message);
-    write_uuid(message);
+    write_cardid(message);
     pushMessage((uint8*)RECV_OK, strlen(RECV_OK));
 }
 
@@ -193,30 +186,28 @@ int main (void)
 {
     CyGlobalIntEnable;      /* Enable global interrupts */
     
+    // initialize UART
     UART_Start();
-    
-    /* Declare variables here */
 
     char * expiration = "0818";
     uint8_t hashexp[32];
-    sha256(expiration, 32, hashexp);
+    sha256(expiration, hashexp, 32);
     
     char * magicword = "hello";
     uint8_t hashmag[32];
-    sha256(magicword, 32, hashmag);
+    sha256(magicword, hashmag, 32);
     
     uint8_t * iv = (unsigned char*)"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-   
-    write_key1((unsigned char*)"ABABABABABABABABABABABABABABABAB");
-    write_magic_word(hashmag);
+    write_AES_key1((unsigned char*)"ABABABABABABABABABABABABABABABAB");
+    write_magic_word_hash(hashmag);
     
     uint8_t hashes[64];
     uint8_t card_data[64];
     
     memcpy(hashes, hashexp, 32);
     memcpy(&hashes, hashmag, 32);
-    aes_encrypt_blocks(hashes, card_data, KEY1, iv, 4);
-    write_card_data(card_data);
+    aes_encrypt_blocks(hashes, card_data, AES_KEY1, iv, 4);
+    write_card_hash(card_data);
     
     uint8_t message[128];
     // Provision card if on first boot
@@ -235,8 +226,8 @@ int main (void)
         // receive pin number from ATM
         pullMessage(message);
         uint8_t hashpin[32];
-        sha256((char *)message, 8, hashpin);
-        if (strncmp((char*)message, (char*)PIN, 32)) {
+        sha256((char *)message, hashpin, 8);
+        if (strncmp((char*)message, (char*)PINHASH, 32)) {
             pushMessage((uint8*)PIN_BAD, strlen(PIN_BAD));
         } else {
             pushMessage((uint8*)PIN_OK, strlen(PIN_OK));
@@ -249,13 +240,14 @@ int main (void)
             if(message[0] == CHANGE_PIN)
             {
                 pullMessage(message);
-                write_pin(message);
+                sha256((char *) message, hashpin, 8);
+                write_pin_hash(hashpin);
                 pushMessage((uint8*)PINCHG_SUC, strlen(PINCHG_SUC));
             } else {
-                uint8_t uuid_temp[48];
+                uint8_t cardid_temp[48];
                 uint8_t encrypted_uuid[48];
-                pad_mult_16(UUID, uuid_temp, UUID_LEN);
-                aes_encrypt_blocks(uuid_temp, encrypted_uuid, KEY1, iv, 3);
+                pad_mult_16(CARDID, cardid_temp, UUID_LEN);
+                aes_encrypt_blocks(cardid_temp, encrypted_uuid, AES_KEY1, iv, 3);
                 pushMessage(encrypted_uuid, 96);
                 //pushMessage(UUID, UUID_LEN);
                 
