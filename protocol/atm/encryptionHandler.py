@@ -28,7 +28,7 @@ class EncryptionHandler:
     def aesDecryptBlock(self, ciphertext, key, iv=0):  # decrypt a single block
         if iv == 0:
             iv = self.initializationVector
-        aes = AES.new(key, AES.MODE_CBC, self.initializationVector)
+        aes = AES.new(key, AES.MODE_CBC, iv)
         plaintext = aes.decrypt(ciphertext)
         return plaintext
 

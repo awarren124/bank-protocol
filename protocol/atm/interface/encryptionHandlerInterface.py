@@ -11,11 +11,14 @@ class EncryptionHandlerInterface:  # handles encryption
         self.numberThatDoesntMatter = 696969
 
     def padMult16(self, message):
-        print len(message)
+        if len(message) == 16:
+            return message
         print(16 - (len(message) % 16))
         return message + self.padCharacter * (16 - (len(message) % 16))
 
     def aesEncryptBlock(self, plaintext, key, iv=0):  # encrypt a single block
+        assert(len(plaintext) == 16)
+        assert(len(key) == 32)
         if iv == 0:
             iv = self.initializationVector
         aes = AES.new(key, AES.MODE_CBC, iv)
@@ -23,18 +26,20 @@ class EncryptionHandlerInterface:  # handles encryption
         return ciphertext
 
     def aesDecryptBlock(self, ciphertext, key, iv=0):  # decrypt a single block
+        assert(len(plaintext) == 16)
+        assert(len(key) == 32)
         if iv == 0:
             iv = self.initializationVector
-        aes = AES.new(key, AES.MODE_CBC, self.initializationVector)
+        aes = AES.new(key, AES.MODE_CBC, iv)
         plaintext = aes.decrypt(ciphertext)
         return plaintext
 
     def aesEncrypt(self, plaintext, key, iv=0):  # encrypt multiple blocks
+        assert(len(key) == 32)
         if iv == 0:
             iv = self.initializationVector
             plaintext = self.padMult16(plaintext)
-        print("length of plaintext: %s" % len(plaintext))
-        print("plaintext: %s" % plaintext)
+        assert(len(plaintext) % 16 == 0)
         block = self.aesEncryptBlock(plaintext[:16:], key, iv)
         ciphertext = block
         if len(plaintext) > 16:

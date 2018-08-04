@@ -75,7 +75,9 @@ class Card(object):
         Args:
             msg (str): message to be sent to the PSoC
         """
+        print "attemping to encrypt message"
         enc_msg = eh.aesEncrypt(msg, self.aes_key1)
+        print "encryption complete"
         iv = eh.initializationVector
         eh.regenIV()
         pkt = struct.pack("B16s48s", 16+len(enc_msg), iv, enc_msg)  # 16 byte iv, 16+N bytes total
