@@ -13,23 +13,47 @@ class EncryptionHandler:
     def set_IV(self, newIV):
         initializationVector = newIV
 
-    def aesEncrypt(self, plaintext, key):
-        plaintext = str(plaintext)
-        aes = AES.new(key, AES.MODE_CBC, self.initializationVector)
-        offset = (16 - len(plaintext) % 16)
-        plaintext += (self.padCharacter * offset)
+    def padMult16(self, message):
+        print len(message)
+        print(16 - (len(message) % 16))
+        return message + self.padCharacter * (16 - (len(message) % 16))
+
+    def aesEncryptBlock(self, plaintext, key, iv=0):  # encrypt a single block
+        if iv == 0:
+            iv = self.initializationVector
+        aes = AES.new(key, AES.MODE_CBC, iv)
         ciphertext = aes.encrypt(plaintext)
-        ciphertext = base64.b64encode(ciphertext)
         return ciphertext
 
-    def aesDecrypt(self, ciphertext, key):
+    def aesDecryptBlock(self, ciphertext, key, iv=0):  # decrypt a single block
+        if iv == 0:
+            iv = self.initializationVector
         aes = AES.new(key, AES.MODE_CBC, self.initializationVector)
-        print(ciphertext)
-        ciphertext = base64.b64decode(ciphertext)
-        print(ciphertext)
-        plaintext = str(aes.decrypt(ciphertext))
-        print(plaintext)
-        plaintext = plaintext[:plaintext.find(self.padCharacter)]
+        plaintext = aes.decrypt(ciphertext)
+        return plaintext
+
+    def aesEncrypt(self, plaintext, key, iv=0):  # encrypt multiple blocks
+        if iv == 0:
+            iv = self.initializationVector
+            plaintext = self.padMult16(plaintext)
+        print("length of plaintext: %s" % len(plaintext))
+        print("plaintext: %s" % plaintext)
+        block = self.aesEncryptBlock(plaintext[:16:], key, iv)
+        ciphertext = block
+        if len(plaintext) > 16:
+            ciphertext = block + self.aesEncrypt(plaintext[16::], key, iv)
+        return ciphertext
+
+    def aesDecrypt(self, ciphertext, key, iv=0):  # decrypt multiple blocks
+        if iv == 0:
+            iv = self.initializationVector
+        dec_block = self.aesDecryptBlock(ciphertext[:16:], key, iv)
+        plaintext = dec_block
+        if len(ciphertext) > 16:
+            plaintext = dec_block + self.aesDecrypt(ciphertext[16::], key, ciphertext[:16:])
+        pad_index = plaintext.find(self.padCharacter)
+        if pad_index != -1:
+            plaintext = plaintext[:pad_index:]
         return plaintext
 
     def hash(self, plaintext):

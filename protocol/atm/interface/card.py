@@ -78,7 +78,6 @@ class Card(object):
         enc_msg = eh.aesEncrypt(msg, self.aes_key1)
         iv = eh.initializationVector
         eh.regenIV()
-        # pkt = struct.pack("16s%ds" % (len(enc_msg)), iv, enc_msg)  #
         pkt = struct.pack("B16s48s", 16+len(enc_msg), iv, enc_msg)  # 16 byte iv, 16+N bytes total
         self.ser.write(pkt)
         time.sleep(0.1)
@@ -119,10 +118,6 @@ class Card(object):
         eh.initializationVector = iv
 
         dec_pkt = eh.aesDecrypt(ciphertext, self.aes_key1)
-        pad_start = len(dec_pkt)
-        if PAD in dec_pkt:
-            pad_start = dec_pkt.index(PAD)
-        dec_pkt = dec_pkt[:pad_start:]
         return dec_pkt
 
     def _sync(self, provision):
