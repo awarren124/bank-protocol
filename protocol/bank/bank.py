@@ -23,7 +23,6 @@ class Bank(object):
     ERROR = "E"
     key2 = ''  # make sure global variable is secure
 
-
     def __init__(self, port, baud=115200, db_path="bank.json"):
         super(Bank, self).__init__()
         self.db = db.DB(db_path=db_path)
@@ -39,7 +38,7 @@ class Bank(object):
             if start != "a":
                 continue
             hashWord = self.atm.read(32)  # set proper length, receives the hashed version of magic word1
-            aesSeed2H = self.atm.read(16)# receives the first half of key2
+            aesSeed2H = self.atm.read(16)  # receives the first half of key2
             accessKey = self.db.get_key("AES") + aesSeed2H  # combines both halves of key2
             self.key2 = eh.hashRaw(accessKey)  # hashes it to get the real encryption key
 
@@ -48,9 +47,9 @@ class Bank(object):
                 self.atm.write(self.ERROR)
                 return
 
-            pkt = self.atm.read()# figure out length===============================================================================
+            pkt = self.atm.read() # figure out length===============================================================================
             dec_pkt = eh.aesDecrypt(pkt, self.key2)
-            command = dec_pkt[:]  #receives command from atm to decide what to do, figure out correct splicing
+            command = dec_pkt[:]  # receives command from atm to decide what to do, figure out correct splicing
             # if len(command) != 0:
             print("command recieved: " + command.encode('hex') + "")
             print("length = %s" % (len(command)))
@@ -67,10 +66,10 @@ class Bank(object):
                 # print "decrypted data: " +  decrypt_data
                 # print len(decrypt_data)
                 # atm_id, card_id, amount = struct.unpack('36s36sI', decrypt_data)
-                atm_id = dec_pkt[:]# figure out correct lengths ===========================================
-                card_id = dec_pkt[:]# figure out correct lengths ===========================================
-                amount = dec_pkt[:]# figure out correct lengths ===========================================
-                pin = dec_pkt[:] # PlEASE ADD PIN SENDING FROM THE CARD============================================================================================
+                atm_id = dec_pkt[:]  # figure out correct lengths ===========================================
+                card_id = dec_pkt[:]  # figure out correct lengths ===========================================
+                amount = dec_pkt[:]  # figure out correct lengths ===========================================
+                pin = dec_pkt[:]  # PlEASE ADD PIN SENDING FROM THE CARD============================================================================================
                 # atm_id, card_id, amount = struct.unpack(">36s36sI", decrypt_data)#unpack that and
                 print("decrypt_atm_id: ")
                 print(decrypt_atm_id)
@@ -144,10 +143,10 @@ class Bank(object):
 
     def keySplice(self, key):
         firstKey, secondKey = key[:((key) )/ 2], key[((key) / 2):]
-        #re-encrypt stored stuff
+        # re-encrypt stored stuff
         return ("", firstKey, secondKey)
 
-    def withdraw(self, atm_id, card_id, amount, pin):#check protocol/sequence diagram
+    def withdraw(self, atm_id, card_id, amount, pin):  # check protocol/sequence diagram
         try:
             amount = int(amount)
             atm_id = str(atm_id)
@@ -178,22 +177,22 @@ class Bank(object):
         print "checking atm: " + str(atm_id.encode('hex'))
         if atm is None:  # Figure out what this is doing
             encrypt_error = eh.aesEncrypt(self.ERROR, self.key2)
-            self.atm.write(self.ERROR)# COULD BE HIJACKED
+            self.atm.write(self.ERROR)  # COULD BE HIJACKED
             log("Bad ATM ID")
             return
 
         num_bills = self.db.get_atm_num_bills(atm_id)
         # print "checking num_bills: " + num_bills
 
-        if num_bills is None:# Figure out what this is doing
+        if num_bills is None:  # Figure out what this is doing
             encrypt_error = eh.aesEncrypt(self.ERROR, self.key2)
-            self.atm.write(encrypt_error)# COULD BE HIJACKED
+            self.atm.write(encrypt_error)  # COULD BE HIJACKED
             log("Bad ATM ID")
             return
 
-        if num_bills < amount:# Figure out what this is doing
+        if num_bills < amount:  # Figure out what this is doing
             encrypt_bad = eh.aesEncrypt(self.BAD, self.key2)
-            self.atm.write(encrypt_bad)# COULD BE HIJACKED
+            self.atm.write(encrypt_bad)  # COULD BE HIJACKED
             log("Insufficient funds in ATM")
             return
         print "card id : " + card_id
@@ -274,8 +273,10 @@ class Bank(object):
             print len(encrypt_balance)
             packet = "a" + encrypt_good + encrypt_atm_id + encrypt_card_id + encrypt_balance
             self.atm.write(packet)
+
     def spliceSecondHalf(self, string):
         return string[:len(string)/2]
+
 
 def parse_args():
     parser = argparse.ArgumentParser()

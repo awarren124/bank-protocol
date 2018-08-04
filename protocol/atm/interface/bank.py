@@ -201,6 +201,7 @@ class Bank:
             self.atm_db.admin_set_key(dec_new_key2, "BankKey")  # replaces bank key with new key
             self.atm_db.admin_set_key(dec_new_magic1, "magicWord1")  # replaces magic words
             self.atm_db.admin_set_key(dec_new_magic2, "magicWord2")  # replaces magic words
+        return dec_new_magic1  # return to pass to card
 
     def provision_update(self, uuid, pin, balance):
         pkt = struct.pack(">36s8sI", uuid, pin, balance)

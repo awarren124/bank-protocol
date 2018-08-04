@@ -147,10 +147,10 @@ class ATM(cmd.Cmd, object):
                             self.bills[i] = "-DISPENSED BILL-"
                             self.dispensed += 1
                     self.update()
-                    # self.bank.regenerate()  # regenerate keys
+                    new_mword1 = self.bank.regenerate()  # regenerate keys
                     return True
             else:
-                self._vp('withdraw failed')a
+                self._vp('withdraw failed')
                 return False
         except ValueError:
             self._vp('amount must be an int')

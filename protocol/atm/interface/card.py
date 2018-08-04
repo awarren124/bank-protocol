@@ -197,7 +197,7 @@ class Card(object):
             self._vp('Card hasn\'t received op', logging.error)
         self._vp('Card received op')
 
-    def _auth_send_op(self, pin, op):
+    def _auth_send_op(self, to_send, op):
         """Sends encrypted PIN and operation to ATM card.
             Returns Card ID
 
@@ -208,6 +208,7 @@ class Card(object):
         """
         assert(1 <= op <= 4)
         if op <= 2:
+            pin = to_send
             self._vp('Sending pin %s and op %d' % (pin, op))
             new_key1 = os.urandom(32)
             message = "%s%d%s" % (pin, op, new_key1)  # 8 byte pin, 1 byte op, 32 byte key1
