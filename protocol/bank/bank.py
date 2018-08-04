@@ -239,8 +239,9 @@ class Bank(object):
             print "amount:"
             print len(str(amount))
             print "magic Word"
-            print len(enc_magic)
-            packet = good + str(atm_id) + str(card_id) + str(amount) + eh.aesDecrypt(self.db.admin_get_key("magicWord2"), self.key2)
+            enc_magic2 = self.db.get_key("magicWord2")  # idk?
+            print len(enc_magic2)
+            packet = good + str(atm_id) + str(card_id) + str(amount) + eh.aesDecrypt(enc_magic2, self.key2)
             enc_packet = eh.RSA_encrypt(packet, public_key)
             print "length of whole packet:"
             print len(enc_packet)
@@ -290,7 +291,7 @@ class Bank(object):
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("port", help="Serial port ATM is connected to")
-    parser.add_argument("--baudrate", help="Optional baudrate (default 115200)")
+    parser.add_argument("--baudrate", default=115200, help="Optional baudrate (default 115200)")
     return parser.parse_args()
 
 

@@ -62,7 +62,7 @@ class Card(object):
         Args:
             msg (str): message to be sent to the PSoC
         """
-        pkt = struct.pack("B%ds" % (len(msg)), len(msg))
+        pkt = struct.pack("B%ds" % (len(msg)), len(msg), msg)
         self.ser.write(pkt)
         time.sleep(0.1)
 
