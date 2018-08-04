@@ -4,6 +4,7 @@ import time
 import serial
 import os
 from encryptionHandlerInterface import EncryptionHandlerInterface
+from atm_db import ATM_DB
 import Adafruit_BBIO.UART as UART
 
 UART.setup("UART4")
@@ -42,8 +43,9 @@ class Card(object):
     def __init__(self, port=None, verbose=False, baudrate=115200, timeout=2):
         self.ser = serial.Serial(port, baudrate, timeout=timeout)
         self.verbose = verbose
-        self.aes_key1 = ""
-        self.magic_word_1 = ""
+        self.atm_db = ATM_DB
+        self.aes_key1 = self.atm_db.admin_get_key("CardKey")
+        self.magic_word_1 = self.atm_db.admin_get_key("magicWord1")
 
     def _vp(self, msg, stream=logging.info):
         """Prints message if verbose was set
@@ -54,10 +56,6 @@ class Card(object):
         """
         if self.verbose:
             stream("card: " + msg)
-
-    @staticmethod
-    def _pad_multi_16(array):
-        return array
 
     def _push_msg(self, msg):
         """Sends encoded and formatted message to PSoC
@@ -220,6 +218,7 @@ class Card(object):
         if resp[-32::] == eh.hash(self.magic_word_1):
             self._vp('Card response good, card received op')
             self.aes_key1 = new_key1
+            self.atm_db.admin_set_key(aes_key1, "CardKey")
             card_id = resp[:36:]
             return True, card_id
         return False, ""
@@ -314,8 +313,6 @@ class Card(object):
             bool: True if provisioning succeeded, False otherwise
         """
         self._sync(True)
-        self.aes_key1 = aes_key1
-        self.magic_word_1 = mag_word_1
 
         msg = self._pull_msg()
         if msg != 'P':

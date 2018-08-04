@@ -19,8 +19,6 @@ log.addHandler(ch)
 
 
 class ATM(cmd.Cmd, object):
-    key1 = os.urandom(32)
-    key2 = os.urandom(32)
     """Interface for ATM xmlrpc server
 
     Args:
@@ -29,10 +27,6 @@ class ATM(cmd.Cmd, object):
     """
     intro = 'Welcome to your friendly ATM! Press ? for a list of commands\r\n'
     prompt = '1. Check Balance\r\n2. Withdraw\r\n3. Change PIN\r\n> '
-
-    def setKeys(self, recKey1, recKey2):
-        key1 = recKey1
-        key2 = recKey2
 
     def __init__(self, bank, card, config_path="config.json",
                  billfile="billfile.out", verbose=False):
@@ -185,7 +179,7 @@ class ATM(cmd.Cmd, object):
         pin = self.get_pin()
 
         amount = 'not correct'
-        while not len(amount) == 3 and amount.isdigit():
+        while not (len(amount) == 3 and amount.isdigit()):
             amount = raw_input("Please enter valid amount to withdraw, 3 digits: ")
 
         if self.withdraw(pin, amount):
@@ -218,7 +212,7 @@ def parse_args():
 
 
 if __name__ == "__main__":
-    b_port, c_port, config, billfile, verbose = parse_args()
+    c_port, b_port, config, billfile, verbose = parse_args()
     bank = bank.Bank(b_port, verbose=verbose)
     card = card.Card(c_port, verbose=verbose)
     atm = ATM(bank, card, config, billfile, verbose=verbose)

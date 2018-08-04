@@ -26,7 +26,7 @@ class EncryptionHandlerInterface:  # handles encryption
         return ciphertext
 
     def aesDecryptBlock(self, ciphertext, key, iv=0):  # decrypt a single block
-        assert(len(plaintext) == 16)
+        assert(len(ciphertext) == 16)
         assert(len(key) == 32)
         if iv == 0:
             iv = self.initializationVector
