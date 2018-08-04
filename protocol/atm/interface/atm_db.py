@@ -5,6 +5,7 @@ This module implements an interface to the bank_server database.
 import json
 import os.path
 import base64
+import rsa
 
 
 class ATM_DB(object):
@@ -165,13 +166,15 @@ class ATM_DB(object):
 
     def admin_set_key(self, key, label):
         # magic is just used to look up the key
-        if label[:3:] != 'RSA':  # RSA Keys don't need base64 encoding
+        if label[:3:] == 'RSA':  # RSA Keys need special formatting to be JSON serializable
+            key = key.save_pkcs1()
+        else:
             key = base64.b64encode(key)
         return self.modify("keys", label, ["val"], [key])
 
     def admin_get_key(self, label):
         key = self.read("keys", label, "val")
         if label[:3:] == 'RSA':
-            return key
+            return rsa.key.AbstractKey.load_pkcs1(key)
         return base64.b64decode(key)
 

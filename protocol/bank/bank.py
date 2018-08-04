@@ -205,7 +205,7 @@ class Bank(object):
             log("Insufficient funds in ATM")
             return
         print "card id : " + card_id
-        # balance = self.db.get_balance(card_id)
+
         if balance is None:
             encrypt_bad = eh.aesEncrypt(self.BAD, self.key2)
             self.atm.write(encrypt_bad)  # COULD BE HIJACKED
