@@ -54,7 +54,7 @@ class Card(object):
             stream("card: " + msg)
 
     @staticmethod
-    def _pad_multi_16(self, array):
+    def _pad_multi_16(array):
         return array
 
     def _push_msg(self, msg):
@@ -63,8 +63,6 @@ class Card(object):
         Args:
             msg (str): message to be sent to the PSoC
         """
-        iv = eh.initializationVector
-        eh.regenIV()
         pkt = struct.pack("B%ds" % (len(msg)), len(msg))
         self.ser.write(pkt)
         time.sleep(0.1)
@@ -197,31 +195,35 @@ class Card(object):
             self._vp('Card hasn\'t received op', logging.error)
         self._vp('Card received op')
 
-    def _auth_send_op(self, to_send, op):
+    def _auth_send_op(self, pin, op):
         """Sends encrypted PIN and operation to ATM card.
             Returns Card ID
+            Only works with withdraw and check balance
+            Has secondary function for sending regenerated magic word
 
         Args:
-            pin (string): Inputted PIN to send
+            pin (string): Inputted PIN to send/verify
             op (int): Operation to send
 
         """
-        assert(1 <= op <= 4)
-        if op <= 2:
-            pin = to_send
-            self._vp('Sending pin %s and op %d' % (pin, op))
-            new_key1 = os.urandom(32)
-            message = "%s%d%s" % (pin, op, new_key1)  # 8 byte pin, 1 byte op, 32 byte key1
-            self._push_msg_enc(message)
+        assert(1 <= op <= 2)
+        self._vp('Sending pin %s and op %d' % (pin, op))
+        new_key1 = os.urandom(32)
+        message = "%s%d%s" % (pin, op, new_key1)  # 8 byte pin, 1 byte op, 32 byte key1
+        self._push_msg_enc(message)
 
-            resp = self._pull_msg_enc()
-            if resp[-32::] == eh.hash(self.magic_word_1):
-                self._vp('Card response good, card received op')
-                self.aes_key1 = new_key1
-                card_id = resp[:36:]
-                return True, card_id
-            return False, "", ""
-        return False, "", ""
+        resp = self._pull_msg_enc()
+        if resp[-32::] == eh.hash(self.magic_word_1):
+            self._vp('Card response good, card received op')
+            self.aes_key1 = new_key1
+            card_id = resp[:36:]
+            return True, card_id
+        return False, ""
+
+    def change_magic_word1(self, new_magic_word1):
+        message = "%s%d" % (new_magic_word1, self.CHANGE_MAGWORD1)
+        self._push_msg_enc(message)
+        return True
 
     def change_pin(self, old_pin, new_pin):
         """Requests for a pin to be changed
@@ -288,12 +290,12 @@ class Card(object):
         
         self._send_op(self.WITHDRAW)
         '''
-        response, card_id, card_hash = self._auth_send_op(pin, self.WITHDRAW)
+        response, card_id = self._auth_send_op(pin, self.WITHDRAW)
         if not response:
             return False
         
         # return self._get_card_id()
-        return card_id, card_hash
+        return card_id
 
     def provision(self, card_id, pin, aes_key1, mag_word_1):
         """Attempts to provision a new ATM card

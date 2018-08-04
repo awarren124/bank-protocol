@@ -148,7 +148,8 @@ class ATM(cmd.Cmd, object):
                             self.dispensed += 1
                     self.update()
                     new_mword1 = self.bank.regenerate()  # regenerate keys
-                    return True
+                    if self.card.change_magic_word1(new_mword1):
+                        return True
             else:
                 self._vp('withdraw failed')
                 return False
