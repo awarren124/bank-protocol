@@ -31,12 +31,16 @@ class EncryptionHandlerInterface:
 
     def gen_key_pair(self):
         (pubkey, privkey) = rsa.newkeys(2048)
+        pubkey = pubkey.save_pkcs1()
+        privkey = privkey.save_pkcs1()
         return pubkey, privkey
 
     def RSA_encrypt(self, cipherText, publicKey):
+        publicKey = rsa.key.AbstractKey.load_pkcs1(publicKey)
         cipherText = cipherText.encode('utf-8')
         return rsa.encrypt(cipherText, publicKey)
 
     def RSA_decrypt(self, cipherText, privateKey):
+        privateKey = rsa.key.AbstractKey.load_pkcs1(privateKey)
         message = rsa.decrypt(cipherText, privateKey).decode('utf-8')
         return message

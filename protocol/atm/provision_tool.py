@@ -84,8 +84,11 @@ if __name__ == "__main__":
         'p': test_p,
         'q': test_q
     }
-    store_keys = (rsa.PublicKey(**test_pub_key), rsa.PrivateKey(**test_priv_key))  # for testing
-    # store_keys = eh.gen_key_pair()  # RSA key pair, atm stores private, bank stores public
+    pubkey, privkey = (rsa.PublicKey(**test_pub_key), rsa.PrivateKey(**test_priv_key))  # for testing
+    # pubkey, privkey = eh.gen_key_pair()  # RSA key pair, atm stores private, bank stores public
+
+    # rsa.key.AbstractKey.load_pkcs1(key) to retrieve formatted object
+
     print "finished with RSA key pair!"
 
     magicWord1 = eh.aesEncrypt(magicWord1, key2)  # encrypt both verification words with key2
@@ -99,13 +102,13 @@ if __name__ == "__main__":
     atm_db.admin_set_key(key1, "magicWord1")  # stores magicWord1 in the atm, mapped with string "magicWord1" for access
     atm_db.admin_set_key(key2, "magicWord2")  # stores magicWord2 in the atm, mapped with string "magicWord2" for access
 
-    atm_db.admin_set_key(store_keys[0], "RSApublic")  # ditto
-    atm_db.admin_set_key(store_keys[1], "RSAprivate")  # ditto
+    atm_db.admin_set_key(pubkey, "RSApublic")  # ditto
+    atm_db.admin_set_key(privkey, "RSAprivate")  # ditto
 
     print "provision lengths:"
     print "AES key 2 length: %s" % len(str(key2))
-    print "RSA private key length: %s" % len(store_keys[1].save_pkcs1())
-    print "RSA public key length: %s" % len(store_keys[0].save_pkcs1())
+    print "RSA private key length: %s" % len(pubkey.save_pkcs1())
+    print "RSA public key length: %s" % len(privkey.save_pkcs1())
     print "Magic word 1 length: %s" % len(str(magicWord1))
     print "Magic word 2 length: %s" % len(str(magicWord2))
 
@@ -119,7 +122,7 @@ if __name__ == "__main__":
     else:
         print "Card already provisioned!"
 
-    bank.provision_key(key2, store_keys[0], magicWord1, magicWord2)  # run provision key in /atm/interface/bank,
+    bank.provision_key(key2, pubkey, magicWord1, magicWord2)  # run provision key in /atm/interface/bank,
     print "keys sent"
 
     '''

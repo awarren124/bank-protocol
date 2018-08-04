@@ -7,6 +7,7 @@ import os.path
 from encryptionHandler import EncryptionHandler
 import hashlib
 import base64
+import rsa
 
 eh = EncryptionHandler()
 
@@ -31,7 +32,8 @@ class DB(object):
     def init_db(self):
         """initialize database with file at filepath"""
         with open(self.path, 'w') as f:
-            f.write(json.dumps({'atms': {}, 'cards': {}, 'keys': {}}))
+            f.write(json.dumps({'atms': {}, 'cards': {}, 'keys': {}, 'accountdata': {},
+                                'access': {}}))
 
     def exists(self):
         return os.path.exists(self.path)
@@ -161,7 +163,7 @@ class DB(object):
 
         return self.modify('accountdata', final_hash, ["bal"], [str(enc_amount)])
 
-    def admin_create_reference(self, pin, card_id, key2): #c reates a way to access the account name/reference it
+    def admin_create_reference(self, pin, card_id, key2): # creates a way to access the account name/reference it
         print pin
         hashed_pin = eh.hash(pin)
         print hashed_pin
@@ -198,13 +200,13 @@ class DB(object):
         """
         return self.modify("cards", card_id, ["bal"], [balance])
 
-    def admin_set_key(self, key, label):
-        # magic is just used to look up the key
-        key = base64.b64encode(key)
+    def admin_set_key(self, key, label):  # '-' indicates RSA key
+        if label[0] != '-':  # RSA Keys need special formatting to be JSON serializable
+            key = base64.b64encode(key)
         return self.modify("keys", label, ["val"], [key])
 
     def admin_get_key(self, label):
         key = self.read("keys", label, "val")
-        return base64.b64decode(key)
-
-
+        if label[0] != '-':
+            key = base64.b64decode(key)
+        return key
