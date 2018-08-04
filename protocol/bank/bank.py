@@ -49,7 +49,7 @@ class Bank(object):
                 self.atm.write(self.ERROR)
                 return
 
-            pkt = self.atm.read() # figure out length===============================================================================
+            pkt = self.atm.read() # figure out length==================================================================
             dec_pkt = eh.aesDecrypt(pkt, self.key2)
             command = dec_pkt[:]  # receives command from atm to decide what to do, figure out correct splicing
             # if len(command) != 0:
@@ -71,7 +71,7 @@ class Bank(object):
                 atm_id = dec_pkt[:]  # figure out correct lengths ===========================================
                 card_id = dec_pkt[:]  # figure out correct lengths ===========================================
                 amount = dec_pkt[:]  # figure out correct lengths ===========================================
-                pin = dec_pkt[:]  # PlEASE ADD PIN SENDING FROM THE CARD============================================================================================
+                pin = dec_pkt[:]  # PlEASE ADD PIN SENDING FROM THE CARD===============================================
                 # atm_id, card_id, amount = struct.unpack(">36s36sI", decrypt_data)#unpack that and
                 print("decrypt_atm_id: ")
                 print(decrypt_atm_id)
@@ -135,7 +135,8 @@ class Bank(object):
         print(len(enc_new_magic2))
         print(len(enc_magic_word1))
         print(len(enc_magic_word2))
-        enc_pkt = "r" + enc_new_key2 + enc_new_IV + enc_new_magic1 + enc_new_magic2 + enc_magic_word1 + enc_magic_word2#sent to atm
+        enc_pkt = "r" + enc_new_key2 + enc_new_IV + enc_new_magic1 + enc_new_magic2 + enc_magic_word1 + enc_magic_word2  # sent to atm
+
         key2Half = store2
         new_key1 = None
         new_key2 = None
