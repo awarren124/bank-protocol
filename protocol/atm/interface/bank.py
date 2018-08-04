@@ -19,7 +19,7 @@ private_key = ''
 """~~~~~~~~~~~~~~~~~"""
 
 class Bank:
-    """Interface for communicating with the bank
+    """Interface for communicating with the bank from the ATM
 
     Args:
         port (serial.Serial): Port to connect to
@@ -207,8 +207,8 @@ class Bank:
         pkt = struct.pack(">36s8sI", uuid, pin, balance)
         self.ser.write("p" + pkt)
 
-    def provision_key(self,new_key2, pubkey, magicWord1, magicWord2):
-        self.ser.write("a"  + new_key2 + pubkey + magicWord1 + magicWord2)#sends the bank key2, the pub key, and the 2 encrypted magicwords
+    def provision_key(self, new_key2, pubkey, magicWord1, magicWord2):
+        self.ser.write("a" + new_key2 + pubkey + magicWord1 + magicWord2)  # sends the bank key2, the pub key, and the 2 encrypted magicwords
 
     def spliceSecondHalf(self, string):
         return string[:len(string)/2]

@@ -153,8 +153,8 @@ class DB(object):
         hashed_pin = eh.hash(pin)
         hashed_card_id = eh.hash(card_id)
         total_hash = hashed_pin + hashed_card_id
-        final_hash = eh.hash(total_hash)#this is now the sensitive info, card and pin are used to create it, but very hard to backtrace,
-        final_hash = eh.aesEncrypt(final_hash,key2)#encrypt sensitive info
+        final_hash = eh.hash(total_hash)  # this is now the sensitive info, card and pin are used to create it, but very hard to backtrace,
+        final_hash = eh.aesEncrypt(final_hash,key2)  # encrypt sensitive info
         # final_hash = "asd"
         # enc_amount = amount
         enc_amount = eh.aesEncrypt(str(amount), key2)#encrypt balance

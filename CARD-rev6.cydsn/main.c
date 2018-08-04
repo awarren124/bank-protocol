@@ -29,7 +29,6 @@
 #define PIN_OK "OK"
 #define PIN_BAD "BAD"
 #define CHANGE_PIN '3'
-#define CHANGE_MAG_WORD '4'
 
 #define PROVISIONED ((uint8*)(CY_FLASH_BASE + 0x6580))
 
@@ -221,13 +220,16 @@ int main (void)
     //recieved ciphertext
     uint8_t message[128];
     uint8_t iv[16];
-    uint8_t cipherText[48];
+    uint8_t cipherText48[48];
+    uint8_t cipherText32[32];
     
     //received information
-    uint8_t concatReceived[41]; //store decrypted ciphertext
+    uint8_t concatReceived[41]; //store decrypted ciphertext for withdraw or check balance
+    uint8_t recvMagicWord[32];  //store decrypted ciphertext for new magic word
     uint8_t receivedPIN[PIN_LEN];
     uint8_t request[1];
     uint8_t key1prime[32];
+    uint8_t new_hashed_magic_word[32];
     
     //for comparison
     uint8_t hashedReceivedPIN[32];
@@ -260,10 +262,10 @@ int main (void)
         slice(message, iv, 0, 16);
         
         // parse encrypted data
-        slice(message, cipherText, 16, 64);
+        slice(message, cipherText48, 16, 64);
         
         //decrypt encrypted data
-        aes_decrypt_blocks(cipherText, concatReceived, AES_KEY1, iv, 3);
+        aes_decrypt_blocks(cipherText48, concatReceived, AES_KEY1, iv, 3);
         
         // parse decrypted parts
         slice(concatReceived, receivedPIN, 0, 8);
@@ -277,8 +279,6 @@ int main (void)
             pushMessage((uint8*)PIN_BAD, strlen(PIN_BAD));
         }
         else if(request[0] == CHANGE_PIN){
-        }
-        else if(request[0] == CHANGE_MAG_WORD){
         }
         else{
             // assembles card data
@@ -303,6 +303,22 @@ int main (void)
             
             // replace aes key 1
             write_AES_key1(key1prime);
+            
+            //pull new magic word 1
+            pullMessage(message);
+            
+            //parse out iv
+            slice(message, iv, 0, 16);
+            
+            //parse out ciphertext
+            slice(message, cipherText32, 16, 48);
+            
+            //decrypt new magic word
+            aes_decrypt_blocks(cipherText32, recvMagicWord, AES_KEY1, iv, 2);
+            
+            //write to flash hashed version
+            sha256((char *) recvMagicWord, new_hashed_magic_word, 32);
+            write_magic_word_1_hash(new_hashed_magic_word);
         }
         
     }

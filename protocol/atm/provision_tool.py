@@ -1,11 +1,9 @@
 from interface.card import Card
 from interface.bank import Bank
-from atm import ATM
 from encryptionHandler import EncryptionHandler
 from interface.atm_db import DB
 
 import argparse
-import serial
 import os
 
 eh = EncryptionHandler()
@@ -13,7 +11,7 @@ eh = EncryptionHandler()
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("balance", type=int,
+    parser.add_argument("balance", type=int, default=500,
                         help="Starting balance for account")
     parser.add_argument("cport", help="Serial port to the card")
     parser.add_argument("bport", help="Serial port to the bank")
@@ -43,7 +41,7 @@ if __name__ == "__main__":
 
     # =====MARK=========#
     # bank.provision_update("c0573011d92ce40c8b5dbfa73025b352c899", pin, balance)
-    print "Provisioning successful"
+    # print "Provisioning successful"
 
     key1 = os.urandom(32)  # starts by generating all keys for creation of the account, key1 used between card and atm
     key2 = os.urandom(32)  # key2 is the key specifically used btwn bank and atm
@@ -56,24 +54,16 @@ if __name__ == "__main__":
     magicWord1 = eh.aesEncrypt(magicWord1, key2)  # encrypt both verification words with key2
     magicWord2 = eh.aesEncrypt(magicWord2, key2)
 
-    db = DB()  # create atm_db database object
+    atm_db = DB()  # create atm_db database object
 
-    db.admin_set_keys(key1, "CardKey")  # stores key1 in the atm, mapped with string "CardKey" for access
-    db.admin_set_keys(key2, "BankKey")  # stores key2 in the atm, mapped with string "BankKey" for access
+    atm_db.admin_set_key(key1, "CardKey")  # stores key1 in the atm, mapped with string "CardKey" for access
+    atm_db.admin_set_key(key2, "BankKey")  # stores key2 in the atm, mapped with string "BankKey" for access
 
-    db.admin_set_keys(key1, "magicWord1")  # stores magicWord1 in the atm, mapped with string "magicWord1" for access
-    db.admin_set_keys(key2, "magicWord2")  # stores magicWord2 in the atm, mapped with string "magicWord2" for access
+    atm_db.admin_set_key(key1, "magicWord1")  # stores magicWord1 in the atm, mapped with string "magicWord1" for access
+    atm_db.admin_set_key(key2, "magicWord2")  # stores magicWord2 in the atm, mapped with string "magicWord2" for access
 
-    db.admin_set_keys(store_keys[0], "RSApublic")  # ditto
-    db.admin_set_keys(store_keys[1], "RSAprivate")  # ditto
-
-    print "provision lengths:"
-    print "AES key 2 length: %s" % len(str(key2))
-    print "RSA private key length: %s" % len(str(store_keys[1]))
-    print "Magic word 1 length: %s" % len(str(magicWord1))
-    print "Magic word 2 length: %s" % len(str(magicWord2))
-    bank.provision_key(key2, store_keys[0], magicWord1, magicWord2)  # run provision key in /atm/interface/bank,
-    print"keys sent"
+    atm_db.admin_set_key(store_keys[0], "RSApublic")  # ditto
+    atm_db.admin_set_key(store_keys[1], "RSAprivate")  # ditto
 
     if card.provision(card_id, pin, key1, magicWord1):  # for general purposes, ignore
         print "Card provisioned!"
@@ -86,3 +76,23 @@ if __name__ == "__main__":
     else:
         print "Card already provisioned!"
 
+    print "provision lengths:"
+    print "AES key 2 length: %s" % len(str(key2))
+    print "RSA private key length: %s" % len(str(store_keys[1]))
+    print "Magic word 1 length: %s" % len(str(magicWord1))
+    print "Magic word 2 length: %s" % len(str(magicWord2))
+    bank.provision_key(key2, store_keys[0], magicWord1, magicWord2)  # run provision key in /atm/interface/bank,
+    print "keys sent"
+
+    '''
+    if card.provision(card_id, pin, key1, magicWord1):  # for general purposes, ignore
+        print "Card provisioned!"
+
+        # update bank
+        print "Updating bank..."
+        bank = Bank(b_port)
+        bank.provision_update(card_id, pin, balance)
+        print "Provisioning successful"
+    else:
+        print "Card already provisioned!"
+    '''

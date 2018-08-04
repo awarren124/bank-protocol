@@ -35,7 +35,6 @@ class Card(object):
     CHECK_BAL = 1
     WITHDRAW = 2
     CHANGE_PIN = 3
-    CHANGE_MAGWORD1 = 4
 
     def __init__(self, port=None, verbose=False, baudrate=115200, timeout=2):
         self.ser = serial.Serial(port, baudrate, timeout=timeout)
@@ -77,7 +76,7 @@ class Card(object):
         iv = eh.initializationVector
         eh.regenIV()
         # pkt = struct.pack("16s%ds" % (len(enc_msg)), iv, enc_msg)  #
-        pkt = struct.pack("B16s48s", 64, iv, enc_msg)  # 16 byte iv, 48 byte ciphertext
+        pkt = struct.pack("B16s48s", 16+len(enc_msg), iv, enc_msg)  # 16 byte iv, 16+N bytes total
         self.ser.write(pkt)
         time.sleep(0.1)
 
@@ -221,7 +220,7 @@ class Card(object):
         return False, ""
 
     def change_magic_word1(self, new_magic_word1):
-        message = "%s%d" % (new_magic_word1, self.CHANGE_MAGWORD1)
+        message = "%s%d" % new_magic_word1
         self._push_msg_enc(message)
         return True
 

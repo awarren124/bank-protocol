@@ -209,8 +209,7 @@ def parse_args():
     parser.add_argument("--verbose", action="store_true",
                         help="Print verbose debug information")
     args = parser.parse_args()
-    return args.bankport, args.cardport, args.config, args.billfile, \
-           args.verbose
+    return args.bankport, args.cardport, args.config, args.billfile, args.verbose
 
 
 if __name__ == "__main__":

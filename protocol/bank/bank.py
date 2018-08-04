@@ -76,9 +76,9 @@ class Bank(object):
                 print("decrypt_card_id: ")
                 print(decrypt_card_id)
                 print("decrypt_amount")
-                print(decrypt_amount)
-                self.withdraw(atm_id, card_id, amount, pin)#run withdraw
-                self.regenerate(self,(atm_id, card_id))#fix parameters, regenerate takes these arbitrarily pointless inputs, please fix =======================================
+                # print(decrypt_amount)
+                self.withdraw(atm_id, card_id, amount, pin)  # run withdraw
+                self.regenerate(self, (atm_id, card_id))  # fix parameters, regenerate takes these arbitrarily pointless inputs, please fix =======================================
             elif decrypt_instruction == 'b':
                 log("Checking balance")
                 # pkt = self.atm.read(72)
