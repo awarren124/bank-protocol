@@ -6,18 +6,12 @@ from encryptionHandler import EncryptionHandler
 eh = EncryptionHandler()
 
 
-
 """TODO: MAKE KEYS STORED IN A JSON FILE"""
 """TEMPORARRRYYYYY"""
 key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
 key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
 
 """~~~~~~~~~~~~~~~~~"""
-
-
-
-
-
 
 
 class NotProvisioned(Exception):
@@ -104,7 +98,8 @@ class Card(object):
             self._vp('Sending ready message')
             self._push_msg("READY\00")
             resp = self._pull_msg()
-            self._vp('Got response \'%s\', want something from \'%s\'' % (resp, str(names)))
+            self._vp('Got response \'%s\', want something from \'%s\'' %
+                     (resp, str(names)))
 
             # if in wrong state (provisioning/normal)
             if len(names) == 1 and resp != names[0] and resp[:-1] == names[0][:-1]:
@@ -134,10 +129,10 @@ class Card(object):
         Returns:
             str: UUID of ATM card
         """
-        uuid = self._pull_msg()#key1) 
-        #decrypt
+        uuid = self._pull_msg()  # key1)
+        # decrypt
 
-        #eh.aesDecrypt()
+        # eh.aesDecrypt()
 
         self._vp('Card sent UUID %s' % uuid)
         return uuid
