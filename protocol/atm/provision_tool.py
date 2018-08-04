@@ -32,12 +32,10 @@ if __name__ == "__main__":
     print "Creating card object..."
     card = Card(c_port, baudrate=c_baud, verbose=True)
     card_id = os.urandom(18).encode("hex")
-  
     print "Card object created!"
 
-    # update bank
-    print "Updating bank..."
     bank = Bank(b_port)
+    print "Linked to bank!"
 
     # =====MARK=========#
     # bank.provision_update("c0573011d92ce40c8b5dbfa73025b352c899", pin, balance)
@@ -49,7 +47,9 @@ if __name__ == "__main__":
     magicWord1 = os.urandom(32)  # verification words, stored by both atm and bank upon creation
     magicWord2 = os.urandom(32)  # verification words, stored by both atm and bank upon creation
 
+    print "creating RSA key pair!"
     store_keys = eh.gen_key_pair()  # RSA key pair, atm stores private, bank stores public
+    print "finished with RSA key pair!"
 
     magicWord1 = eh.aesEncrypt(magicWord1, key2)  # encrypt both verification words with key2
     magicWord2 = eh.aesEncrypt(magicWord2, key2)
@@ -70,7 +70,6 @@ if __name__ == "__main__":
 
         # update bank
         print "Updating bank..."
-        bank = Bank(b_port)
         bank.provision_update(card_id, pin, balance)
         print "Provisioning successful"
     else:

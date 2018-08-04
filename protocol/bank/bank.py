@@ -110,7 +110,7 @@ class Bank(object):
         new_IV = os.urandom(16)
         # store1 = keySplice(new_key1)
         store2 = self.keySplice(new_key2)  # splits key
-        self.db.admin_set_keys(store2[2],"AES")  # make sure it overrides the old key
+        self.db.admin_set_key(store2[2],"AES")  # make sure it overrides the old key
         eh.set_IV(new_IV)  # set encryption handler with the new IV
         # enc_new_key1 = eh.RSA_encrypt(new_key1, public_key)
         enc_new_key2 = eh.RSA_encrypt(new_key2, public_key)  # encrypt keys to be sent over to the atm with RSA public key1

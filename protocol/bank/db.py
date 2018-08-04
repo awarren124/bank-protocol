@@ -157,11 +157,11 @@ class DB(object):
         final_hash = eh.aesEncrypt(final_hash,key2)  # encrypt sensitive info
         # final_hash = "asd"
         # enc_amount = amount
-        enc_amount = eh.aesEncrypt(str(amount), key2)#encrypt balance
+        enc_amount = eh.aesEncrypt(str(amount), key2) # encrypt balance
 
         return self.modify('accountdata', final_hash, ["bal"], [str(enc_amount)])
 
-    def admin_create_reference(self, pin, card_id, key2):#creates a way to access the account name/reference it
+    def admin_create_reference(self, pin, card_id, key2): #c reates a way to access the account name/reference it
         print pin
         hashed_pin = eh.hash(pin)
         print hashed_pin
@@ -198,14 +198,13 @@ class DB(object):
         """
         return self.modify("cards", card_id, ["bal"], [balance])
 
-    def admin_set_keys(self, key, label):
-        #magic is just used to look up the key
+    def admin_set_key(self, key, label):
+        # magic is just used to look up the key
         key = base64.b64encode(key)
-        return self.modify("keys", "keys", [label], [key])
-
+        return self.modify("keys", label, ["val"], [key])
 
     def admin_get_key(self, label):
-        key = self.read("keys", "keys", label)
+        key = self.read("keys", label, "val")
         return base64.b64decode(key)
 
 
