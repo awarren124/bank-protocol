@@ -4,7 +4,10 @@ import time
 import serial
 import os
 from encryptionHandlerInterface import EncryptionHandlerInterface
+import Adafruit_BBIO.UART as UART
 
+UART.setup("UART4")
+UART.setup("UART1")
 eh = EncryptionHandlerInterface()
 
 """TODO: MAKE KEYS STORED IN A JSON FILE"""

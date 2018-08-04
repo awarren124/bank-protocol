@@ -7,6 +7,10 @@ from encryptionHandlerInterface import EncryptionHandlerInterface
 from atm_db import ATM_DB
 eh = EncryptionHandlerInterface()
 
+import Adafruit_BBIO.UART as UART
+
+UART.setup("UART4")
+UART.setup("UART1")
 
 
 """TODO: MAKE KEYS STORED IN A JSON FILE"""
