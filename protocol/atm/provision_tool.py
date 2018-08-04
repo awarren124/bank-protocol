@@ -78,6 +78,8 @@ if __name__ == "__main__":
         'n': test_n
     }
     test_priv_key = {
+        'n': test_n,
+        'e': 65537,
         'd': test_d,
         'p': test_p,
         'q': test_q
