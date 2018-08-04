@@ -19,5 +19,3 @@ When the card, ATM, and bank were first created they were programmed to have cer
 
     Changes:
 The final design will be using our original design where the keys are all stored in plaintext, but the code will work and the ise woll be able to receive money from the bank, change their PIN, and check their balance. For security all of the keys will regenerate after each transaction. To secure each ttansaction the keys will be hashed and encrypted so that nobody can attack our design and code.
-
-    How our code works:
