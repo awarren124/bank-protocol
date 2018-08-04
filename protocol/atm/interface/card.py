@@ -54,7 +54,7 @@ class Card(object):
             stream("card: " + msg)
 
     @staticmethod
-    def _pad_multi_16(self, array):
+    def _pad_multi_16(array):
         return array
 
     def _push_msg(self, msg):
@@ -200,27 +200,35 @@ class Card(object):
     def _auth_send_op(self, pin, op):
         """Sends encrypted PIN and operation to ATM card.
             Returns Card ID
+            Only works with withdraw or check balance
 
         Args:
             pin (string): Inputted PIN to send
             op (int): Operation to send
 
         """
-        assert(1 <= op <= 4)
-        if op <= 2:
-            self._vp('Sending pin %s and op %d' % (pin, op))
-            new_key1 = os.urandom(32)
-            message = "%s%d%s" % (pin, op, new_key1)  # 8 byte pin, 1 byte op, 32 byte key1
-            self._push_msg_enc(message)
+        assert(1 <= op <= 2)
+        self._vp('Sending pin %s and op %d' % (pin, op))
+        new_key1 = os.urandom(32)
+        message = "%s%d%s" % (pin, op, new_key1)  # 8 byte pin, 1 byte op, 32 byte key1
+        self._push_msg_enc(message)
 
-            resp = self._pull_msg_enc()
-            if resp[-32::] == eh.hash(self.magic_word_1):
-                self._vp('Card response good, card received op')
-                self.aes_key1 = new_key1
-                card_id = resp[:36:]
-                return True, card_id
-            return False, "", ""
+        resp = self._pull_msg_enc()
+        if resp[-32::] == eh.hash(self.magic_word_1):
+            self._vp('Card response good, card received op')
+            self.aes_key1 = new_key1
+            card_id = resp[:36:]
+            return True, card_id
         return False, "", ""
+
+
+    def _send_new_mword1(self, new_mword1, op):
+    	assert(op == 4)
+    	message = "%s%d" % (new_mword1, op)
+    	self._push_msg_enc(message)
+
+    	return True
+
 
     def change_pin(self, old_pin, new_pin):
         """Requests for a pin to be changed
