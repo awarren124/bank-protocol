@@ -85,6 +85,8 @@ if __name__ == "__main__":
         'q': test_q
     }
     pubkey, privkey = (rsa.PublicKey(**test_pub_key), rsa.PrivateKey(**test_priv_key))  # for testing
+    pubkey = pubkey.save_pkcs1()
+    privkey = privkey.save_pkcs1()
     # pubkey, privkey = eh.gen_key_pair()  # RSA key pair, atm stores private, bank stores public
 
     # rsa.key.AbstractKey.load_pkcs1(key) to retrieve formatted object
@@ -107,8 +109,8 @@ if __name__ == "__main__":
 
     print "provision lengths:"
     print "AES key 2 length: %s" % len(str(key2))
-    print "RSA private key length: %s" % len(pubkey.save_pkcs1())
-    print "RSA public key length: %s" % len(privkey.save_pkcs1())
+    print "RSA private key length: %s" % len(pubkey)
+    print "RSA public key length: %s" % len(privkey)
     print "Magic word 1 length: %s" % len(str(magicWord1))
     print "Magic word 2 length: %s" % len(str(magicWord2))
 

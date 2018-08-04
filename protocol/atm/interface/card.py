@@ -106,6 +106,7 @@ class Card(object):
         """
         hdr = self.ser.read(1)
         if len(hdr) != 1:
+            print 'bad header'
             self._vp("RECEIVED BAD HEADER: \'%s\'" % hdr, logging.error)
             return ''
 
@@ -133,10 +134,12 @@ class Card(object):
         """
         if provision:
             if not self._sync_once(["CARD_P"]):
+                print 'Card already provisioned'
                 self._vp("Already provisioned!", logging.error)
                 raise AlreadyProvisioned
         else:
             if not self._sync_once(["CARD_N"]):
+                print 'Card not yet provisioned!'
                 self._vp("Not yet provisioned!", logging.error)
                 raise NotProvisioned
         self._push_msg("GO\00")
@@ -210,11 +213,13 @@ class Card(object):
         """
         assert(1 <= op <= 2)
         self._vp('Sending pin %s and op %d' % (pin, op))
+        print 'Sending pin %s and op %d' % (pin, op)
         new_key1 = os.urandom(32)
         message = "%s%d%s" % (pin, op, new_key1)  # 8 byte pin, 1 byte op, 32 byte key1
         self._push_msg_enc(message)
 
         resp = self._pull_msg_enc()
+        print 'received response from card'
         if resp[-32::] == eh.hash(self.magic_word_1):
             self._vp('Card response good, card received op')
             self.aes_key1 = new_key1

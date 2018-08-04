@@ -30,7 +30,7 @@
 #define PIN_BAD "BAD"
 #define CHANGE_PIN '3'
 
-#define PROVISIONED ((uint8*)(CY_FLASH_BASE + 0x6580))
+#define PROVISIONED ((uint8*)(CY_FLASH_BASE + 0x6560))
 
 #define PINHASH ((uint8*)(CY_FLASH_BASE + 0x6400))
 #define CARDID ((uint8*)(CY_FLASH_BASE + 0x6480))
