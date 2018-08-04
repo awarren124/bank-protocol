@@ -33,10 +33,12 @@ class Bank(object):
         print(self.BAD)
         print(self.ERROR)
         print(self.GOOD)
+
         while True:
             start = self.atm.read()
             if start != "a":
                 continue
+
             hashWord = self.atm.read(32)  # set proper length, receives the hashed version of magic word1
             aesSeed2H = self.atm.read(16)  # receives the first half of key2
             accessKey = self.db.get_key("AES") + aesSeed2H  # combines both halves of key2
@@ -119,10 +121,13 @@ class Bank(object):
         self.db.re_encrypt(account_reference, new_key2, self.key2)  # re-encrypts account data using new keys
         enc_magic_word1 = eh.RSA_encrypt(eh.aesDecrypt(self.db.get_key("magicWord1"), self.key2), public_key)
         enc_magic_word2 = eh.RSA_encrypt(eh.aesDecrypt(self.db.get_key("magicWord2"), self.key2), public_key)
+
         self.db.modify("keys", "keys", "magicWord1", new_magicWord1)  # sets the magicwords with the new ones
         self.db.modify("keys", "keys", "magicWord2", new_magicWord2)
+
         enc_new_magic1 = eh.RSA_encrypt(new_magicWord1, public_key)
         enc_new_magic2 = eh.RSA_encrypt(new_magicWord2, public_key)
+
         print("lengths in order, fill in")
         print(len(enc_new_key2))
         print(len(enc_new_IV))

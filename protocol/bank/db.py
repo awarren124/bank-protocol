@@ -31,7 +31,7 @@ class DB(object):
     def init_db(self):
         """initialize database with file at filepath"""
         with open(self.path, 'w') as f:
-            f.write(json.dumps({'atms': {}, 'cards': {}}))
+            f.write(json.dumps({'atms': {}, 'cards': {}, 'keys': {}}))
 
     def exists(self):
         return os.path.exists(self.path)
@@ -107,8 +107,8 @@ class DB(object):
             return atm_id
         return None
 
-    def get_key(self, magic):
-        return self.read("key", magic, "key")
+    def get_key(self, label):
+        return self.read("keys", label, "val")
 
     def get_atm_num_bills(self, atm_id):
         """get number of bills in atm: atm_id

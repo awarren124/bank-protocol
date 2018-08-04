@@ -7,7 +7,7 @@ import os.path
 import base64
 
 
-class DB(object):
+class ATM_DB(object):
     """Implements a Database interface for the bank server and admin interface"""
     def __init__(self, db_path="atmcontents.json"):
         self.path = db_path
@@ -27,7 +27,7 @@ class DB(object):
     def init_db(self):
         """initialize database with file at filepath"""
         with open(self.path, 'w') as f:
-            f.write(json.dumps({'atms': {}, 'cards': {}}))
+            f.write(json.dumps({'keys': {}}))
 
     def exists(self):
         return os.path.exists(self.path)

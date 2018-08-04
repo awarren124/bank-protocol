@@ -53,10 +53,10 @@ if __name__ == "__main__":
             db.admin_create_reference(pin, card_id, key2)
             print("success")
             key2 = key2[len(key2)/2:]  # cuts key2 in half to be stored
-            db.admin_set_keys(key2,"AES")  # stores appropriate keys with appropriate access string in the bank database
-            db.admin_set_keys(public_key, "RSA")  # ditto
-            db.admin_set_keys(magicWord1, "magicWord1")  # ditto
-            db.admin_set_keys(magicWord2, "magicWord2")  # ditto
+            db.admin_set_key(key2,"AES")  # stores appropriate keys with appropriate access string in the bank database
+            db.admin_set_key(public_key, "RSA")  # ditto
+            db.admin_set_key(magicWord1, "magicWord1")  # ditto
+            db.admin_set_key(magicWord2, "magicWord2")  # ditto
             key2 = None
     except KeyboardInterrupt:
         print("Shutting down...")

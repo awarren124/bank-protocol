@@ -1,7 +1,7 @@
 from interface.card import Card
 from interface.bank import Bank
 from encryptionHandler import EncryptionHandler
-from interface.atm_db import DB
+from interface.atm_db import ATM_DB
 
 import argparse
 import os
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     magicWord1 = eh.aesEncrypt(magicWord1, key2)  # encrypt both verification words with key2
     magicWord2 = eh.aesEncrypt(magicWord2, key2)
 
-    atm_db = DB()  # create atm_db database object
+    atm_db = ATM_DB()  # create atm_db database object
 
     atm_db.admin_set_key(key1, "CardKey")  # stores key1 in the atm, mapped with string "CardKey" for access
     atm_db.admin_set_key(key2, "BankKey")  # stores key2 in the atm, mapped with string "BankKey" for access

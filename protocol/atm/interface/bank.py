@@ -4,7 +4,7 @@ import logging
 import struct
 import serial
 from encryptionHandlerInterface import EncryptionHandlerInterface
-from atm_db import DB
+from atm_db import ATM_DB
 eh = EncryptionHandlerInterface()
 
 
@@ -13,7 +13,6 @@ eh = EncryptionHandlerInterface()
 """TEMPORARRRYYYYY"""
 key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
 key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
-private_key = ''
 
 
 """~~~~~~~~~~~~~~~~~"""
@@ -27,7 +26,7 @@ class Bank:
 
     def __init__(self, port, verbose=False, db_path="atmcontents.json"):
         self.ser = serial.Serial(port, baudrate = 115200)
-        self.atm_db = DB(db_path=db_path)  # figure this out, not sure if it will work
+        self.atm_db = ATM_DB(db_path=db_path)  # figure this out, not sure if it will work
         self.verbose = verbose
 
     def _vp(self, msg, stream=logging.info):
@@ -154,24 +153,28 @@ class Bank:
         entire_packet = self.ser.read()     # change to fit RSA  ======================================
         dec_pkt = eh.RSA_decrypt(entire_packet, private_key)
 
-        command = dec_pkt[0]# get o from decrypted concatenated string
+        command = dec_pkt[0] # get o from decrypted concatenated string
         print("wait")
         if command == 'O':
-            #figure out the lengths of each individual things that was encrypted to seperate each important piece
+            # figure out the lengths of each individual things that was encrypted to seperate each important piece
             dec_atm_id = eh.RSA_decrypt(read_atm_id, private_key)
             print(dec_atm_id)
             print("102")
+
             # figure out the lengths of each individual things that was encrypted to seperate each important piece
             dec_card_id = eh.RSA_decrypt(read_card_id, private_key)
             print(dec_card_id)
             print("103")
+
             # figure out the lengths of each individual things that was encrypted to seperate each important piece
             dec_amount = eh.RSA_decrypt(read_amount, private_key)
             print(dec_amount)
             print("hii")
+
             dec_magic_word2 = eh.RSA_decrypt(read_amount, private_key)
             # figure out the lengths of each individual things that was encrypted to seperate each important piece
             # aid, cid = struct.unpack(">36s36s", pkt)
+
             if dec_magic_word2 == self.atm_db.admin_get_key("magicWord2"):#checks magic word for verification
                 self._vp('withdraw: Withdrawal accepted')
                 return True
@@ -183,6 +186,7 @@ class Bank:
         command = ''
         while command != 'r':
             command = self.ser.read(1)  # receives everything from bank
+
         # rec_new_key1 = self.ser.read()
         rec_new_key2 = self.ser.read()
         rec_new_IV = self.ser.read()
@@ -192,11 +196,13 @@ class Bank:
         rec_new_magic2 = self.ser.read()
         ver_magic1 = self.ser.read()
         ver_magic2 = self.ser.read()
+
         dec_new_key2 = eh.RSA_decrypt(rec_new_key2, private_key)
         dec_new_magic1 = eh.RSA_decrypt(rec_new_magic1, private_key)
         dec_new_magic2 = eh.RSA_decrypt(rec_new_magic2, private_key)
         dec_ver_magic1 = eh.RSA_decrypt(ver_magic1, private_key)
         dec_ver_magic2 = eh.RSA_decrypt(ver_magic2, private_key)
+
         if dec_ver_magic1 == self.atm_db.admin_get_key("magicWord1") and dec_ver_magic2 == self.atm_db.admin_get_key("magicWord2"):#check line syntax, checks to verify the bank is the bank
             self.atm_db.admin_set_key(dec_new_key2, "BankKey")  # replaces bank key with new key
             self.atm_db.admin_set_key(dec_new_magic1, "magicWord1")  # replaces magic words
