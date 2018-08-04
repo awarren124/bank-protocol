@@ -1,7 +1,6 @@
 from Crypto.Cipher import AES
-from Crypto.PublicKey import RSA
-import hashlib
 import rsa
+import hashlib
 import base64
 
 
@@ -31,17 +30,6 @@ class EncryptionHandler:
         plaintext = str(aes.decrypt(ciphertext))
         print(plaintext)
         plaintext = plaintext[:plaintext.find(self.padCharacter)]
-        return plaintext
-
-    def rsaEncrypt(self, plaintext, key):
-        rsa = RSA.importKey(key)
-        plaintext = plaintext.encode('utf-8')
-        ciphertext = rsa.encrypt(plaintext, self.numberThatDoesntMatter)[0]
-        return ciphertext
-
-    def rsaDecrypt(self, ciphertext, key):
-        rsa = RSA.importKey(key)
-        plaintext = rsa.decrypt(ciphertext).decode('utf-8')
         return plaintext
 
     def hash(self, plaintext):
