@@ -162,22 +162,26 @@ class Bank(object):
             self.atm.write(encrypt_error)  # COULD BE HIJACKED
             log("Bad value sent")
             return
+
         public_key = self.db.get_key("RSA")  # retrieve rsa public key from database
-        hashed_pin = eh.hash(pin)  # take the card, pin sent from atm, and concatenate and hash to verify it is the real info
+        hashed_pin = eh.hash(pin)  # Take the card ID and pin sent from atm. Concatenate and hash to verify
         hashed_card_id = eh.hash(card_id)
         total_hash = hashed_pin + hashed_card_id
         final_hash = eh.hash(total_hash)
+
         enc_account_reference = self.db.get_account_reference("account1")  # gets accounts reference id
         account_reference = eh.aesDecrypt(enc_account_reference, self.key2)  # decrypt the reference and compare
-        balance = 0
-        if account_reference != final_hash:  # checks to make sure the atm information, matches the actual matches the actual bank infromation
+
+        if account_reference != final_hash:  # checks to make sure the atm information matches the bank infromation
             encrypt_error = eh.aesEncrypt(self.ERROR, self.key2)
             self.atm.write(self.ERROR)  # COULD BE HIJACKED
             log("bad information")
             return
+
         enc_balance = self.db.get_balance(enc_account_reference)  # uses accounts reference id to get the balance
         balance = eh.aesDecrypt(enc_balance, self.key2)  # sets balance accordingly
         atm = self.db.get_atm(atm_id)  # change this/not sure what this is actually doing, please figure out
+
         print "card id (hex): " + card_id.encode('hex')
         print "checking atm: " + str(atm_id.encode('hex'))
         if atm is None:  # Figure out what this is doing

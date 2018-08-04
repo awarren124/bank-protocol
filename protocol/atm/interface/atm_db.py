@@ -165,10 +165,13 @@ class ATM_DB(object):
 
     def admin_set_key(self, key, label):
         # magic is just used to look up the key
-        key = base64.b64encode(key)
+        if label[:3:] != 'RSA':  # RSA Keys don't need base64 encoding
+            key = base64.b64encode(key)
         return self.modify("keys", label, ["val"], [key])
 
     def admin_get_key(self, label):
         key = self.read("keys", label, "val")
+        if label[:3:] == 'RSA':
+            return key
         return base64.b64decode(key)
 
