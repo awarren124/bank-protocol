@@ -4,9 +4,9 @@ import logging
 import struct
 import serial
 from encryptionHandler import EncryptionHandler
-from atmDBHandler import AtmDBHandler
+from keyDBHandler import KeyDBHandler
 eh = EncryptionHandler()
-dbHandler = AtmDBHandler('atmcontents.json')
+dbHandler = KeyDBHandler('atmcontents.json')
 
 """TODO: MAKE KEYS STORED IN A JSON FILE"""
 """TEMPORARRRYYYYY"""
@@ -123,6 +123,7 @@ class Bank:
         encAtmId = eh.aesEncrypt(atm_id, key2)
         encCardId = eh.aesEncrypt(card_id, key2)
         encAmount = eh.aesEncrypt(str(amount), key2)
+        encNewKey2Encoded = eh.aesEncrypt(newKey2Encoded, key2)
 
         print "len(encAtmId):"
         print len(encAtmId)
@@ -130,8 +131,10 @@ class Bank:
         print len(encCardId)
         print "len(encAmount):"
         print len(encAmount)
+        print "len(encNewKey2Encoded):"
+        print len(encNewKey2Encoded)
 
-        pkt = encCommand + encAtmId + encCardId + encAmount
+        pkt = encCommand + encAtmId + encCardId + encAmount + encNewKey2Encoded
 
         # encryption
         # enc_pkt = eh.aesEncrypt(pkt, key2)

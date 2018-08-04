@@ -2,7 +2,7 @@ import json
 import base64
 
 
-class AtmDBHandler:
+class KeyDBHandler:
 
     def __init__(self, fn):
         self.fileName = fn
@@ -13,7 +13,7 @@ class AtmDBHandler:
             data = json.load(file)
             data["keys"][label] = key
         with open(self.fileName, 'w') as file:
-            json.dump(data, file)
+            json.dump(data, file, indent=2)
 
     def readKey(self, label):
         with open(self.fileName) as file:

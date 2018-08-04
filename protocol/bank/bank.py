@@ -14,10 +14,14 @@ from encryptionHandler import EncryptionHandler
 from Crypto.Cipher import AES
 from Crypto.PublicKey import RSA
 import hashlib
+import base64
+from keyDBHandler import KeyDBHandler
+
 key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
 key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
 
 eh = EncryptionHandler()
+keyDBHandler = KeyDBHandler('bank.json')
 # accessKey2 = eh.hash(key2)
 
 
@@ -36,6 +40,7 @@ class Bank(object):
         print self.BAD
         print self.ERROR
         print self.GOOD
+        key2 = keyDBHandler.readKey("Key 2")
         while True:
             command = self.atm.read(16)#FLAG FOR DECODE, receives command from atm to decide what to do
             # if len(command) != 0:
@@ -43,6 +48,7 @@ class Bank(object):
             print("length = %s" % (len(command)))
             decrypt_instruction = None
             try:
+                key2 = keyDBHandler.readKey("Key 2")
                 decrypt_instruction = eh.aesDecrypt(command, key2)[0]
                 print decrypt_instruction
             except:
@@ -61,9 +67,12 @@ class Bank(object):
                 atm_id = self.atm.read(48)
                 card_id = self.atm.read(48)
                 amount = self.atm.read(16)
+                encryptedEncodedNewKey2 = self.atm.read(48)
                 decrypt_atm_id = eh.aesDecrypt(atm_id,key2)
                 decrypt_card_id = eh.aesDecrypt(card_id, key2)
                 decrypt_amount = eh.aesDecrypt(amount, key2)
+                encodedNewKey2 = eh.aesDecrypt(encryptedEncodedNewKey2, key2)
+                newKey2 = base64.b64decode(encodedNewKey2)
                 # print "num: " + num 
                 # atm_id, card_id, amount = struct.unpack(">36s36sI", decrypt_data)#unpack that and
                 print "decrypt_atm_id: "
@@ -72,6 +81,9 @@ class Bank(object):
                 print decrypt_card_id
                 print "decrypt_amount"
                 print decrypt_amount
+                print "newKey2"
+                print newKey2
+                keyDBHandler.writeKey("Key 2", newKey2)
                 self.withdraw(decrypt_atm_id, decrypt_card_id, decrypt_amount)
             elif decrypt_instruction == 'b':
                 log("Checking balance")
