@@ -36,6 +36,7 @@ class ATM(cmd.Cmd, object):
 
     def __init__(self, bank, card, config_path="config.json",
                  billfile="billfile.out", verbose=False):
+
         super(ATM, self).__init__()
         self.bank = bank
         self.card = card
@@ -43,7 +44,7 @@ class ATM(cmd.Cmd, object):
         self.billfile = billfile
         self.verbose = verbose
         cfg = self.config()
-        self.atm_id = cfg["atm_id"].decode("hex")
+        self.atm_id = cfg["atm_id"].decode("hex")  # 36 bytes long
         self.dispensed = int(cfg["dispensed"])
         self.bills = cfg["bills"]
         self.update()
@@ -125,34 +126,38 @@ class ATM(cmd.Cmd, object):
         Args:
             pin (str): 8 digit PIN currently associated with the connected
                 ATM card
-            amount (int): number of bills to withdraw
+            amount (str): number of bills to withdraw
 
         Returns:
             list of str: Withdrawn bills on success
             bool: False on failure
         """
         try:
-            self._vp('withdraw: Requesting card_id from card')  # code unchanged
-            card_id = self.card.withdraw(pin)
-            # print(card_id)
-            # request atm_id from HSM if card accepts PIN
+            self._vp('withdraw: Requesting card_id from card')
+            card_id = self.card.withdraw(pin)  # card interface executes protocol
+
             if card_id:
                 print("Communicated with card")
-                self._vp('withdraw: Requesting hsm_id from hsm')
+                self._vp('withdraw: Sending request to bank')
+
                 if self.bank.withdraw(self.atm_id, card_id, pin, amount):  # run withdraw in /interface/bank.py
                     with open(self.billfile, "w") as f:
                         self._vp('withdraw: Dispensing bills...')
-                        for i in range(self.dispensed, self.dispensed + amount):
+                        for i in range(self.dispensed, self.dispensed + int(amount)):
                             f.write(self.bills[i] + "\n")
                             self.bills[i] = "-DISPENSED BILL-"
                             self.dispensed += 1
-                    self.update()
-                    new_mword1 = self.bank.regenerate()  # regenerate keys
-                    if self.card.change_magic_word1(new_mword1):
+
+                    self.update()  # update new dispensed bills
+                    new_mword1 = self.bank.regenerate()  # regenerate keys with bank interface, receive new magic word 1
+                    if self.card.change_magic_word1(new_mword1):  # send new magic word 1 to card, card interface
                         return True
+                else:
+                    print 'withdraw from bank failed'
             else:
                 self._vp('withdraw failed')
                 return False
+
         except ValueError:
             self._vp('amount must be an int')
             return False
@@ -179,11 +184,11 @@ class ATM(cmd.Cmd, object):
         """Withdraw"""
         pin = self.get_pin()
 
-        amount = 'bad'
-        while not amount.isdigit():
-            amount = raw_input("Please enter valid amount to withdraw: ")
+        amount = 'not correct'
+        while not len(amount) == 3 and amount.isdigit():
+            amount = raw_input("Please enter valid amount to withdraw, 3 digits: ")
 
-        if self.withdraw(pin, int(amount)):
+        if self.withdraw(pin, amount):
             print("Withdraw success!")
         else:
             print("Withdraw failed!")

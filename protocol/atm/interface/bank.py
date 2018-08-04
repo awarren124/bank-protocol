@@ -5,21 +5,15 @@ import struct
 import serial
 from encryptionHandlerInterface import EncryptionHandlerInterface
 from atm_db import ATM_DB
-eh = EncryptionHandlerInterface()
-
 import Adafruit_BBIO.UART as UART
 
 UART.setup("UART4")
 UART.setup("UART1")
 
+eh = EncryptionHandlerInterface()
+SPACING = '+'
+PADDING = '_'
 
-"""TODO: MAKE KEYS STORED IN A JSON FILE"""
-"""TEMPORARRRYYYYY"""
-key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
-key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
-
-
-"""~~~~~~~~~~~~~~~~~"""
 
 class Bank:
     """Interface for communicating with the bank from the ATM
@@ -27,7 +21,9 @@ class Bank:
     Args:
         port (serial.Serial): Port to connect to
     """
-
+    GOOD = "O"
+    BAD = "N"
+    ERROR = "E"
     def __init__(self, port, verbose=False, db_path="atmcontents.json"):
         self.ser = serial.Serial(port, baudrate = 115200)
         self.atm_db = ATM_DB(db_path=db_path)  # figure this out, not sure if it will work
@@ -56,6 +52,7 @@ class Bank:
         """
         self._vp('check_balance: Sending request to Bank')
         print("check1")
+        key2 = self.atm_db.admin_get_key("BankKey")
         enc_command = eh.aesEncrypt("b", key2)
         enc_atm_id = eh.aesEncrypt(atm_id, key2)
         enc_card_id = eh.aesEncrypt(card_id, key2)
@@ -94,96 +91,69 @@ class Bank:
         """Requests a withdrawal from the account associated with the card_id
 
         Args:
-            atm_id (str): UUID of the HSM
-            card_id (str): UUID of the ATM card
+            atm_id (str): ID of the ATM
+            card_id (str): ID of the ATM card
+            pin (str): PIN of ATM card
             amount (str): Requested amount to withdraw
 
         Returns:
-            str: hsm_id on success
-            bool: False on failure
+            boolean: True on success
+            bool: False on error or failure
         """
         key2 = self.atm_db.admin_get_key("BankKey")
         magic_word1 = self.atm_db.admin_get_key("magicWord1")
         private_key = self.atm_db.admin_get_key("RSAprivate")
-        # magic_word1 = eh.aesDecrypt(magic_word1, key2)#atm decrypts magic word1
-        print("bank withdraw1")
+
+        print("bank withdraw")
         self._vp('withdraw: Sending request to Bank')
-        print("bank withdraw2")
-        hash_magic = eh.hash(magic_word1)
-        print(len(hash_magic))
+        hash_magic1 = eh.hash(magic_word1)
+        print(len(hash_magic1))
         self.ser.write("a")  # start byte
 
-        self.ser.write(hash_magic)  # verification, sends hashed version of magicword1 so the bank, can use it to compare, and verify the atm
-        firstHalf = self.spliceSecondHalf(key2)  # split key, and send over first half to be combined with the second half, so it could be properly used
+        self.ser.write(hash_magic1)  # verification, sends hashed version of magicword1 so bank can compare, 32 bytes
+        firstHalf = self.spliceSecondHalf(key2)  # split key, and send over first half, 16 bytes
         print(len(firstHalf))
-        command = "w" # withdraw
         self.ser.write(firstHalf)
 
-        print("len(AtmId):")
+        print("len(AtmId):")  # 36 bytes
         print(len(atm_id))
-        print("len(CardId):")
+        print("len(CardId):")  # 36 bytes
         print(len(card_id))
-        print("len(Amount):")
-        print(len(str(amount)))
-        print("len(Pin):")
-        print(len(str(pin)))
+        print("len(Amount):")  # 3 bytes
+        print(len(amount))
+        print("len(Pin):")  # 8 bytes
+        print(len(pin))
 
-        pkt = command + atm_id + card_id + str(amount) + str(pin)
-        enc_pkt = eh.aesEncrypt(pkt, key2)
+        command = "w"  # withdraw
+        pkt = SPACING.join([command, atm_id, card_id, amount, pin])  # 1 + 36 + 36 + 3 + 8 + 4 (pad) = 88 bytes
+        enc_pkt = eh.aesEncrypt(pkt, key2)  # padded to 96 bytes
 
-        # len(atm_id) == 72
-
-        # data = struct.pack(">36s36sI", atm_id, card_id, amount)
-        # encData = eh.aesEncrypt(data, key2)
-
-
-        #///////////////////////////////////////////////////////////////////////////////////////////////////
+        # ///////////////////////////////////////////////////////////////////////////////////////////////////
         # encryption
-        # enc_pkt = eh.aesEncrypt(pkt, key2)
-        # self.ser.write(len(enc_pkt))
-        print(pkt)
-        self.ser.write(pkt)#sends
+
+        print("Packet: %s" % pkt)
+        self.ser.write(enc_pkt)  # send
         print("sent")
-        # while pkt not in "ONE":
-        #     pkt = self.ser.read()
-        # if pkt != "O":
-        #     self._vp('withdraw: request denied')
-        #     return False
-        enc_read_pkt = ''
+
         tempPacket = ''
         while tempPacket != 'a':
-            tempPacket = self.ser.read()
-            print("hi")
-        entire_packet = self.ser.read()     # change to fit RSA  ======================================
-        dec_pkt = eh.RSA_decrypt(entire_packet, private_key)
+            tempPacket = self.ser.read(1)
+            print("looking for packet")
 
-        command = dec_pkt[0] # get o from decrypted concatenated string
+        rec_enc_pkt = self.ser.read(256)  # variable length
+        if PADDING in rec_enc_pkt:
+            rec_enc_pkt = rec_enc_pkt[:rec_enc_pkt.index(PADDING):]
+        rec_dec_pkt = eh.RSA_decrypt(rec_enc_pkt, private_key)
+
+        rec_command, rec_amount, rec_magic_word2 = rec_dec_pkt.split(SPACING)
         print("wait")
-        if command == 'O':
-            # figure out the lengths of each individual things that was encrypted to seperate each important piece
-            dec_atm_id = eh.RSA_decrypt(read_atm_id, private_key)
-            print(dec_atm_id)
-            print("102")
-
-            # figure out the lengths of each individual things that was encrypted to seperate each important piece
-            dec_card_id = eh.RSA_decrypt(read_card_id, private_key)
-            print(dec_card_id)
-            print("103")
-
-            # figure out the lengths of each individual things that was encrypted to seperate each important piece
-            dec_amount = eh.RSA_decrypt(read_amount, private_key)
-            print(dec_amount)
-            print("hii")
-
-            dec_magic_word2 = eh.RSA_decrypt(read_amount, private_key)
-            # figure out the lengths of each individual things that was encrypted to seperate each important piece
-            # aid, cid = struct.unpack(">36s36s", pkt)
-
-            if dec_magic_word2 == self.atm_db.admin_get_key("magicWord2"):#checks magic word for verification
+        if rec_command == self.GOOD:
+            if rec_magic_word2 == self.atm_db.admin_get_key("magicWord2" and rec_amount == amount):  # verification
                 self._vp('withdraw: Withdrawal accepted')
                 return True
             else:
                 return False
+        return False
 
     def regenerate(self, atm_id, card_id):
         private_key = self.atm_db.admin_get_key("RSAprivate")
