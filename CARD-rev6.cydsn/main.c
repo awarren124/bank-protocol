@@ -217,19 +217,23 @@ int main (void)
     
     /* Declare variables here */
     
+        // Provision card if on first boot
+    if (*PROVISIONED == 0x00) {
+        provision();
+        mark_provisioned();
+    }
+    
     //recieved ciphertext
     uint8_t message[128];
+    
     uint8_t iv[16];
     uint8_t cipherText48[48];
-    uint8_t cipherText32[32];
     
     //received information
     uint8_t concatReceived[41]; //store decrypted ciphertext for withdraw or check balance
-    uint8_t recvMagicWord[32];  //store decrypted ciphertext for new magic word
     uint8_t receivedPIN[PIN_LEN];
     uint8_t request[1];
     uint8_t key1prime[32];
-    uint8_t new_hashed_magic_word[32];
     
     //for comparison
     uint8_t hashedReceivedPIN[32];
@@ -241,12 +245,11 @@ int main (void)
     uint8_t ivToSend[16];
     uint8_t outgoingInfoBlock[96];
     
+    //changing magic word
+    uint8_t cipherText32[32];
+    uint8_t recvMagicWord[32];  //store decrypted ciphertext for new magic word
+    uint8_t new_hashed_magic_word[32];
     
-    // Provision card if on first boot
-    if (*PROVISIONED == 0x00) {
-        provision();
-        mark_provisioned();
-    }
     
     // Go into infinite loop
     while (1) {
