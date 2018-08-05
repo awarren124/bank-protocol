@@ -78,25 +78,6 @@ uint8 printUART(char * ptr, uint8 len){
     return 0;
 }
 
-char *bin2hex(const unsigned char *bin, size_t len)
-{
-    char   *out;
-    size_t  i;
- 
-    if (bin == NULL || len == 0)
-        return NULL;
- 
-    out = malloc(len*2+1);
-    for (i=0; i<len; i++) {
-        
-        out[i*2]   = "0123456789ABCDEF"[bin[i] >> 4];
-        out[i*2+1] = "0123456789ABCDEF"[bin[i] & 0x0F];
-    }
-    out[len*2] = '\0';
- 
-    return out;
-}
-
 void printbin2hex(const unsigned char *bin, size_t len)
 {
     size_t  i;
@@ -112,81 +93,57 @@ void printbin2hex(const unsigned char *bin, size_t len)
     UART_PutString("\t\n");
 }
 
-int hexchr2bin(const char hex, char *out)
-{
-    if (out == NULL)
-        return 0;
- 
-    if (hex >= '0' && hex <= '9') {
-        *out = hex - '0';
-    } else if (hex >= 'A' && hex <= 'F') {
-        *out = hex - 'A' + 10;
-    } else if (hex >= 'a' && hex <= 'f') {
-        *out = hex - 'a' + 10;
-    } else {
-        return 0;
-    }
- 
-    return 1;
-}
-
-size_t hexs2bin(const char *hex, unsigned char **out)
-{
-    size_t len;
-    char   b1;
-    char   b2;
-    size_t i;
- 
-    if (hex == NULL || *hex == '\0' || out == NULL)
-        return 0;
- 
-    len = strlen(hex);
-    if (len % 2 != 0)
-        return 0;
-    len /= 2;
- 
-    *out = malloc(len);
-    memset(*out, 'A', len);
-    for (i=0; i<len; i++) {
-        if (!hexchr2bin(hex[i*2], &b1) || !hexchr2bin(hex[i*2+1], &b2)) {
-            return 0;
-        }
-        (*out)[i] = (b1 << 4) | b2;
-    }
-    return len;
-}
-
-void aes_32_encrypt(uint8_t *plaintext, uint8_t *output,  void* key, void* iv){
+//encrypt 1 block with AES256
+void aes_32_encrypt(uint8_t *plaintext, uint8_t *output,  void* key, void* iv, int blocks){
     cf_aes_context aes; 
     cf_aes_init(&aes, key, 32);
     
     cf_cbc cbc;
     cf_cbc_init(&cbc, &cf_aes, &aes, iv);
     
-    cf_cbc_encrypt(&cbc, plaintext, output, 1);
+    cf_cbc_encrypt(&cbc, plaintext, output, blocks);
     
     cf_aes_finish(&aes);
 }
 
-void aes_32_decrypt(uint8_t *input, uint8_t *output,  void* key, void* iv){
+//decrypt 1 block with AES256
+void aes_32_decrypt(uint8_t *input, uint8_t *output,  void* key, void* iv, int blocks){
     cf_aes_context aes; 
     cf_aes_init(&aes, key, 32);
     
     cf_cbc cbc;
     cf_cbc_init(&cbc, &cf_aes, &aes, iv);
     
-    cf_cbc_decrypt(&cbc, input, output, 1);
+    cf_cbc_decrypt(&cbc, input, output, blocks);
     
     cf_aes_finish(&aes);
 }
 
-uint8_t pad_16(uint8_t *array, uint8 p){
+//pad the last [p] bytes of a 16 byte array
+uint8_t pad_16(uint8_t *array, int p){
     if(p > 16 || p < 0){
         return 1;   
     }
     int i;
     for(i = 15; i > 15-p; i--){
 	    array[i] = '_';
+    }
+    return 0;
+}
+
+//pad array up to a multiple of 16 bytes, given input size
+//place result in output
+uint8_t pad_mult_16(uint8_t *array, uint8_t *output, int size)
+{
+    int i;
+    int left = size % 16;
+    int target = size+left;
+    if(size % 16 == 0){
+        return 0;
+    }
+    memcpy(output, array, size);
+    for(i = target-1; i>=size; i--){
+        output[i] = '_';   
     }
     return 0;
 }
@@ -205,12 +162,7 @@ int main (void)
     UART_Start();
     
     /* Declare variables here */
-
-    write_key1("hi im key 1");
-    UART_PutString(KEY1);
-    
-  
-    uint8 message[128];
+    uint8_t message[128];
     // Provision card if on first boot
     if (*PROVISIONED == 0x00) {
         provision();
@@ -220,6 +172,7 @@ int main (void)
     // Go into infinite loop
     while (1) {
         /* Place your application code here. */
+        
         
         // synchronize communication with bank
         syncConnection(SYNC_NORM);
