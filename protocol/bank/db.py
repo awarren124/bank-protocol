@@ -79,8 +79,6 @@ class DB(object):
     # BANK INTERFACE FUNCTIONS #
     ############################
 
-
-
     def set_balance(self, card_id, balance):
         """set balance of account: card_id
 
@@ -146,7 +144,7 @@ class DB(object):
     # ADMIN INTERFACE FUNCTIONS #
     #############################
 
-    def admin_create_account(self, pin, card_id, amount, key2):#pay very close attention here, make sure you get the pin
+    def admin_create_account(self, pin, card_id, amount, key2):  # pay attention here, make sure you get the pin
         """create account with account_name, card_id, and amount
 
         Returns:
@@ -155,27 +153,24 @@ class DB(object):
         hashed_pin = eh.hash(pin)
         hashed_card_id = eh.hash(card_id)
         total_hash = hashed_pin + hashed_card_id
-        final_hash = eh.hash(total_hash)  # this is now the sensitive info, card and pin are used to create it, but very hard to backtrace,
-        final_hash = eh.aesEncrypt(final_hash,key2)  # encrypt sensitive info
-        # final_hash = "asd"
-        # enc_amount = amount
+        final_hash = eh.hash(total_hash)  # this is now the sensitive info, card and pin are used to create it
+
+        enc_final_hash = eh.aesEncrypt(final_hash, key2)  # encrypt sensitive info
         enc_amount = eh.aesEncrypt(str(amount), key2) # encrypt balance
 
-        return self.modify('accountdata', final_hash, ["bal"], [str(enc_amount)])
+        return self.modify('accountdata', base64.b64encode(final_hash), ["bal"], [base64.b64encode(enc_amount)])
 
-    def admin_create_reference(self, pin, card_id, key2): # creates a way to access the account name/reference it
-        print pin
+    def admin_create_reference(self, pin, card_id, key2):  # creates a way to access the account name/reference it
         hashed_pin = eh.hash(pin)
-        print hashed_pin
         hashed_card_id = eh.hash(card_id)
 
         total_hash = hashed_pin + hashed_card_id
-        final_hash = eh.hash(total_hash)  # this is now the sensitive info, card and pin are used to create it, but very hard to backtrace,
-        print final_hash
-        final_hash = eh.aesEncrypt(final_hash, key2)  # encrypt sensitive info
-        return self.modify("access", "access", ["account1"], [final_hash])
+        final_hash = eh.hash(total_hash)  # this is now the sensitive info, card and pin are used to create it
 
-    def admin_create_atm(self, atm_id):# I don't like this
+        final_hash = eh.aesEncrypt(final_hash, key2)  # encrypt sensitive info
+        return self.modify("access", "access", ["account1"], [base64.b64encode(final_hash)])
+
+    def admin_create_atm(self, atm_id):  # I don't like this
         """create atm with atm_id
 
         Returns:

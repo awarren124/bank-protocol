@@ -13,7 +13,6 @@ class EncryptionHandlerInterface:  # handles encryption
     def padMult16(self, message):
         if len(message) == 16:
             return message
-        print(16 - (len(message) % 16))
         return message + self.padCharacter * (16 - (len(message) % 16))
 
     def aesEncryptBlock(self, plaintext, key, iv=0):  # encrypt a single block

@@ -211,7 +211,7 @@ def parse_args():
     return args.bankport, args.cardport, args.config, args.billfile, args.verbose
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  #
     c_port, b_port, config, billfile, verbose = parse_args()
     bank = bank.Bank(b_port, verbose=verbose)
     card = card.Card(c_port, verbose=verbose)

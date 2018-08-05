@@ -43,9 +43,9 @@ class Card(object):
     def __init__(self, port=None, verbose=False, baudrate=115200, timeout=2):
         self.ser = serial.Serial(port, baudrate, timeout=timeout)
         self.verbose = verbose
-        self.atm_db = ATM_DB
-        self.aes_key1 = self.atm_db.admin_get_key("CardKey")
-        self.magic_word_1 = self.atm_db.admin_get_key("magicWord1")
+        self.atm_db = ATM_DB()
+        self.aes_key1 = ""
+        self.magic_word_1 = ""
 
     def _vp(self, msg, stream=logging.info):
         """Prints message if verbose was set
@@ -78,7 +78,7 @@ class Card(object):
         print "encryption complete"
         iv = eh.initializationVector
         eh.regenIV()
-        pkt = struct.pack("B16s48s", 16+len(enc_msg), iv, enc_msg)  # 16 byte iv, 16+N bytes total
+        pkt = struct.pack("B16s%ss % len(enc_msg)", 16+len(enc_msg), iv, enc_msg)  # 16 byte iv, 16+N bytes total
         self.ser.write(pkt)
         time.sleep(0.1)
 
@@ -206,11 +206,13 @@ class Card(object):
             op (int): Operation to send
 
         """
+        self.aes_key1 = self.atm_db.admin_get_key("CardKey")
+        self.magic_word_1 = self.atm_db.admin_get_key("magicWord1")
         assert(1 <= op <= 2)
         self._vp('Sending pin %s and op %d' % (pin, op))
         print 'Sending pin %s and op %d' % (pin, op)
         new_key1 = os.urandom(32)
-        message = "%s%d%s" % (pin, op, new_key1)  # 8 byte pin, 1 byte op, 32 byte key1
+        message = "%s%s%s" % (pin, op, new_key1)  # 8 byte pin, 1 byte op, 32 byte key1
         self._push_msg_enc(message)
 
         resp = self._pull_msg_enc()
@@ -218,7 +220,7 @@ class Card(object):
         if resp[-32::] == eh.hash(self.magic_word_1):
             self._vp('Card response good, card received op')
             self.aes_key1 = new_key1
-            self.atm_db.admin_set_key(aes_key1, "CardKey")
+            self.atm_db.admin_set_key(self.aes_key1, "CardKey")
             card_id = resp[:36:]
             return True, card_id
         return False, ""
