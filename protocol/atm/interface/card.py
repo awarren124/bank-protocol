@@ -78,7 +78,7 @@ class Card(object):
         print "encryption complete"
         iv = eh.initializationVector
         eh.regenIV()
-        pkt = struct.pack("B16s%ss % len(enc_msg)", 16+len(enc_msg), iv, enc_msg)  # 16 byte iv, 16+N bytes total
+        pkt = struct.pack("B16s%ss" % len(enc_msg), 16+len(enc_msg), iv, enc_msg)  # 16 byte iv, 16+N bytes total
         self.ser.write(pkt)
         time.sleep(0.1)
 
@@ -216,7 +216,7 @@ class Card(object):
         self._push_msg_enc(message)
 
         resp = self._pull_msg_enc()
-        print 'received response from card'
+        print 'received response from card: %s' % resp
         if resp[-32::] == eh.hash(self.magic_word_1):
             self._vp('Card response good, card received op')
             self.aes_key1 = new_key1

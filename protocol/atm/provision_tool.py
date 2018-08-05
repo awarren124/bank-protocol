@@ -126,16 +126,3 @@ if __name__ == "__main__":
 
     bank.provision_key(key2, pubkey, magicWord1, magicWord2)  # run provision key in /atm/interface/bank,
     print "keys sent"
-
-    '''
-    if card.provision(card_id, pin, key1, magicWord1):  # for general purposes, ignore
-        print "Card provisioned!"
-
-        # update bank
-        print "Updating bank..."
-        bank = Bank(b_port)
-        bank.provision_update(card_id, pin, balance)
-        print "Provisioning successful"
-    else:
-        print "Card already provisioned!"
-    '''

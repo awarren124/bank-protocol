@@ -3,14 +3,14 @@
 import logging
 import struct
 import serial
-from encryptionHandler import EncryptionHandlerInterface
+from encryptionHandler import EncryptionHandler
 from atm_db import ATM_DB
 import Adafruit_BBIO.UART as UART
 
 UART.setup("UART4")
 UART.setup("UART1")
 
-eh = EncryptionHandlerInterface()
+eh = EncryptionHandler()
 SPACING = '+'
 PADDING = '_'
 

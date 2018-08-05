@@ -20,6 +20,8 @@ class EncryptionHandler:
         return message + self.padCharacter * (16 - (len(message) % 16))
 
     def aesEncrypt(self, plaintext, key):  # AES encrypt
+        assert(len(key) == 32)
+        plaintext = self.padMult16(plaintext)
         aes = AES.new(key, AES.MODE_CBC, self.initializationVector)
         ciphertext = aes.encrypt(plaintext)
         return ciphertext
