@@ -90,16 +90,16 @@ class Bank(object):
                 atm_id = self.atm.read(48)
                 card_id = self.atm.read(48)
                 amount = self.atm.read(16)
-                encryptedEncodedNewKey2 = self.atm.read(48)
+                # encryptedEncodedNewKey2 = self.atm.read(48)
                 decrypt_atm_id = eh.aesDecrypt(atm_id,key2)
                 decrypt_card_id = eh.aesDecrypt(card_id, key2)
                 decrypt_amount = eh.aesDecrypt(amount, key2)
-                encodedNewKey2 = eh.aesDecrypt(encryptedEncodedNewKey2, key2)
-                print "encodedNewKey2:"
-                print encodedNewKey2
-                newKey2 = base64.b64decode(encodedNewKey2)
-                print "decodedNewKey2:"
-                print newKey2
+                # encodedNewKey2 = eh.aesDecrypt(encryptedEncodedNewKey2, key2)
+                # print "encodedNewKey2:"
+                # print encodedNewKey2
+                # newKey2 = base64.b64decode(encodedNewKey2)
+                # print "decodedNewKey2:"
+                # print newKey2
                 # print "num: " + num 
                 # atm_id, card_id, amount = struct.unpack(">36s36sI", decrypt_data)#unpack that and
                 print "decrypt_atm_id: "
@@ -108,9 +108,9 @@ class Bank(object):
                 print decrypt_card_id
                 print "decrypt_amount"
                 print decrypt_amount
-                print "newKey2"
-                print newKey2
-                keyDBHandler.writeKey("Key 2", newKey2)
+                # print "newKey2"
+                # print newKey2
+                # keyDBHandler.writeKey("Key 2", newKey2)
                 self.withdraw(decrypt_atm_id, decrypt_card_id, decrypt_amount)
             elif decrypt_instruction == 'b':
                 log("Checking balance")

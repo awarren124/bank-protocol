@@ -106,7 +106,7 @@ class Bank:
         key1 = dbHandler.readKey("Key 1")
         key2 = dbHandler.readKey("Key 2")
 
-        newKey2Encoded = base64.b64encode(os.urandom(32))
+        # newKey2Encoded = base64.b64encode(os.urandom(32))
 
         command = "w"  # withdraw
         encCommand = eh.aesEncrypt(command, key2)  # length = 16
@@ -123,7 +123,7 @@ class Bank:
         encAtmId = eh.aesEncrypt(atm_id, key2)
         encCardId = eh.aesEncrypt(card_id, key2)
         encAmount = eh.aesEncrypt(str(amount), key2)
-        encNewKey2Encoded = eh.aesEncrypt(newKey2Encoded, key2)
+        # encNewKey2Encoded = eh.aesEncrypt(newKey2Encoded, key2)
 
         print "len(encAtmId):"
         print len(encAtmId)
@@ -131,10 +131,10 @@ class Bank:
         print len(encCardId)
         print "len(encAmount):"
         print len(encAmount)
-        print "len(encNewKey2Encoded):"
-        print len(encNewKey2Encoded)
+        # print "len(encNewKey2Encoded):"
+        # print len(encNewKey2Encoded)
 
-        pkt = encCommand + encAtmId + encCardId + encAmount + encNewKey2Encoded
+        pkt = encCommand + encAtmId + encCardId + encAmount# + encNewKey2Encoded
 
         # encryption
         # enc_pkt = eh.aesEncrypt(pkt, key2)
