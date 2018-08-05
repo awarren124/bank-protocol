@@ -3,13 +3,13 @@ import struct
 import time
 import serial
 import os
-from encryptionHandlerInterface import EncryptionHandlerInterface
+from encryptionHandler import EncryptionHandler
 from atm_db import ATM_DB
 import Adafruit_BBIO.UART as UART
 
 UART.setup("UART4")
 UART.setup("UART1")
-eh = EncryptionHandlerInterface()
+eh = EncryptionHandler()
 
 """TODO: MAKE KEYS STORED IN A JSON FILE"""
 """TEMPORARRRYYYYY"""

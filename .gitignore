@@ -5,8 +5,6 @@
 *.cywrk.*
 *.cyprj.*
 
-### IntelliJ ###
-*.idea*
 
 # Generated Assets and Resources
 Debug/
@@ -23,3 +21,11 @@ Export/
 
 
 # End of https://www.gitignore.io/api/psoccreator
+
+
+### IntelliJ ###
+*.idea*
+
+
+### PSCP ###
+pscp.exe

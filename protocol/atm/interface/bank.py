@@ -3,7 +3,7 @@
 import logging
 import struct
 import serial
-from encryptionHandlerInterface import EncryptionHandlerInterface
+from encryptionHandler import EncryptionHandlerInterface
 from atm_db import ATM_DB
 import Adafruit_BBIO.UART as UART
 

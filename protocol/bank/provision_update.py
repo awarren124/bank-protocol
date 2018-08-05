@@ -39,16 +39,16 @@ if __name__ == "__main__":
             continue
 
         print("Reading provisioning info...")
-        key2 = eh.hashRaw(atm.read(32))  # get correct lengths, put them here ======================================
-        public_key = atm.read(426)  # get correct lengths ======================================
-        magicWord1 = atm.read(32)  # get correct lengths ======================================
-        magicWord2 = atm.read(32)  # get correct lengths ======================================
+        key2 = eh.hashRaw(atm.read(32))
+        public_key = atm.read(426)  # likely variable length
+        magicWord1 = atm.read(32)
+        magicWord2 = atm.read(32)
 
-        print("keys stored")
+        print("Keys stored")
         print("Updating database...")
 
         db = DB(db_file)
-        db.admin_create_account(pin, card_id, balance, key2)  # get pin somehow, not sure how psoc works yet, creates account
+        db.admin_create_account(pin, card_id, balance, key2)  # creates account
         db.admin_create_reference(pin, card_id, key2)
         print("success")
         key2 = key2[len(key2)/2:]  # cuts key2 in half to be stored

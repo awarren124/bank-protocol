@@ -69,46 +69,30 @@ void printbin2hex(const unsigned char *bin, size_t len)
     UART_PutString("\t\n");
 }
 
-//encrypt 1 block with AES256
-void aes_32_encrypt(uint8_t *plaintext, uint8_t *output,  void* key, void* iv){
+//encrypt with AES256
+void aes_32_encrypt(uint8_t *plaintext, uint8_t *output,  void* key, void* iv, int blocks){
     cf_aes_context aes; 
     cf_aes_init(&aes, key, 32);
     
     cf_cbc cbc;
     cf_cbc_init(&cbc, &cf_aes, &aes, iv);
     
-    cf_cbc_encrypt(&cbc, plaintext, output, 1);
+    cf_cbc_encrypt(&cbc, plaintext, output, blocks);
     
     cf_aes_finish(&aes);
 }
 
-//decrypt 1 block with AES256
-void aes_32_decrypt(uint8_t *input, uint8_t *output,  void* key, void* iv){
+//decrypt with AES256
+void aes_32_decrypt(uint8_t *input, uint8_t *output,  void* key, void* iv, int blocks){
     cf_aes_context aes; 
     cf_aes_init(&aes, key, 32);
     
     cf_cbc cbc;
     cf_cbc_init(&cbc, &cf_aes, &aes, iv);
     
-    cf_cbc_decrypt(&cbc, input, output, 1);
+    cf_cbc_decrypt(&cbc, input, output, blocks);
     
     cf_aes_finish(&aes);
-}
-
-//encrypt [blocks] blocks with AES256
-void aes_encrypt_blocks(uint8_t * plaintext, uint8_t *output, void *key, void *iv, int blocks){
-    if(blocks <= 0)
-        return;
-    aes_32_encrypt(plaintext, output, key, iv);
-    aes_encrypt_blocks(&plaintext[16], &output[16], key, output, blocks-1);
-}
-
-//decrypt [blocks] blocks with AES256
-void aes_decrypt_blocks(uint8_t * input, uint8_t *output, void *key, void *iv, int blocks){
-    if(blocks <= 0)
-        return;
-    aes_32_decrypt(input, output, key, iv);
-    aes_decrypt_blocks(&input[16], &output[16], key, input, blocks-1);
 }
 
 //pad the last [p] bytes of a 16 byte array
@@ -268,7 +252,7 @@ int main (void)
         slice(message, cipherText48, 16, 64);
         
         //decrypt encrypted data
-        aes_decrypt_blocks(cipherText48, concatReceived, AES_KEY1, iv, 3);
+        aes_32_decrypt(cipherText48, concatReceived, AES_KEY1, iv, 3);
         
         // parse decrypted parts
         slice(concatReceived, receivedPIN, 0, 8);
@@ -295,7 +279,7 @@ int main (void)
             gen_bytes(ivToSend, 16);
             
             // encrypts card data
-            aes_encrypt_blocks(paddedCardDataToSend, encryptedCardData, AES_KEY1, ivToSend, 5);
+            aes_32_encrypt(paddedCardDataToSend, encryptedCardData, AES_KEY1, ivToSend, 5);
             
             // assembles final batch of information to send (iv and encrypted data)
             strncpy((char *) outgoingInfoBlock, (char *)iv, 16);
@@ -317,7 +301,7 @@ int main (void)
             slice(message, cipherText32, 16, 48);
             
             //decrypt new magic word
-            aes_decrypt_blocks(cipherText32, recvMagicWord, AES_KEY1, iv, 2);
+            aes_32_decrypt(cipherText32, recvMagicWord, AES_KEY1, iv, 2);
             
             //write to flash hashed version
             sha256((char *) recvMagicWord, new_hashed_magic_word, 32);

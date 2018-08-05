@@ -1,59 +1,32 @@
 from Crypto.Cipher import AES
 import rsa
 import hashlib
+import os
 import base64
 
 
 class EncryptionHandler:
+    def __init__(self):
+        self.initializationVector = os.urandom(16)  # 16 bytes
+        self.padCharacter = '_'
+        self.numberThatDoesntMatter = 123456
 
-    initializationVector = 'This is an IV456'  # 16
-    padCharacter = '_'
-    numberThatDoesntMatter = 696969
-
-    def set_IV(self, newIV):
-        initializationVector = newIV
+    def regenIV(self):
+        self.initializationVector = os.urandom(16)
 
     def padMult16(self, message):
         print len(message)
         print(16 - (len(message) % 16))
         return message + self.padCharacter * (16 - (len(message) % 16))
 
-    def aesEncryptBlock(self, plaintext, key, iv=0):  # encrypt a single block
-        if iv == 0:
-            iv = self.initializationVector
-        aes = AES.new(key, AES.MODE_CBC, iv)
+    def aesEncrypt(self, plaintext, key):  # AES encrypt
+        aes = AES.new(key, AES.MODE_CBC, self.initializationVector)
         ciphertext = aes.encrypt(plaintext)
         return ciphertext
 
-    def aesDecryptBlock(self, ciphertext, key, iv=0):  # decrypt a single block
-        if iv == 0:
-            iv = self.initializationVector
-        aes = AES.new(key, AES.MODE_CBC, iv)
+    def aesDecrypt(self, ciphertext, key):  # AES decrypt
+        aes = AES.new(key, AES.MODE_CBC, self.initializationVector)
         plaintext = aes.decrypt(ciphertext)
-        return plaintext
-
-    def aesEncrypt(self, plaintext, key, iv=0):  # encrypt multiple blocks
-        if iv == 0:
-            iv = self.initializationVector
-            plaintext = self.padMult16(plaintext)
-        print("length of plaintext: %s" % len(plaintext))
-        print("plaintext: %s" % plaintext)
-        block = self.aesEncryptBlock(plaintext[:16:], key, iv)
-        ciphertext = block
-        if len(plaintext) > 16:
-            ciphertext = block + self.aesEncrypt(plaintext[16::], key, iv)
-        return ciphertext
-
-    def aesDecrypt(self, ciphertext, key, iv=0):  # decrypt multiple blocks
-        if iv == 0:
-            iv = self.initializationVector
-        dec_block = self.aesDecryptBlock(ciphertext[:16:], key, iv)
-        plaintext = dec_block
-        if len(ciphertext) > 16:
-            plaintext = dec_block + self.aesDecrypt(ciphertext[16::], key, ciphertext[:16:])
-        pad_index = plaintext.find(self.padCharacter)
-        if pad_index != -1:
-            plaintext = plaintext[:pad_index:]
         return plaintext
 
     def hash(self, plaintext):

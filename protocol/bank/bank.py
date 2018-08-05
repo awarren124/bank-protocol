@@ -44,7 +44,7 @@ class Bank(object):
             access_seed = self.db.get_key("AES") + aesSeed_H1  # combines both halves of key2
             self.key2 = eh.hashRaw(access_seed)  # hashes it to get the real encryption key
 
-            verification = eh.hash(eh.aesDecrypt(self.db.get_key("magicWord1"), self.key2)) == hashWord  # decrypt the bank's copy of magic word1 and hash it, and compare it to what the atm sent over
+            verification = eh.hash(eh.aesDecrypt(self.db.get_key("magicWord1"), self.key2)) == hashWord  # verify
             if not verification:  # if atm is verified continue, else end it there
                 self.atm.write(self.ERROR)
                 return
@@ -99,7 +99,7 @@ class Bank(object):
         # store1 = keySplice(new_key1)
         store2 = self.keySplice(new_key2)  # splits key
         self.db.admin_set_key(store2[2],"AES")  # make sure it overrides the old key
-        eh.set_IV(new_IV)  # set encryption handler with the new IV
+        eh.initializationVector = new_IV  # set encryption handler with the new IV
         # enc_new_key1 = eh.RSA_encrypt(new_key1, public_key)
         enc_new_key2 = eh.RSA_encrypt(new_key2, public_key)  # encrypt keys to be sent over to the atm with RSA public key1
         enc_new_IV = eh.RSA_encrypt(new_IV, public_key)
