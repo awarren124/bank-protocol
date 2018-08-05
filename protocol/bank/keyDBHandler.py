@@ -10,11 +10,11 @@ class KeyDBHandler:
     def writeKey(self, label, key):
 
         key = base64.b64encode(key).decode('utf-8')
-        print(key)
+        # print(key)
         with open(self.fileName) as file:
             data = json.load(file)
             data["keys"][label] = key
-            print(data)
+            # print(data)
         with open(self.fileName, 'w') as file:
             json.dump(data, file, indent=4)
 

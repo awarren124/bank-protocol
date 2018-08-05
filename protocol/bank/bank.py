@@ -24,7 +24,7 @@ eh = EncryptionHandler()
 keyDBHandler = KeyDBHandler('bank.json')
 # accessKey2 = eh.hash(key2)
 
-
+keyDBHandler.writeKey("Key 2", key2)
 class Bank(object):
     GOOD = "O"
     BAD = "N"
@@ -49,10 +49,33 @@ class Bank(object):
             decrypt_instruction = None
             try:
                 key2 = keyDBHandler.readKey("Key 2")
-                decrypt_instruction = eh.aesDecrypt(command, key2)[0]
+                decrypt_instruction = eh.aesDecrypt(command, key2)
                 print decrypt_instruction
-            except:
-                pass
+            except Exception as e:
+                print e
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                print "could not retrieve key!!!!"
+                
             if decrypt_instruction == 'w':
                 log("Withdrawing")
                 print "encrypt1"
@@ -72,7 +95,11 @@ class Bank(object):
                 decrypt_card_id = eh.aesDecrypt(card_id, key2)
                 decrypt_amount = eh.aesDecrypt(amount, key2)
                 encodedNewKey2 = eh.aesDecrypt(encryptedEncodedNewKey2, key2)
+                print "encodedNewKey2:"
+                print encodedNewKey2
                 newKey2 = base64.b64decode(encodedNewKey2)
+                print "decodedNewKey2:"
+                print newKey2
                 # print "num: " + num 
                 # atm_id, card_id, amount = struct.unpack(">36s36sI", decrypt_data)#unpack that and
                 print "decrypt_atm_id: "
