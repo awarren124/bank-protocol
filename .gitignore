@@ -5,6 +5,9 @@
 *.cywrk.*
 *.cyprj.*
 
+### PyCharm ###
+*.idea.*
+
 # Generated Assets and Resources
 Debug/
 Release/
