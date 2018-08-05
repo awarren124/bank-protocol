@@ -2,19 +2,13 @@
 This module implements a bank server interface
 """
 
-import uuid
 import db
 import logging
 from logging import info as log
 import sys
 import serial
 import argparse
-import struct
 from encryptionHandler import EncryptionHandler
-from Crypto.Cipher import AES
-from Crypto.PublicKey import RSA
-import hashlib
-import base64
 from keyDBHandler import KeyDBHandler
 
 key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
@@ -25,6 +19,8 @@ keyDBHandler = KeyDBHandler('bank.json')
 # accessKey2 = eh.hash(key2)
 
 keyDBHandler.writeKey("Key 2", key2)
+
+
 class Bank(object):
     GOOD = "O"
     BAD = "N"
@@ -40,91 +36,70 @@ class Bank(object):
         print self.BAD
         print self.ERROR
         print self.GOOD
-        key2 = keyDBHandler.readKey("Key 2")
+        # key2 = keyDBHandler.readKey("Key 2")
         while True:
-            command = self.atm.read(16)#FLAG FOR DECODE, receives command from atm to decide what to do
-            # if len(command) != 0:
-            print "command recieved: " + command.encode('hex') + ""
-            print("length = %s" % (len(command)))
-            decrypt_instruction = None
-            try:
-                key2 = keyDBHandler.readKey("Key 2")
-                decrypt_instruction = eh.aesDecrypt(command, key2)
-                print decrypt_instruction
-            except Exception as e:
-                print e
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                print "could not retrieve key!!!!"
-                
-            if decrypt_instruction == 'w':
-                log("Withdrawing")
-                print "encrypt1"
-                # data = self.atm.read(80)#FLAG FOR DECODE, get pkt sent from atm, change what we actualy send
-                # decrypt_data = eh.aesDecrypt(data, key2)
-                print "encrypt2"
+            command = self.atm.read(16)  # FLAG FOR DECODE, receives command from atm to decide what to do
+            if len(str(command)) != 0:
+                print "command recieved: " + command.encode('hex') + ""
+                print("length = %s" % (len(command)))
+                decrypt_instruction = None
+                try:
+                    # key2 = keyDBHandler.readKey("Key 2")
+                    decrypt_instruction = eh.aesDecrypt(command, key2)
+                    print decrypt_instruction
+                except Exception as e:
+                    print e
+                    print "could not retrieve key!!!!"
 
-                # decrypt_data = decrypt_data[:-3]
-                # print "decrypted data: " +  decrypt_data
-                # print len(decrypt_data)
-                #atm_id, card_id, amount = struct.unpack('36s36sI', decrypt_data)
-                atm_id = self.atm.read(48)
-                card_id = self.atm.read(48)
-                amount = self.atm.read(16)
-                # encryptedEncodedNewKey2 = self.atm.read(48)
-                decrypt_atm_id = eh.aesDecrypt(atm_id,key2)
-                decrypt_card_id = eh.aesDecrypt(card_id, key2)
-                decrypt_amount = eh.aesDecrypt(amount, key2)
-                # encodedNewKey2 = eh.aesDecrypt(encryptedEncodedNewKey2, key2)
-                # print "encodedNewKey2:"
-                # print encodedNewKey2
-                # newKey2 = base64.b64decode(encodedNewKey2)
-                # print "decodedNewKey2:"
-                # print newKey2
-                # print "num: " + num 
-                # atm_id, card_id, amount = struct.unpack(">36s36sI", decrypt_data)#unpack that and
-                print "decrypt_atm_id: "
-                print decrypt_atm_id
-                print "decrypt_card_id: "
-                print decrypt_card_id
-                print "decrypt_amount"
-                print decrypt_amount
-                # print "newKey2"
-                # print newKey2
-                # keyDBHandler.writeKey("Key 2", newKey2)
-                self.withdraw(decrypt_atm_id, decrypt_card_id, decrypt_amount)
-            elif decrypt_instruction == 'b':
-                log("Checking balance")
-                # pkt = self.atm.read(72)
-                # decrypt_pkt = eh.aesDecrypt(pkt, key2)
-                # atm_id, card_id = struct.unpack(">36s36s", decrypt_pkt)
+                if decrypt_instruction == 'w':
+                    log("Withdrawing")
+                    print "encrypt1"
+                    # data = self.atm.read(80)#FLAG FOR DECODE, get pkt sent from atm, change what we actualy send
+                    # decrypt_data = eh.aesDecrypt(data, key2)
+                    print "encrypt2"
 
-                atm_id = self.atm.read(48)
-                card_id = self.atm.read(48)
-                decrypt_atm_id = eh.aesDecrypt(atm_id,key2)
-                decrypt_card_id = eh.aesDecrypt(card_id, key2)
-                self.check_balance(decrypt_atm_id, decrypt_card_id)
-            elif decrypt_instruction != '':
-                self.atm.write(self.ERROR)
+                    # decrypt_data = decrypt_data[:-3]
+                    # print "decrypted data: " +  decrypt_data
+                    # print len(decrypt_data)
+                    #atm_id, card_id, amount = struct.unpack('36s36sI', decrypt_data)
+                    atm_id = self.atm.read(48)
+                    card_id = self.atm.read(48)
+                    amount = self.atm.read(16)
+                    # encryptedEncodedNewKey2 = self.atm.read(48)
+                    decrypt_atm_id = eh.aesDecrypt(atm_id,key2)
+                    decrypt_card_id = eh.aesDecrypt(card_id, key2)
+                    decrypt_amount = eh.aesDecrypt(amount, key2)
+                    # encodedNewKey2 = eh.aesDecrypt(encryptedEncodedNewKey2, key2)
+                    # print "encodedNewKey2:"
+                    # print encodedNewKey2
+                    # newKey2 = base64.b64decode(encodedNewKey2)
+                    # print "decodedNewKey2:"
+                    # print newKey2
+                    # print "num: " + num
+                    # atm_id, card_id, amount = struct.unpack(">36s36sI", decrypt_data)#unpack that and
+                    print "decrypt_atm_id: "
+                    print decrypt_atm_id
+                    print "decrypt_card_id: "
+                    print decrypt_card_id
+                    print "decrypt_amount"
+                    print decrypt_amount
+                    # print "newKey2"
+                    # print newKey2
+                    # keyDBHandler.writeKey("Key 2", newKey2)
+                    self.withdraw(decrypt_atm_id, decrypt_card_id, decrypt_amount)
+                elif decrypt_instruction == 'b':
+                    log("Checking balance")
+                    # pkt = self.atm.read(72)
+                    # decrypt_pkt = eh.aesDecrypt(pkt, key2)
+                    # atm_id, card_id = struct.unpack(">36s36s", decrypt_pkt)
+
+                    atm_id = self.atm.read(48)
+                    card_id = self.atm.read(48)
+                    decrypt_atm_id = eh.aesDecrypt(atm_id,key2)
+                    decrypt_card_id = eh.aesDecrypt(card_id, key2)
+                    self.check_balance(decrypt_atm_id, decrypt_card_id)
+                elif decrypt_instruction != '':
+                    self.atm.write(self.ERROR)
 
     def withdraw(self, atm_id, card_id, amount):
         try:
@@ -133,7 +108,7 @@ class Bank(object):
             card_id = str(card_id)
         except ValueError:
             encrypt_error = eh.aesEncrypt(self.ERROR, key2)
-            self.atm.write(encrypt_error)#COULD BE HIJACKED
+            self.atm.write(encrypt_error)  # COULD BE HIJACKED
             log("Bad value sent")
             return
 
@@ -142,7 +117,7 @@ class Bank(object):
         print "checking atm: " + str(atm_id.encode('hex'))
         if atm is None:
             encrypt_error = eh.aesEncrypt(self.Error,key2)
-            self.atm.write(self.ERROR)#COULD BE HIJACKED
+            self.atm.write(self.ERROR)  # COULD BE HIJACKED
             log("Bad ATM ID")
             return
 
@@ -151,13 +126,13 @@ class Bank(object):
 
         if num_bills is None:
             encrypt_error = eh.aesEncrypt(self.ERROR, key2)
-            self.atm.write(encrypt_error)#COULD BE HIJACKED
+            self.atm.write(encrypt_error)  # COULD BE HIJACKED
             log("Bad ATM ID")
             return
 
         if num_bills < amount:
-            encrypt_bad = aesEncrypt(self.BAD, key2)
-            self.atm.write(encrypt_bad)#COULD BE HIJACKED
+            encrypt_bad = eh.aesEncrypt(self.BAD, key2)
+            self.atm.write(encrypt_bad)  # COULD BE HIJACKED
             log("Insufficient funds in ATM")
             return
         print "card id : " + card_id
@@ -170,8 +145,8 @@ class Bank(object):
 
         final_amount = balance - amount
         if final_amount >= 0:
-            self.db.set_balance(card_id, final_amount)#FLAG
-            self.db.set_atm_num_bills(atm_id, num_bills - amount)#FLAG
+            self.db.set_balance(card_id, final_amount)  # FLAG
+            self.db.set_atm_num_bills(atm_id, num_bills - amount)  # FLAG
             log("Valid withdrawal")
             # pkt = struct.pack(">36s36sI", atm_id, card_id, amount)#figure out importance
             encAtmId = eh.aesEncrypt(str(atm_id), key2)

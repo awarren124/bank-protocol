@@ -3,6 +3,10 @@ from interface.bank import Bank
 from os import urandom
 import argparse
 import serial
+import Adafruit_BBIO.UART as UART
+
+UART.setup("UART4")
+UART.setup("UART1")
 
 
 def parse_args():
@@ -28,13 +32,15 @@ if __name__ == "__main__":
     print "Provisioning card..."
     card = Card(c_port, baudrate=c_baud, verbose=True)
     uuid = urandom(18).encode("hex")
-  
+
+    uuid = "399ec6086d05aa185f170e38ac4353161866"
+
     print "Card provisioned!"
 
     # update bank
     print "Updating bank..."
     bank = Bank(b_port)
-    bank.provision_update("c0573011d92ce40c8b5dbfa73025b352c899", pin, balance)
+    bank.provision_update(uuid, pin, balance)
     print "Provisioning successful"
     if card.provision(uuid, pin):
         print "Card provisioned!"

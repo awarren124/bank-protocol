@@ -8,12 +8,15 @@ from keyDBHandler import KeyDBHandler
 eh = EncryptionHandler()
 dbHandler = KeyDBHandler('atmcontents.json')
 
+import Adafruit_BBIO.UART as UART
+
+UART.setup("UART4")
+UART.setup("UART1")
+
 """TODO: MAKE KEYS STORED IN A JSON FILE"""
 """TEMPORARRRYYYYY"""
 key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
 key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
-
-"""~~~~~~~~~~~~~~~~~"""
 
 
 class Bank:
@@ -27,7 +30,7 @@ class Bank:
         self.ser = serial.Serial(port, baudrate=115200)
         self.verbose = verbose
         # dbHandler.writeKey("Key 1", key1)
-        dbHandler.writeKey("Key 2", key2)
+        # dbHandler.writeKey("Key 2", key2)
 
     def _vp(self, msg, stream=logging.info):
         """Prints message if verbose was set
@@ -84,7 +87,7 @@ class Bank:
             self._vp('check_balance: returning balance')
             return dec_bal
         else:
-            return false
+            return False
 
     def withdraw(self, atm_id, card_id, amount):
         """Requests a withdrawal from the account associated with the card_id
@@ -103,8 +106,8 @@ class Bank:
         self._vp('withdraw: Sending request to Bank')
         print("bank withdraw2")
 
-        key1 = dbHandler.readKey("Key 1")
-        key2 = dbHandler.readKey("Key 2")
+        # key1 = dbHandler.readKey("Key 1")
+        # key2 = dbHandler.readKey("Key 2")
 
         # newKey2Encoded = base64.b64encode(os.urandom(32))
 

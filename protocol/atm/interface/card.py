@@ -5,6 +5,10 @@ import serial
 from encryptionHandler import EncryptionHandler
 eh = EncryptionHandler()
 
+import Adafruit_BBIO.UART as UART
+
+UART.setup("UART4")
+UART.setup("UART1")
 
 """TODO: MAKE KEYS STORED IN A JSON FILE"""
 """TEMPORARRRYYYYY"""
@@ -71,7 +75,7 @@ class Card(object):
             return ''
         pkt_len = struct.unpack('B', hdr)[0]
         pkt = self.ser.read(pkt_len)
-        #dec_pkt = eh.aesDecrypt(enc_pkt, key1)
+        # dec_pkt = eh.aesDecrypt(enc_pkt, key1)
         return pkt
 
     def _sync(self, provision):
@@ -227,7 +231,7 @@ class Card(object):
 
         msg = self._pull_msg()
         if msg != 'P':
-            self._vp('Card alredy provisioned!', logging.error)
+            self._vp('Card already provisioned!', logging.error)
             return False
         self._vp('Card sent provisioning message')
 

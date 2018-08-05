@@ -8,9 +8,8 @@ class KeyDBHandler:
         self.fileName = fn
 
     def writeKey(self, label, key):
-
-        key = base64.b64encode(key).decode('utf-8')
-        print(key)
+        key = base64.b64encode(key)  # .decode('utf-8')
+        print "Writing key: %s" % key
         with open(self.fileName) as file:
             data = json.load(file)
             data["keys"][label] = key
@@ -23,5 +22,6 @@ class KeyDBHandler:
         with open(self.fileName) as file:
             data = json.load(file)
             key = data["keys"][label]
+            print("Retrieivng key: %s" % key)
             key = base64.b64decode(key)
             return key

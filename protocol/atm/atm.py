@@ -16,18 +16,6 @@ ch.setFormatter(log_format)
 log.addHandler(ch)
 
 
-
-"""TODO: MAKE KEYS STORED IN A JSON FILE"""
-"""TEMPORARRRYYYYY"""
-key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
-key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
-
-"""~~~~~~~~~~~~~~~~~"""
-
-
-
-
-
 class ATM(cmd.Cmd, object):
     """Interface for ATM xmlrpc server
 
@@ -87,13 +75,13 @@ class ATM(cmd.Cmd, object):
 
             # get balance from bank if card accepted PIN
             if card_id:
-		print("lol")
-                self._vp('check_balance: Requesting balance from Bank')
-                res = self.bank.check_balance(self.uuid, card_id)
-		print(res)
-                if res:
-		    print("balance is: " + str(res))
-                    return res
+                print("lol")
+            self._vp('check_balance: Requesting balance from Bank')
+            res = self.bank.check_balance(self.uuid, card_id)
+            print(res)
+            if res:
+                print("balance is: " + str(res))
+                return res
             self._vp('check_balance failed')
             return False
         except NotProvisioned:
@@ -138,18 +126,12 @@ class ATM(cmd.Cmd, object):
         try:
             self._vp('withdraw: Requesting card_id from card')
             card_id = self.card.withdraw(pin)
-	    print(card_id)
+            print(card_id)
             # request UUID from HSM if card accepts PIN
             if card_id:
                 self._vp('withdraw: Requesting hsm_id from hsm')
                 if self.bank.withdraw(self.uuid, card_id, amount):
-                    with open(self.billfile, "w") as f:
-                        self._vp('withdraw: Dispensing bills...')
-                        for i in range(self.dispensed, self.dispensed + amount):
-                            f.write(self.bills[i] + "\n")
-                            self.bills[i] = "-DISPENSED BILL-"
-                            self.dispensed += 1
-                    self.update()
+
                     return True
             else:
                 self._vp('withdraw failed')
@@ -215,7 +197,7 @@ def parse_args():
 
 
 if __name__ == "__main__":
-    b_port, c_port, config, billfile, verbose = parse_args()
+    c_port, b_port, config, billfile, verbose = parse_args()
     bank = bank.Bank(b_port, verbose=verbose)
     card = card.Card(c_port, verbose=verbose)
     atm = ATM(bank, card, config, billfile, verbose=verbose)

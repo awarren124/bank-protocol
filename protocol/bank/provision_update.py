@@ -21,19 +21,18 @@ if __name__ == "__main__":
     atm = serial.Serial(port, baudrate, timeout=5)
 
     try:
-        while True:
-            print "Listening for provisioning info..."
-            while atm.read() != "p":
-                continue
+        print "Listening for provisioning info..."
+        while atm.read() != "p":
+            continue
 
-            print "Reading provisioning info..."
-            pkt = atm.read(48)
-            uuid, pin, balance = struct.unpack(">36s8sI", pkt)
+        print "Reading provisioning info..."
+        pkt = atm.read(48)
+        uuid, pin, balance = struct.unpack(">36s8sI", pkt)
 
-            print "Updating database..."
-            db = DB(db_file)
-            db.admin_create_account(uuid, balance)
-            print "Account added!"
-            print
+        print "Updating database..."
+        db = DB(db_file)
+        db.admin_create_account(uuid, balance)
+        print "Account added!"
+        print
     except KeyboardInterrupt:
         print "Shutting down..."
