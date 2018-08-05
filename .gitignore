@@ -5,9 +5,6 @@
 *.cywrk.*
 *.cyprj.*
 
-### PyCharm ###
-*.idea.*
-
 # Generated Assets and Resources
 Debug/
 Release/
@@ -20,6 +17,10 @@ Export/
 *.cyfit
 *.rpt
 *.svd
+
+### PyCharm ###
+*.idea.*
+pscp.exe
 
 
 # End of https://www.gitignore.io/api/psoccreator
