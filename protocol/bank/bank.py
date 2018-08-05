@@ -16,7 +16,6 @@ key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc
 
 eh = EncryptionHandler()
 keyDBHandler = KeyDBHandler('bank.json')
-# accessKey2 = eh.hash(key2)
 
 keyDBHandler.writeKey("Key 2", key2)
 

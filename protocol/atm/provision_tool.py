@@ -35,8 +35,6 @@ if __name__ == "__main__":
 
     uuid = "399ec6086d05aa185f170e38ac4353161866"
 
-    print "Card provisioned!"
-
     # update bank
     print "Updating bank..."
     bank = Bank(b_port)
@@ -44,11 +42,6 @@ if __name__ == "__main__":
     print "Provisioning successful"
     if card.provision(uuid, pin):
         print "Card provisioned!"
-
-        # update bank
-        print "Updating bank..."
-        bank = Bank(b_port)
-        bank.provision_update(uuid, pin, balance)
         print "Provisioning successful"
     else:
         print "Card already provisioned!"

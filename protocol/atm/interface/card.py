@@ -10,12 +10,8 @@ import Adafruit_BBIO.UART as UART
 UART.setup("UART4")
 UART.setup("UART1")
 
-"""TODO: MAKE KEYS STORED IN A JSON FILE"""
-"""TEMPORARRRYYYYY"""
 key1 = b'\xe6R|\x84x\xce\x96\xa5T\xac\xd8l\xd0\xe4Lf\xf6&\x16E\xfa/\x9b\xa2\xea!\xceY\x85\xbe\ra'
 key2 = b'\xb5\xd2\x03v\xad)\xd5\x8a \xa6\xa0_\x94^\xe6X=$&|&\xd4c*#M\xee[\tl\xfc\xd0'
-
-"""~~~~~~~~~~~~~~~~~"""
 
 
 class NotProvisioned(Exception):

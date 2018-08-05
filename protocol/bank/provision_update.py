@@ -33,6 +33,5 @@ if __name__ == "__main__":
         db = DB(db_file)
         db.admin_create_account(uuid, balance)
         print "Account added!"
-        print
     except KeyboardInterrupt:
         print "Shutting down..."
