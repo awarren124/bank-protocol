@@ -11,7 +11,7 @@ UART.setup("UART4")
 UART.setup("UART1")
 
 eh = EncryptionHandler()
-SPACING_CHAR = '+'
+SPACE_CHAR = '+'
 PAD_CHAR = '_'
 
 
@@ -116,7 +116,7 @@ class Bank:
 
         self.ser.write("a")  # start byte
         self.ser.write(hash_magic_1)  # verification, sends hashed version of magicword1 so bank can compare, 32 bytes
-        key2_first_half = self.splice_second_half(key2)  # split key, and send over first half, 16 bytes
+        key2_first_half = self.split_second_half(key2)  # split key, and send over first half, 16 bytes
         self.ser.write(key2_first_half)
 
         # print lengths for checking purposes
@@ -129,7 +129,7 @@ class Bank:
         # encrypt and send packet
 
         command = "w"  # withdraw
-        pkt = SPACING_CHAR.join([command, atm_id, card_id, amount, pin])  # 1 + 36 + 36 + 3 + 8 + 4 (pad) = 88 bytes
+        pkt = SPACE_CHAR.join([command, atm_id, card_id, amount, pin])  # 1 + 36 + 36 + 3 + 8 + 4 (pad) = 88 bytes
         enc_pkt = eh.aes_encrypt(pkt, key2)  # padded to 96 bytes
 
         print "Packet: %s" % pkt
@@ -142,11 +142,10 @@ class Bank:
             print "looking for packet"
 
         rec_enc_pkt = self.ser.read(256)  # variable length
-        if PAD_CHAR in rec_enc_pkt:
-            rec_enc_pkt = rec_enc_pkt[:rec_enc_pkt.index(PAD_CHAR):]
+        rec_enc_pkt = rec_enc_pkt[:rec_enc_pkt.find(PAD_CHAR):]
         rec_dec_pkt = eh.rsa_decrypt(rec_enc_pkt, private_key)
 
-        rec_command, rec_amount, rec_magic_word2 = rec_dec_pkt.split(SPACING_CHAR)
+        rec_command, rec_amount, rec_magic_word2 = rec_dec_pkt.split(SPACE_CHAR)
         print "wait"
         if rec_command == self.GOOD:
             if rec_magic_word2 == self.atm_db.admin_get_key("magicWord2" and rec_amount == amount):  # verification
@@ -164,9 +163,9 @@ class Bank:
 
         # rec_new_key1 = self.ser.read()
         rec_new_key2 = self.ser.read()
-        rec_new_IV = self.ser.read()
-        dec_IV = eh.rsa_decrypt(rec_new_IV, private_key)
-        eh.iv = dec_IV
+        rec_new_iv = self.ser.read()
+        dec_iv = eh.rsa_decrypt(rec_new_iv, private_key)
+        eh.iv = dec_iv
         rec_new_magic1 = self.ser.read()  # lengths are unknown !!!!!!
         rec_new_magic2 = self.ser.read()
         ver_magic1 = self.ser.read()
@@ -188,8 +187,8 @@ class Bank:
         pkt = struct.pack(">36s8sI", uuid, pin, balance)
         self.ser.write("p" + pkt)
 
-    def provision_key(self, new_key2, pubkey, magicWord1, magicWord2):
-        self.ser.write("a" + new_key2 + pubkey + magicWord1 + magicWord2)  # sends the bank key2, the pub key, and the 2 encrypted magicwords
+    def provision_key(self, new_key2, pubkey, magic_word_1, magic_word_2):
+        self.ser.write("a" + new_key2 + pubkey + magic_word_1 + magic_word_2)  # sends the bank key2, the pub key, and the 2 encrypted magicwords
 
-    def splice_second_half(self, string):
+    def split_second_half(self, string):
         return string[:len(string)/2]

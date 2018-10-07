@@ -12,8 +12,8 @@ from encryption_handler import EncryptionHandler
 import os
 
 eh = EncryptionHandler()
-SPACING = '+'
-PADDING = '_'
+SPACE_CHAR = '+'
+PAD_CHAR = '_'
 
 
 class Bank(object):
@@ -27,23 +27,19 @@ class Bank(object):
         self.key2 = ""
 
     def start(self):
-        print("starting...")
-        print(self.BAD)
-        print(self.ERROR)
-        print(self.GOOD)
-
+        print "Starting bank..."
         while True:
             start = self.atm.read()
             if start != "a":
                 continue
 
-            hashWord = self.atm.read(32)  # set proper length, receives the hashed version of magic word1
-            aesSeed_H1 = self.atm.read(16)  # receives the first half of key2
+            hashed_magic_word_1 = self.atm.read(32)  # set proper length, receives the hashed version of magic word1
+            key2_seed_first_half = self.atm.read(16)  # receives the first half of key2
 
-            access_seed = self.db.get_key("AES") + aesSeed_H1  # combines both halves of key2
+            access_seed = self.db.get_key("AES") + key2_seed_first_half  # combines both halves of key2
             self.key2 = eh.hash_to_raw(access_seed)  # hashes it to get the real encryption key
 
-            verification = eh.hash_to_hex(eh.aes_decrypt(self.db.get_key("magicWord1"), self.key2)) == hashWord  # verify
+            verification = eh.hash_to_hex(eh.aes_decrypt(self.db.get_key("magicWord1"), self.key2)) == hashed_magic_word_1  # verify
             if not verification:  # if atm is verified continue, else end it there
                 self.atm.write(self.ERROR)
                 return
@@ -51,21 +47,21 @@ class Bank(object):
             pkt = self.atm.read(96)
             dec_pkt = eh.aes_decrypt(pkt, self.key2)
 
-            command, atm_id, card_id, info, pin = dec_pkt.split(SPACING)
-            print("command recieved: %s" % command)
+            command, atm_id, card_id, info, pin = dec_pkt.split(SPACE_CHAR)
+            print "command recieved: %s" % command
 
-            if command == 'w':
+            if command == 'w':  # WITHDRAW
                 amount = info
                 log("Withdrawing")
 
-                print("atm_id: %s" % atm_id)
-                print("card_id: %s" % card_id)
-                print("amount: %s" % amount)
+                print "atm_id: %s" % atm_id
+                print "card_id: %s" % card_id
+                print "amount: %s" % amount
 
                 self.withdraw(atm_id, card_id, amount, pin)  # run withdraw
                 self.regenerate(self, (atm_id, card_id))  # fix parameters
 
-            elif command == 'b':
+            elif command == 'b':  # CHECK BALANCE
                 log("Checking balance")
                 # pkt = self.atm.read(72)
                 # decrypt_pkt = eh.aesDecrypt(pkt, key2)
@@ -91,52 +87,55 @@ class Bank(object):
             return
         public_key = self.db.get_key("RSA")
         # new_key1 = os.urandom(32)
+
         new_key2 = os.urandom(32)  # generates new keys, magicwords, and initialization vector
-        new_magicWord1 = os.urandom(32)
-        new_magicWord2 = os.urandom(32)
-        new_IV = os.urandom(16)
+        new_magic_word_1 = os.urandom(32)
+        new_magic_word_2 = os.urandom(32)
+        new_iv = os.urandom(16)
+
         # store1 = keySplice(new_key1)
-        store2 = self.keySplice(new_key2)  # splits key
-        self.db.admin_set_key(store2[2],"AES")  # make sure it overrides the old key
-        eh.iv = new_IV  # set encryption handler with the new IV
+        store2 = self.split_key(new_key2)  # splits key
+        self.db.admin_set_key(store2[2], "AES")  # make sure it overrides the old key
+        eh.iv = new_iv  # set encryption handler with the new IV
         # enc_new_key1 = eh.RSA_encrypt(new_key1, public_key)
         enc_new_key2 = eh.rsa_encrypt(new_key2, public_key)  # encrypt keys to be sent over to the atm with RSA public key1
-        enc_new_IV = eh.rsa_encrypt(new_IV, public_key)
+        enc_new_iv = eh.rsa_encrypt(new_iv, public_key)
+
         account_reference = self.db.get_account_reference("account1")  # gets account reference
         self.db.re_encrypt(account_reference, new_key2, self.key2)  # re-encrypts account data using new keys
-        enc_magic_word1 = eh.rsa_encrypt(eh.aes_decrypt(self.db.get_key("magicWord1"), self.key2), public_key)
-        enc_magic_word2 = eh.rsa_encrypt(eh.aes_decrypt(self.db.get_key("magicWord2"), self.key2), public_key)
+        enc_magic_word_1 = eh.rsa_encrypt(eh.aes_decrypt(self.db.get_key("magicWord1"), self.key2), public_key)
+        enc_magic_word_2 = eh.rsa_encrypt(eh.aes_decrypt(self.db.get_key("magicWord2"), self.key2), public_key)
 
-        self.db.modify("keys", "keys", "magicWord1", new_magicWord1)  # sets the magicwords with the new ones
-        self.db.modify("keys", "keys", "magicWord2", new_magicWord2)
+        self.db.modify("keys", "keys", "magicWord1", new_magic_word_1)  # sets the magicwords with the new ones
+        self.db.modify("keys", "keys", "magicWord2", new_magic_word_2)
 
-        enc_new_magic1 = eh.rsa_encrypt(new_magicWord1, public_key)
-        enc_new_magic2 = eh.rsa_encrypt(new_magicWord2, public_key)
+        enc_new_magic_1 = eh.rsa_encrypt(new_magic_word_1, public_key)
+        enc_new_magic_2 = eh.rsa_encrypt(new_magic_word_2, public_key)
 
-        print("lengths in order, fill in")
-        print(len(enc_new_key2))
-        print(len(enc_new_IV))
-        print(len(enc_new_magic1))
-        print(len(enc_new_magic2))
-        print(len(enc_magic_word1))
-        print(len(enc_magic_word2))
-        enc_pkt = "r" + enc_new_key2 + enc_new_IV + enc_new_magic1 + enc_new_magic2 + enc_magic_word1 + enc_magic_word2  # sent to atm
+        print "length of encoded new key 2: %s" % len(enc_new_key2)
+        print "length of encoded new iv: %s" % len(enc_new_iv)
+        print "length of encoded new magic word 1: %s" % len(enc_new_magic_1)
+        print "length of encoded new magic word 2: %s" % len(enc_new_magic_2)
+        print "length of encoded old magic word 1: %s" % len(enc_magic_word_1)
+        print "length of encoded old magic word 2: %s" % len(enc_magic_word_2)
+        enc_pkt = "r" + enc_new_key2 + enc_new_iv + enc_new_magic_1 + enc_new_magic_2 + enc_magic_word_1 + enc_magic_word_2  # sent to atm
 
         key2Half = store2
         new_key1 = None
         new_key2 = None
         store2 = None
+
         self.atm.write(enc_pkt)
         return
 
-    def keySplice(self, key):
-        firstKey, secondKey = key[:((key) )/ 2], key[((key) / 2):]
+    def split_key(self, key):
+        first_key, second_key = key[:len(key) / 2], key[len(key) / 2:]
         # re-encrypt stored stuff
-        return firstKey, secondKey
+        return first_key, second_key
 
     def pad_256(self, to_pad):
         offset = 256 - (to_pad % 256)
-        return to_pad + offset * PADDING
+        return to_pad + offset * PAD_CHAR
 
     def withdraw(self, atm_id, card_id, amount, pin):  # check protocol/sequence diagram
         try:
@@ -204,7 +203,7 @@ class Bank(object):
             # prepare return packet
             enc_magic2 = self.db.get_key("magicWord2")
             print "Encrypted Magic Word 2: %s" % len(enc_magic2)
-            pkt = SPACING.join([self.GOOD, atm_id, card_id, amount, enc_magic2, self.key2])
+            pkt = SPACE_CHAR.join([self.GOOD, atm_id, card_id, amount, enc_magic2, self.key2])
             enc_pkt = eh.rsa_encrypt(pkt, public_key)
             print "length of whole packet: %s" % enc_pkt
             enc_pkt = self.pad_256(enc_pkt)
@@ -238,17 +237,17 @@ class Bank(object):
             log("Valid balance check")
             # pkt = struct.pack(">36s36sI", atm_id, card_id, balance)
             encrypt_good = eh.aes_encrypt(self.GOOD, self.key2)
-            print len(encrypt_good)
+            print "Length of encrypted GOOD: %s " % len(encrypt_good)
             encrypt_atm_id = eh.aes_encrypt(atm_id, self.key2)
-            print len(encrypt_atm_id)
+            print "Length of encrypted ATM ID: %s" % len(encrypt_atm_id)
             encrypt_card_id = eh.aes_encrypt(card_id, self.key2)
-            print len(encrypt_card_id)
+            print "Length of encrypted card ID: %s" % len(encrypt_card_id)
             encrypt_balance = eh.aes_encrypt(str(balance), self.key2)
-            print len(encrypt_balance)
+            print "Length of encrypted balance: %s" % len(encrypt_balance)
             packet = "a" + encrypt_good + encrypt_atm_id + encrypt_card_id + encrypt_balance
             self.atm.write(packet)
 
-    def spliceSecondHalf(self, string):
+    def split_second_half(self, string):
         return string[:len(string)/2]
 
 
