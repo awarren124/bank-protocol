@@ -2,7 +2,7 @@
 This module implements the admin access to the database
 """
 
-import db
+import bank_db
 import cmd
 import json
 import os
@@ -15,7 +15,7 @@ class Admin(cmd.Cmd, object):
 
     def __init__(self):
         super(Admin, self).__init__()
-        self.db = db.DB()
+        self.db = bank_db.bankDB()
 
         if not self.db.exists():
             self.db.init_db()

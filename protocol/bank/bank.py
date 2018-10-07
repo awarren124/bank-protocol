@@ -2,13 +2,13 @@
 This module implements a bank server interface
 """
 
-import db
+import bank_db
 import logging
 from logging import info as log
 import sys
 import serial
 import argparse
-from encryptionHandler import EncryptionHandler
+from encryption_handler import EncryptionHandler
 import os
 
 eh = EncryptionHandler()
@@ -22,8 +22,7 @@ class Bank(object):
     ERROR = "E"
 
     def __init__(self, port, baud=115200, db_path="bank.json"):
-        super(Bank, self).__init__()
-        self.db = db.DB(db_path=db_path)
+        self.db = bank_db.bankDB(db_path=db_path)
         self.atm = serial.Serial(port, baudrate=baud, timeout=10)
         self.key2 = ""
 
@@ -42,15 +41,15 @@ class Bank(object):
             aesSeed_H1 = self.atm.read(16)  # receives the first half of key2
 
             access_seed = self.db.get_key("AES") + aesSeed_H1  # combines both halves of key2
-            self.key2 = eh.hashRaw(access_seed)  # hashes it to get the real encryption key
+            self.key2 = eh.hash_to_raw(access_seed)  # hashes it to get the real encryption key
 
-            verification = eh.hash(eh.aesDecrypt(self.db.get_key("magicWord1"), self.key2)) == hashWord  # verify
+            verification = eh.hash_to_hex(eh.aes_decrypt(self.db.get_key("magicWord1"), self.key2)) == hashWord  # verify
             if not verification:  # if atm is verified continue, else end it there
                 self.atm.write(self.ERROR)
                 return
 
             pkt = self.atm.read(96)
-            dec_pkt = eh.aesDecrypt(pkt, self.key2)
+            dec_pkt = eh.aes_decrypt(pkt, self.key2)
 
             command, atm_id, card_id, info, pin = dec_pkt.split(SPACING)
             print("command recieved: %s" % command)
@@ -74,8 +73,8 @@ class Bank(object):
 
                 atm_id = self.atm.read(48)
                 card_id = self.atm.read(48)
-                decrypt_atm_id = eh.aesDecrypt(atm_id,self.key2)
-                decrypt_card_id = eh.aesDecrypt(card_id, self.key2)
+                decrypt_atm_id = eh.aes_decrypt(atm_id, self.key2)
+                decrypt_card_id = eh.aes_decrypt(card_id, self.key2)
                 self.check_balance(decrypt_atm_id, decrypt_card_id)
 
             elif command != '':
@@ -86,7 +85,7 @@ class Bank(object):
             atm_id = str(atm_id)
             card_id = str(card_id)
         except ValueError:
-            encrypt_error = eh.aesEncrypt(self.ERROR, self.key2)
+            encrypt_error = eh.aes_encrypt(self.ERROR, self.key2)
             self.atm.write(encrypt_error)  # COULD BE HIJACKED
             log("Bad value sent")
             return
@@ -99,20 +98,20 @@ class Bank(object):
         # store1 = keySplice(new_key1)
         store2 = self.keySplice(new_key2)  # splits key
         self.db.admin_set_key(store2[2],"AES")  # make sure it overrides the old key
-        eh.initializationVector = new_IV  # set encryption handler with the new IV
+        eh.iv = new_IV  # set encryption handler with the new IV
         # enc_new_key1 = eh.RSA_encrypt(new_key1, public_key)
-        enc_new_key2 = eh.RSA_encrypt(new_key2, public_key)  # encrypt keys to be sent over to the atm with RSA public key1
-        enc_new_IV = eh.RSA_encrypt(new_IV, public_key)
+        enc_new_key2 = eh.rsa_encrypt(new_key2, public_key)  # encrypt keys to be sent over to the atm with RSA public key1
+        enc_new_IV = eh.rsa_encrypt(new_IV, public_key)
         account_reference = self.db.get_account_reference("account1")  # gets account reference
         self.db.re_encrypt(account_reference, new_key2, self.key2)  # re-encrypts account data using new keys
-        enc_magic_word1 = eh.RSA_encrypt(eh.aesDecrypt(self.db.get_key("magicWord1"), self.key2), public_key)
-        enc_magic_word2 = eh.RSA_encrypt(eh.aesDecrypt(self.db.get_key("magicWord2"), self.key2), public_key)
+        enc_magic_word1 = eh.rsa_encrypt(eh.aes_decrypt(self.db.get_key("magicWord1"), self.key2), public_key)
+        enc_magic_word2 = eh.rsa_encrypt(eh.aes_decrypt(self.db.get_key("magicWord2"), self.key2), public_key)
 
         self.db.modify("keys", "keys", "magicWord1", new_magicWord1)  # sets the magicwords with the new ones
         self.db.modify("keys", "keys", "magicWord2", new_magicWord2)
 
-        enc_new_magic1 = eh.RSA_encrypt(new_magicWord1, public_key)
-        enc_new_magic2 = eh.RSA_encrypt(new_magicWord2, public_key)
+        enc_new_magic1 = eh.rsa_encrypt(new_magicWord1, public_key)
+        enc_new_magic2 = eh.rsa_encrypt(new_magicWord2, public_key)
 
         print("lengths in order, fill in")
         print(len(enc_new_key2))
@@ -151,14 +150,14 @@ class Bank(object):
             return
 
         public_key = self.db.get_key("RSA")  # retrieve rsa public key from database
-        hashed_pin = eh.hash(pin)  # Take the card ID and pin sent from atm. Concatenate and hash to verify
-        hashed_card_id = eh.hash(card_id)
+        hashed_pin = eh.hash_to_hex(pin)  # Take the card ID and pin sent from atm. Concatenate and hash to verify
+        hashed_card_id = eh.hash_to_hex(card_id)
 
         total_hash = hashed_pin + hashed_card_id
-        final_hash = eh.hash(total_hash)
+        final_hash = eh.hash_to_hex(total_hash)
 
         enc_account_reference = self.db.get_account_reference("account1")  # gets accounts reference id
-        account_reference = eh.aesDecrypt(enc_account_reference, self.key2)  # decrypt the reference and compare
+        account_reference = eh.aes_decrypt(enc_account_reference, self.key2)  # decrypt the reference and compare
 
         if account_reference != final_hash:  # checks to make sure the atm information matches the bank infromation
             self.atm.write(self.ERROR)  # COULD BE HIJACKED
@@ -166,7 +165,7 @@ class Bank(object):
             return
 
         enc_balance = self.db.get_balance(enc_account_reference)  # uses accounts reference id to get the balance
-        balance = eh.aesDecrypt(enc_balance, self.key2)  # sets balance accordingly
+        balance = eh.aes_decrypt(enc_balance, self.key2)  # sets balance accordingly
         atm = self.db.get_atm(atm_id)  # change this/not sure what this is actually doing, please figure out
 
         print "card id: %s" % card_id
@@ -190,14 +189,14 @@ class Bank(object):
             return
 
         if balance is None:
-            encrypt_bad = eh.aesEncrypt(self.BAD, self.key2)
+            encrypt_bad = eh.aes_encrypt(self.BAD, self.key2)
             self.atm.write(encrypt_bad)  # COULD BE HIJACKED
             log("Bad card ID")
             return
 
         final_balance = balance - amount
         if final_balance >= 0:
-            enc_final_balance = eh.aesEncrypt(final_balance, self.key2)
+            enc_final_balance = eh.aes_encrypt(final_balance, self.key2)
             self.db.set_balance(card_id, enc_final_balance)  # Update stored balance
             self.db.set_atm_num_bills(atm_id, num_bills - amount)  # this one probably works, but is probably insecure
             log("Valid withdrawal")
@@ -206,7 +205,7 @@ class Bank(object):
             enc_magic2 = self.db.get_key("magicWord2")
             print "Encrypted Magic Word 2: %s" % len(enc_magic2)
             pkt = SPACING.join([self.GOOD, atm_id, card_id, amount, enc_magic2, self.key2])
-            enc_pkt = eh.RSA_encrypt(pkt, public_key)
+            enc_pkt = eh.rsa_encrypt(pkt, public_key)
             print "length of whole packet: %s" % enc_pkt
             enc_pkt = self.pad_256(enc_pkt)
             print "length of padded packet: %s" % enc_pkt
@@ -216,14 +215,14 @@ class Bank(object):
             self.regenerate(atm_id, card_id)  # not finished implementing, may be done in the morning
 
         else:
-            encrypt_bad = eh.aesEncrypt(self.BAD, self.key2)
+            encrypt_bad = eh.aes_encrypt(self.BAD, self.key2)
             self.atm.write(encrypt_bad)  # COULD BE HIJACKED
             log("Insufficient funds in account")
 
     def check_balance(self, atm_id, card_id):
         print "checking ATM with id: " + atm_id
         if self.db.get_atm(atm_id) is None:
-            encrypt_bad = eh.aesEncrypt(self.BAD, self.key2)
+            encrypt_bad = eh.aes_encrypt(self.BAD, self.key2)
             packet = "a" + encrypt_bad
             self.atm.write(packet)
             log("Invalid ATM ID")
@@ -231,20 +230,20 @@ class Bank(object):
 
         balance = self.db.get_balance(str(card_id))
         if balance is None:
-            encrypt_bad = eh.aesEncrypt(self.BAD, self.key2)
+            encrypt_bad = eh.aes_encrypt(self.BAD, self.key2)
             packet = "a" + encrypt_bad
             self.atm.write(packet)
             log("Bad card ID")
         else:
             log("Valid balance check")
             # pkt = struct.pack(">36s36sI", atm_id, card_id, balance)
-            encrypt_good = eh.aesEncrypt(self.GOOD, self.key2)
+            encrypt_good = eh.aes_encrypt(self.GOOD, self.key2)
             print len(encrypt_good)
-            encrypt_atm_id = eh.aesEncrypt(atm_id, self.key2)
+            encrypt_atm_id = eh.aes_encrypt(atm_id, self.key2)
             print len(encrypt_atm_id)
-            encrypt_card_id = eh.aesEncrypt(card_id, self.key2)
+            encrypt_card_id = eh.aes_encrypt(card_id, self.key2)
             print len(encrypt_card_id)
-            encrypt_balance = eh.aesEncrypt(str(balance), self.key2)
+            encrypt_balance = eh.aes_encrypt(str(balance), self.key2)
             print len(encrypt_balance)
             packet = "a" + encrypt_good + encrypt_atm_id + encrypt_card_id + encrypt_balance
             self.atm.write(packet)

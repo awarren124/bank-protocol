@@ -17,7 +17,7 @@
 #define RDY_MSG_RECV "READY"
 #define RDY_MSG_NORM "CARD_N"
 #define RDY_MSG_PROV "CARD_P"
-#define RDY_BAD "BAD"
+#define RDY_BAD "BAD HEADER"
 #define GO_MSG "GO"
 
 

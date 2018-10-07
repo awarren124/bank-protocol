@@ -1,7 +1,7 @@
-from interface.card import Card
-from interface.bank import Bank
-from encryptionHandler import EncryptionHandler
-from interface.atm_db import ATM_DB
+from interface.card_interface import Card
+from interface.bank_interface import Bank
+from encryption_handler import EncryptionHandler
+from interface.atm_db import atmDB
 
 import argparse
 import os
@@ -60,12 +60,14 @@ if __name__ == "__main__":
 32250643688514600699603929824545296848370051254650037973\
 10139479221307918200583851065828489354285517184240655579\
 549337386740031302249496379882799360098372401884741329801')
+
     test_p = int('17791143933509595918127954499653383601218835098160342274\
 21719349464132778400846891474457120589082133325302604179\
 82181001327467441044697854896458761089076165690493808885\
 78606941384914032562858753139200694087767527290102835209\
 36343115102676302117059691295229400834867089684114302209\
 27632138221540171427701495839')
+
     test_q = int('15698106667513592225651910118661853088086996081175911345\
 49581990193390503622003253143718326860723480921952218366\
 69795595987275285870475032000847646645415387334949112223\
@@ -93,10 +95,10 @@ if __name__ == "__main__":
 
     print "finished with RSA key pair!"
 
-    magicWord1 = eh.aesEncrypt(magicWord1, key2)  # encrypt both verification words with key2
-    magicWord2 = eh.aesEncrypt(magicWord2, key2)
+    magicWord1 = eh.aes_encrypt(magicWord1, key2)  # encrypt both verification words with key2
+    magicWord2 = eh.aes_encrypt(magicWord2, key2)
 
-    atm_db = ATM_DB()  # create atm_db database object
+    atm_db = atmDB()  # create atm_db database object
 
     atm_db.admin_set_key(key1, "CardKey")  # stores key1 in the atm, mapped with string "CardKey" for access
     atm_db.admin_set_key(key2, "BankKey")  # stores key2 in the atm, mapped with string "BankKey" for access

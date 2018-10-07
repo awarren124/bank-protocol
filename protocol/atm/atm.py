@@ -1,8 +1,8 @@
 import logging
 import sys
 import cmd
-from interface.card import NotProvisioned
-from interface import card, bank
+from interface.card_interface import NotProvisioned
+from interface import card_interface, bank_interface
 import os
 import json
 import argparse
@@ -29,7 +29,7 @@ class ATM(cmd.Cmd, object):
     prompt = '1. Check Balance\r\n2. Withdraw\r\n3. Change PIN\r\n> '
 
     def __init__(self, bank, card, config_path="config.json",
-                 billfile="billfile.out", verbose=False):
+                 billfile="billfile.out", verbose=True):
 
         super(ATM, self).__init__()
         self.bank = bank
@@ -134,7 +134,7 @@ class ATM(cmd.Cmd, object):
                 print("Communicated with card")
                 self._vp('withdraw: Sending request to bank')
 
-                if self.bank.withdraw(self.atm_id, card_id, pin, amount):  # run withdraw in /interface/bank.py
+                if self.bank.withdraw(self.atm_id, card_id, pin, amount):  # run withdraw in /interface/bank_interface.py
                     with open(self.billfile, "w") as f:
                         self._vp('withdraw: Dispensing bills...')
                         for i in range(self.dispensed, self.dispensed + int(amount)):
@@ -143,7 +143,7 @@ class ATM(cmd.Cmd, object):
                             self.dispensed += 1
 
                     self.update()  # update new dispensed bills
-                    new_mword1 = self.bank.regenerate()  # regenerate keys with bank interface, receive new magic word 1
+                    new_mword1 = self.bank.regenerate_keys()  # regenerate keys with bank interface, receive new magic word 1
                     if self.card.change_magic_word1(new_mword1):  # send new magic word 1 to card, card interface
                         return True
                 else:
@@ -213,7 +213,7 @@ def parse_args():
 
 if __name__ == "__main__":  #
     c_port, b_port, config, billfile, verbose = parse_args()
-    bank = bank.Bank(b_port, verbose=verbose)
-    card = card.Card(c_port, verbose=verbose)
+    bank = bank_interface.Bank(b_port, verbose=verbose)
+    card = card_interface.Card(c_port, verbose=verbose)
     atm = ATM(bank, card, config, billfile, verbose=verbose)
     atm.cmdloop()
