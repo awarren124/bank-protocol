@@ -10,9 +10,10 @@
  * ========================================
 */
 #include <project.h>
-#include "usbserialprotocol.h"
 #include <stdlib.h>
 #include <time.h>
+
+#include "usbserialprotocol.h"
 
 #include "aes.h"
 #include "modes.h"

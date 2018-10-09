@@ -4,3 +4,15 @@ bank-protocol: bank-protocol.cydwr
 	Em_EEPROM_Dynamic [v2.0] to [v2.10]
 
 
+Last Modified Date & Time: 10/09/2018 10:55:08
+
+CARD-rev5: CARD-rev5.cydwr
+	Em_EEPROM_Dynamic [v2.10] to [v2.20]
+
+
+Last Modified Date & Time: 10/09/2018 10:55:18
+
+CARD-rev6: CARD-rev6.cydwr
+	Em_EEPROM_Dynamic [v2.10] to [v2.20]
+
+
