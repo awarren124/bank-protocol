@@ -1,19 +1,18 @@
 """Backend of ATM interface for xmlrpc"""
 
+from encryption_handler import EncryptionHandler
+from atm_db import atmDB
+from ...constants import *
+
 import logging
 import struct
 import serial
-from encryption_handler import EncryptionHandler
-from atm_db import atmDB
 import Adafruit_BBIO.UART as UART
 
 UART.setup("UART4")
 UART.setup("UART1")
 
 eh = EncryptionHandler()
-SPACE_CHAR = '+'
-PAD_CHAR = '_'
-
 
 class Bank:
     """Interface for communicating with the bank from the ATM
@@ -21,9 +20,6 @@ class Bank:
     Args:
         port (serial.Serial): Port to connect to
     """
-    GOOD = "O"
-    BAD = "N"
-    ERROR = "E"
 
     def __init__(self, port, verbose=True, db_path="atmcontents.json"):
         self.ser = serial.Serial(port, baudrate = 115200)
@@ -52,12 +48,10 @@ class Bank:
             bool: False on failure
         """
         self._vp('check_balance: Sending request to Bank')
-
+        # TODO: I changed this to encode the whole packet as a single thing. Make sure to adjust
         key2 = self.atm_db.admin_get_key("BankKey")
-        enc_command = eh.aes_encrypt("b", key2)
-        enc_atm_id = eh.aes_encrypt(atm_id, key2)
-        enc_card_id = eh.aes_encrypt(card_id, key2)
-        enc_pkt = enc_command + enc_atm_id + enc_card_id
+        pkt = SPACE_CHAR.join([CHECK_BALANCE, atm_id, card_id])
+        enc_pkt = eh.aes_encrypt(pkt, key2)
 
         self._vp('check_balance: Constructed encoded packet, sending now')
         self.ser.write(enc_pkt)
@@ -128,8 +122,7 @@ class Bank:
         # ///////////////////////////////////////////////////////////////////////////////////////////////////
         # encrypt and send packet
 
-        command = "w"  # withdraw
-        pkt = SPACE_CHAR.join([command, atm_id, card_id, amount, pin])  # 1 + 36 + 36 + 3 + 8 + 4 (pad) = 88 bytes
+        pkt = SPACE_CHAR.join([WITHDRAW, atm_id, card_id, amount, pin])  # 1 + 36 + 36 + 3 + 8 + 4 (pad) = 88 bytes
         enc_pkt = eh.aes_encrypt(pkt, key2)  # padded to 96 bytes
 
         print "Packet: %s" % pkt
@@ -147,7 +140,7 @@ class Bank:
 
         rec_command, rec_amount, rec_magic_word2 = rec_dec_pkt.split(SPACE_CHAR)
         print "wait"
-        if rec_command == self.GOOD:
+        if rec_command == GOOD:
             if rec_magic_word2 == self.atm_db.admin_get_key("magicWord2" and rec_amount == amount):  # verification
                 self._vp('withdraw: Withdrawal accepted')
                 return True
@@ -190,5 +183,6 @@ class Bank:
     def provision_key(self, new_key2, pubkey, magic_word_1, magic_word_2):
         self.ser.write("a" + new_key2 + pubkey + magic_word_1 + magic_word_2)  # sends the bank key2, the pub key, and the 2 encrypted magicwords
 
-    def split_second_half(self, string):
+    @staticmethod
+    def split_second_half(string):
         return string[:len(string)/2]

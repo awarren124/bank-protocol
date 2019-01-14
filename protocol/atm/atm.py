@@ -1,11 +1,11 @@
 import logging
 import sys
 import cmd
-from interface.card_interface import NotProvisioned
-from interface import card_interface, bank_interface
 import os
 import json
 import argparse
+from interface.card_interface import NotProvisioned
+from interface import card_interface, bank_interface
 
 log = logging.getLogger('')
 log.setLevel(logging.DEBUG)

@@ -1,0 +1,13 @@
+
+SPACE_CHAR = '+'
+PAD_CHAR = '_'
+
+GOOD = "O"
+BAD = "N"
+ERROR = "E"
+HEADER = "A"
+
+CHECK_BALANCE = "B"
+GET_PIN = "G"
+CHANGE_PIN = "P"
+WITHDRAW = "W"

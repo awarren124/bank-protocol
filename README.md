@@ -1,4 +1,7 @@
 # bank-protocol
+
+every AES encoded message is:  2 bytes message length 16 bytes iv (junk if not used) then message encrypted once
+
     What our code does:
 
 The purpose of our code is to prevent attackers from accessing a users account, balance, PIN, duplicate a card. To access your account the user will need a to insert their card and use their correct PIN. Once the user accesses their account they will not be able to withdraw more money than the amount of money that they have in their balance, but they will be able to withdraw money that is less than or equal to the amount of money in their balance, check their balance, or change their PIN. 

@@ -1,13 +1,14 @@
 from interface.card_interface import Card
 from interface.bank_interface import Bank
-from encryption_handler import EncryptionHandler
+# from encryption_handler import EncryptionHandler
+from ..encryption_handler import *
 from interface.atm_db import atmDB
 
 import argparse
 import os
 import rsa
 
-eh = EncryptionHandler()
+# eh = EncryptionHandler()
 
 
 def parse_args():
@@ -94,9 +95,10 @@ if __name__ == "__main__":
     # rsa.key.AbstractKey.load_pkcs1(key) to retrieve formatted object
 
     print "finished with RSA key pair!"
-
-    magicWord1 = eh.aes_encrypt(magicWord1, key2)  # encrypt both verification words with key2
-    magicWord2 = eh.aes_encrypt(magicWord2, key2)
+    iv1 = os.urandom(16)  # TODO: IDK WHATS GOING ON WHY DIDN'T WE STORE IVS BEFORE
+    iv2 = os.urandom(16)
+    magicWord1 = aes_encrypt(magicWord1, key2, iv1)  # encrypt both verification words with key2
+    magicWord2 = aes_encrypt(magicWord2, key2, iv2)
 
     atm_db = atmDB()  # create atm_db database object
 
@@ -105,6 +107,9 @@ if __name__ == "__main__":
 
     atm_db.admin_set_key(key1, "magicWord1")  # stores magicWord1 in the atm, mapped with string "magicWord1" for access
     atm_db.admin_set_key(key2, "magicWord2")  # stores magicWord2 in the atm, mapped with string "magicWord2" for access
+
+    atm_db.admin_set_key(iv1, "IVMagicWord1")  # TODO: I STILL DONT GET IT HOW WERE WE SUPPOSED TO DECRYPT BEFORE
+    atm_db.admin_set_key(iv2, "IVMagicWord2")
 
     atm_db.admin_set_key(pubkey, "RSApublic")  # ditto
     atm_db.admin_set_key(privkey, "RSAprivate")  # ditto

@@ -6,7 +6,6 @@ from Crypto.Cipher import AES
 import rsa
 import hashlib
 import os
-import base64
 
 
 class EncryptionHandler:
